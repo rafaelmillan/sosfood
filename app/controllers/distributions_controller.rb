@@ -14,6 +14,7 @@ class DistributionsController < ApplicationController
 
   def create
     @distribution = Distribution.create(distribution_params)
+    @distribution.organization = current_organization
     if @distribution.save
       redirect_to distribution_path(@distribution)
     else
@@ -44,6 +45,6 @@ class DistributionsController < ApplicationController
   end
 
   def distribution_params
-    params.require(:distribution).permit(:name, :address_1, :address_2, :postal_code, :city, :country, :organization)
+    params.require(:distribution).permit(:name, :address_1, :address_2, :postal_code, :city, :country, :station)
   end
 end
