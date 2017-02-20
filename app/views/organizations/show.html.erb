@@ -1,14 +1,21 @@
 <div class="container">
   <div class="row">
     <h1>Organization</h1>
-    <% @organisation.first_name %>
+    <% @organization.first_name %>
     <% @organization.last_name  %>
-    <h2><%= Name %></h2>
+    <h2>Name </h2>
     <%= @organization.organization_name %>
-    <h2><%= Phone number %></h2>
+    <h2>Phone number</h2>
     <%= @organization.phone_number %>
 
     <h1>Distribution</h1>
-    <%= @organisation.distribution %>
+    <% @organization.distributions.each do |dis| %>
+    <%= dis.name %>
+    <%= dis.address_1 %>
+    <%= dis.address_2 %>
+    <%= dis.station %>
+    <%= dis.city %>
+    <%= dis.country %>
+    <% end %>
   </div>
 </div>
