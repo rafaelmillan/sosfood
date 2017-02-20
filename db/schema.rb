@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170220150713) do
+ActiveRecord::Schema.define(version: 20170220163430) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,15 @@ ActiveRecord::Schema.define(version: 20170220150713) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.index ["organization_id"], name: "index_distributions_on_organization_id", using: :btree
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.text     "content"
+    t.boolean  "sent_by_user"
+    t.integer  "user_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -51,5 +60,16 @@ ActiveRecord::Schema.define(version: 20170220150713) do
     t.index ["reset_password_token"], name: "index_organizations_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string   "phone_number"
+    t.boolean  "subscribed",   default: false
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
   add_foreign_key "distributions", "organizations"
+  add_foreign_key "messages", "users"
 end
