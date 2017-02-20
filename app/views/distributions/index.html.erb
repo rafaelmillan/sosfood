@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sx-12 col-sm-6 col-md-4">
+      <% @distribution.each do |distribution| %>
+        <ul>
+          <li>
+            <%= distribution.name %>
+            <%= distribution.address_1, distribution.station, distribution.postal_code %>
+          </li>
+        </ul>
+    </div>
+  </div>
+</div>
+
+<%= link_to 'Add new distribution', new_distribution_path(@distribution) %>

@@ -1,0 +1,14 @@
+<%= simple_form_for (@distribution) do |f| %>
+  <%= f.error_notification %>
+  <%= f.input :name %>
+  <%= f.input :adrress_1, placeholder: "12 square de Verdun" %>
+  <%= f.input :address_2 %>
+  <%= f.input :postal_code, placeholder: "75012" %>
+  <%= f.input :city, placeholder: "Paris" %>
+  <%= f.input :country, placeholder: "France" %>
+  <%= f.input :station, placeholder: "Gare de l'Est" %>
+  <%= f.association :organizations %>
+  <%= f.button :submit %>
+<%= end %>
+
+
