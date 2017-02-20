@@ -3,11 +3,12 @@
     <h1>Organization</h1>
     <% @organisation.first_name %>
     <% @organization.last_name  %>
+    <h2><%= Name %></h2>
     <%= @organization.organization_name %>
+    <h2><%= Phone number %></h2>
     <%= @organization.phone_number %>
-    <%= @organisation.distribution %>
 
-    <h2>Distribution</h2>
-    <%=@organisation.distribution %>
+    <h1>Distribution</h1>
+    <%= @organisation.distribution %>
   </div>
 </div>
