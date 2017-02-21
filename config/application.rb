@@ -18,6 +18,7 @@ Bundler.require(*Rails.groups)
 
 module Sosfood
   class Application < Rails::Application
+    config.i18n.default_locale = :fr
     config.generators do |generate|
       generate.assets false
     end
@@ -27,3 +28,5 @@ module Sosfood
     # -- all .rb files in that directory are automatically loaded.
   end
 end
+
+

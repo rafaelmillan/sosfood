@@ -1,0 +1,8 @@
+fr:
+  home:
+    hello: "Bonjour le monde"
+  distributions:
+    index:
+      title: "Liste des Distributions"
+    show:
+      back: "Retour"

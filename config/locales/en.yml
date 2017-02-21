@@ -20,4 +20,10 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  home:
+    hello: "Hello world"
+  distributions:
+    index:
+      title: "List of Distributions"
+    show:
+      back: "Back"
