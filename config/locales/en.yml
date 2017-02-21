@@ -25,5 +25,23 @@ en:
   distributions:
     index:
       title: "List of Distributions"
+      add_new_distribution: "Add new distribution"
     show:
       back: "Back"
+      update: "Edit"
+      delete: "Delete"
+      place: "Venue"
+      distributor: "Distributor"
+      confirm_delete: "Are you sure?"
+
+  activerecord:
+    models:
+      distribution: "Distribution"
+    attributes:
+      distribution:
+        name: "Name"
+        address_1: "Address 1"
+        address_2: "Address 2"
+        postal_code: "Postal Code"
+        city: "City"
+        country: "Country"

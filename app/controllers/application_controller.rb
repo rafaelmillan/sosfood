@@ -37,12 +37,12 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def skip_pundit?
-    devise_controller? || params[:controller] =~ /(^(rails_)?admin)|(^pages$)/
+  def set_locale
+    I18n.locale = params[:locale]&.to_sym || I18n.default_locale
   end
 
-  def set_locale
-    I18n.locale = params[:locale] || I18n.default_locale
+  def skip_pundit?
+    devise_controller? || params[:controller] =~ /(^(rails_)?admin)|(^pages$)/
   end
 
 end

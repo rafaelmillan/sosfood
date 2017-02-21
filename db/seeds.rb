@@ -1,3 +1,5 @@
+Distribution.destroy_all
+
 Faker::UniqueGenerator.clear
 
 5.times do
@@ -15,6 +17,7 @@ end
 Organization.all.each do |org|
   3.times do
     dis = Distribution.new(
+      name: Faker::Company.name,
       address_1: Faker::Address.street_address,
       postal_code: Faker::Address.postcode,
       city: "Paris",

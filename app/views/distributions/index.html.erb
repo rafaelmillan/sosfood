@@ -6,9 +6,9 @@
         <ul>
           <li>
             <%= link_to distribution_path(distribution) do %>
-              <%= distribution.name %>
-              <%= distribution.address_1 %>
-              <%= distribution.city %>
+              <%= distribution.name %>,
+              <%= distribution.address_1 %>,
+              <%= distribution.city %>,
               <%= distribution.postal_code %>
             <% end %>
           </li>
@@ -18,5 +18,7 @@
   </div>
 </div>
 <% if policy(Distribution).create? %>
-  <%= link_to 'Add new distribution', new_distribution_path(@distribution) %>
+  <%= link_to t('.add_new_distribution'), new_distribution_path(@distribution, locale: I18n.locale == I18n.default_locale ? nil : I18n.locale ) %>
 <% end %>
+
+

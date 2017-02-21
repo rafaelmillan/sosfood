@@ -1,24 +1,24 @@
 <div class="container">
   <div class="row">
-    <div class="col-sx-12 col-offset-sx-0 col-sm-6 col-offser-sm-3 col-md-8 col-offser-md-2">
-      <p>Soup kitchen: <%= @distribution.name %></p>
-      <p>Where?
-        <%= @distribution.address_1 %>
-        <%= @distribution.address_2 %>
-        <%= @distribution.station %>
-        <%= @distribution.city %>
+    <div class="col-sx-12 col-offset-sx-0 col-sm-6 col-sm-offset-3 col-md-8 col-md-offset-2">
+      <h2><%= @distribution.name %></h2>
+      <h4><%= t('.place') %> :</h4>
+        <%= @distribution.address_1 %>,
+        <%= @distribution.city %>,
         <%= @distribution.country %>
-      </p>
-      <p>Organized by: <%= @distribution.organization.organization_name %></p>
+        <p>Station: <%= @distribution.station %></p>
+      <h4><%= t('.distributor') %> :</h4>
+        <%= link_to @distribution.organization.organization_name, organization_path(@distribution.organization) %>
     </div>
   </div>
 </div>
 
+<%= link_to t(".back"), distributions_path %>
 <% if policy(@distribution).edit? %>
-  <%= link_to "Update", edit_distribution_path(@distribution) %>
+  <%= link_to t(".update"), edit_distribution_path(@distribution) %>
 <% end %>
 <% if policy(@distribution).destroy? %>
-  <%= link_to "Delete", distribution_path(@distribution), method: :delete, data: {confirm: "Are you sure?"} %>
+  <%= link_to t(".delete"), distribution_path(@distribution), method: :delete, data: { confirm: I18n.t('confirm_delete') } %>
 <% end %>
-<%= link_to t(".back"), distributions_path %>
+
 
