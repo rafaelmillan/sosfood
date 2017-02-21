@@ -18,6 +18,8 @@ gem 'autoprefixer-rails'
 gem 'devise'
 gem 'faker'
 gem "pundit"
+gem "geocoder"
+
 
 group :development, :test do
   gem 'binding_of_caller'
