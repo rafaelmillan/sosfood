@@ -2,12 +2,11 @@
   <%= f.error_notification %>
   <%= f.input :name %>
   <%= f.input :address_1, placeholder: "12 square de Verdun" %>
-  <%= f.input :address_2 %>
-  <%= f.input :postal_code, placeholder: "75012" %>
-  <%= f.input :city, placeholder: "Paris" %>
-  <%= f.input :country, placeholder: "France", as: :string %>
   <%= f.input :station, placeholder: "Gare de l'Est" %>
   <%= f.button :submit %>
 <% end %>
 
 
+<%= content_for(:after_js) do %>
+  <script src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;key=AIzaSyAi-cd_OyaQVKbvoCGRTRSCapQKlqoks9E"></script>
+<% end %>
