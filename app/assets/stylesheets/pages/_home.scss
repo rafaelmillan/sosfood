@@ -2,3 +2,10 @@
  * CSS code specific to home page
  * (margin/padding adjustments)
  * ------------------------------------- */
+
+body { margin: 0; }
+ #map {
+        display: flex;
+        height: 100vh;
+        width: 100%;
+      }

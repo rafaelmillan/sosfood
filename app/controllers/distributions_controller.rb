@@ -9,7 +9,6 @@ class DistributionsController < ApplicationController
     @alert_message = " You are viewing #{@distribution.name}"
 
     @distribution_coordinates = { lat: @distribution.latitude, lng: @distribution.longitude }
-
   end
 
   def new

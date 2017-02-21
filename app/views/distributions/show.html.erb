@@ -26,28 +26,25 @@
 <div id="map"></div>
 
 <% content_for(:after_js) do %>
-<%= javascript_tag do %>
-  $(document).ready(function() {
-    alert('<%= j @alert_message %>');
-  });
-<% end %>
+  <%= javascript_tag do %>
+    $(document).ready(function() {
+      var coord = <%= raw @distribution_coordinates.to_json %>;
 
-<% end %>
-
-<!-- <script type="text/javascript">
-  $(document).on('ready', function() {
-    var handler = Gmaps.build('Google', { markers: { clusterer: undefined }});
-    handler.buildMap({ internal: { id: 'map' } }, function(){
-      markers = handler.addMarkers([
-      {
-        "lat": 48.8648482,
-        "lng": 2.3798534,
-        "infowindow": "<h1>Paris</h1><p><img src='https://d1gofzrmx0fcbg.cloudfront.net/production/cities/city_pictures/000/000/001/thumbnail/15079403417_371f698d27_k.jpg?1445521241' height='200'></p>"
-      }
-      ]);
-      handler.bounds.extendWith(markers);
-      handler.fitMapToBounds();
+      var handler = Gmaps.build('Google', { markers: { clusterer: undefined }});
+      handler.buildMap({ internal: { id: 'map' } }, function(){
+        markers = handler.addMarkers([
+        {
+          "lat": coord.lat,
+          "lng": coord.lng,
+          "infowindow": "<h1>Paris</h1><p><img src='https://d1gofzrmx0fcbg.cloudfront.net/production/cities/city_pictures/000/000/001/thumbnail/15079403417_371f698d27_k.jpg?1445521241' height='200'></p>"
+        }
+        ]);
+        handler.bounds.extendWith(markers);
+        handler.fitMapToBounds();
+      });
+      <!-- alert('Distribution coordinates are ' + coord.lat + ', ' + coord.lng); -->
     });
-  })
-</script> -->
+  <% end %>
+<% end %>
+
 
