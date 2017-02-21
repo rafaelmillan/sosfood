@@ -1,0 +1,30 @@
+fr:
+  home:
+    hello: "Bonjour le monde"
+  distributions:
+    index:
+      title: "Liste des Distributions"
+      add_new_distribution: "Ajouter nouvelle distribution"
+    show:
+      back: "Retour"
+      update: "Modifier"
+      delete: "Supprimer"
+      place: "Lieu"
+      distributor: "Distributeur"
+      confirm_delete: "Voulez-vous vraiment supprimer?"
+
+  activerecord:
+    models:
+      distribution: "Distribution"
+    attributes:
+      distribution:
+        name: "Nom"
+        address_1: "Adresse 1"
+        address_2: "Adresse 2"
+        postal_code: "Code postal"
+        city: "Ville"
+        country: "Pays"
+        station: "Station"
+
+
+

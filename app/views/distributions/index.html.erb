@@ -1,11 +1,16 @@
 <div class="container">
   <div class="row">
     <div class="col-sx-12 col-sm-6 col-md-4">
+      <h2><%= t('.title') %></h2>
       <% @distributions.each do |distribution| %>
         <ul>
           <li>
-            <%= distribution.name %>
-            <%= distribution.address_1 %>
+            <%= link_to distribution_path(distribution) do %>
+              <%= distribution.name %>,
+              <%= distribution.address_1 %>,
+              <%= distribution.city %>,
+              <%= distribution.postal_code %>
+            <% end %>
           </li>
         </ul>
       <% end %>
@@ -13,5 +18,7 @@
   </div>
 </div>
 <% if policy(Distribution).create? %>
-  <%= link_to 'Add new distribution', new_distribution_path(@distribution) %>
+  <%= link_to t('.add_new_distribution'), new_distribution_path(@distribution, locale: I18n.locale == I18n.default_locale ? nil : I18n.locale ) %>
 <% end %>
+
+

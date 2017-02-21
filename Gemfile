@@ -25,6 +25,7 @@ source "https://rails-assets.org" do
 end
 
 gem "pundit"
+gem 'rails-i18n', '~> 5.0.0'
 
 group :development, :test do
   gem 'binding_of_caller'
