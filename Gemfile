@@ -21,6 +21,7 @@ gem 'ice_cube'
 
 source "https://rails-assets.org" do
   gem 'rails-assets-bootstrap-datepicker'
+  gem 'rails-assets-timepicker'
 end
 
 group :development, :test do
