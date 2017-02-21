@@ -5,4 +5,5 @@ class Distribution < ApplicationRecord
   validates :station, presence: true
   validates :city, presence: true
   validates :country, presence: true
+  validates :recurrence, presence: true
 end
