@@ -9,6 +9,16 @@
         <p>Station: <%= @distribution.station %></p>
       <h4><%= t('.distributor') %> :</h4>
         <%= link_to @distribution.organization.organization_name, organization_path(@distribution.organization) %>
+      </p>
+      <p>Organized by: <%= @distribution.organization.organization_name %></p>
+      <p>Recurrence: <%= @recurrence %></p>
+      <ul>
+        <% @recurrence.first(10).each do |recurrence| %>
+          <li>
+            <%= recurrence.strftime("%a, %e %b %Y %Hh%M") %>
+          </li>
+        <% end %>
+      </ul>
     </div>
   </div>
 </div>
