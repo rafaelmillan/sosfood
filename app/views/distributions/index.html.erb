@@ -12,5 +12,6 @@
     </div>
   </div>
 </div>
-
-<%= link_to 'Add new distribution', new_distribution_path(@distribution) %>
+<% if policy(Distribution).create? %>
+  <%= link_to 'Add new distribution', new_distribution_path(@distribution) %>
+<% end %>
