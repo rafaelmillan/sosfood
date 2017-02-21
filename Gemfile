@@ -17,6 +17,7 @@ gem 'simple_form'
 gem 'autoprefixer-rails'
 gem 'devise'
 gem 'faker'
+gem "pundit"
 
 group :development, :test do
   gem 'binding_of_caller'

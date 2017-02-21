@@ -14,4 +14,11 @@
   </div>
 </div>
 
+<% if policy(@distribution).edit? %>
+  <%= link_to "Update", edit_distribution_path(@distribution) %>
+<% end %>
+<% if policy(@distribution).destroy? %>
+  <%= link_to "Delete", distribution_path(@distribution), method: :delete, data: {confirm: "Are you sure?"} %>
+<% end %>
 <%= link_to 'Back', distributions_path %>
+
