@@ -26,25 +26,22 @@
 <div id="map"></div>
 
 <% content_for(:after_js) do %>
+
+  <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=AIzaSyAi-cd_OyaQVKbvoCGRTRSCapQKlqoks9E" %>
+
   <%= javascript_tag do %>
     $(document).ready(function() {
-      var coord = <%= raw @distribution_coordinates.to_json %>;
-
-      var handler = Gmaps.build('Google', { markers: { clusterer: undefined }});
-      handler.buildMap({ internal: { id: 'map' } }, function(){
-        markers = handler.addMarkers([
-        {
-          "lat": coord.lat,
-          "lng": coord.lng,
-          "infowindow": "<h1>Paris</h1><p><img src='https://d1gofzrmx0fcbg.cloudfront.net/production/cities/city_pictures/000/000/001/thumbnail/15079403417_371f698d27_k.jpg?1445521241' height='200'></p>"
-        }
-        ]);
+      var handler = Gmaps.build('Google');
+      handler.buildMap({ internal: { id: 'map' } }, function() {
+        markers = handler.addMarkers(<%= raw @hash.to_json %>);
         handler.bounds.extendWith(markers);
         handler.fitMapToBounds();
+        if (markers.length == 0) {
+          handler.getMap().setZoom(2);
+        } else if (markers.length == 1) {
+          handler.getMap().setZoom(14);
+        }
       });
-      <!-- alert('Distribution coordinates are ' + coord.lat + ', ' + coord.lng); -->
     });
   <% end %>
 <% end %>
-
-
