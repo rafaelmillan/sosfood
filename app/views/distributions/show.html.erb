@@ -10,6 +10,14 @@
         <%= @distribution.country %>
       </p>
       <p>Organized by: <%= @distribution.organization.organization_name %></p>
+      <p>Recurrence: <%= @recurrence %></p>
+      <ul>
+        <% @recurrence.first(10).each do |recurrence| %>
+          <li>
+            <%= recurrence.strftime("%a, %e %b %Y %Hh%M") %>
+          </li>
+        <% end %>
+      </ul>
     </div>
   </div>
 </div>

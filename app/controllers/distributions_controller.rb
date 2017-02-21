@@ -6,6 +6,7 @@ class DistributionsController < ApplicationController
   end
 
   def show
+    @recurrence = IceCube::Schedule.from_yaml(@distribution.recurrence) unless @distribution.recurrence.nil?
   end
 
   def new
@@ -45,8 +46,7 @@ class DistributionsController < ApplicationController
   end
 
   def distribution_params
-    params.require(:distribution).permit(:name, :address_1, :address_2, :postal_code, :city, :country, :station, :date, :frequency, :start_time, :end_time, :weekdays, :monthdates)
-    generate_recurrence
+    params.require(:distribution).permit(:name, :address_1, :address_2, :postal_code, :city, :country, :station, :date, :frequency, :start_time, :end_time, :weekdays, :monthdates).merge(recurrence: generate_recurrence)
   end
 
   def generate_recurrence
@@ -86,12 +86,11 @@ class DistributionsController < ApplicationController
       schedule.rrule(IceCube::Rule.weekly.day(:friday)) if weekdays.include?("Fri")
       schedule.rrule(IceCube::Rule.weekly.day(:saturday)) if weekdays.include?("Sat")
       schedule.rrule(IceCube::Rule.weekly.day(:sunday)) if weekdays.include?("Sun")
-      raise
     elsif freq == "monthly"
       schedule = IceCube::Schedule.new
     end
 
-    return schedule
+    return schedule.to_yaml
   end
 
 end
