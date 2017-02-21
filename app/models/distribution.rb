@@ -6,4 +6,6 @@ class Distribution < ApplicationRecord
   validates :city, presence: true
   validates :country, presence: true
   validates :recurrence, presence: true
+
+  attr_accessor :date, :frequency, :start_time, :end_time, :weekdays, :monthdates
 end

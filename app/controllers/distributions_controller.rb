@@ -13,6 +13,7 @@ class DistributionsController < ApplicationController
   end
 
   def create
+    raise
     @distribution = Distribution.create(distribution_params)
     @distribution.organization = current_organization
     if @distribution.save
@@ -45,6 +46,11 @@ class DistributionsController < ApplicationController
   end
 
   def distribution_params
-    params.require(:distribution).permit(:name, :address_1, :address_2, :postal_code, :city, :country, :station)
+    params.require(:distribution).permit(:name, :address_1, :address_2, :postal_code, :city, :country, :station, :date, :frequency, :start_time, :end_time, :weekdays, :monthdates)
   end
+
+  def generate_recurrence
+
+  end
+
 end
