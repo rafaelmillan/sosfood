@@ -17,6 +17,13 @@ gem 'simple_form'
 gem 'autoprefixer-rails'
 gem 'devise'
 gem 'faker'
+gem 'ice_cube'
+
+source "https://rails-assets.org" do
+  gem 'rails-assets-bootstrap-datepicker'
+  gem 'rails-assets-timepicker'
+end
+
 gem "pundit"
 
 group :development, :test do
