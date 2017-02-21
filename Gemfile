@@ -24,6 +24,8 @@ source "https://rails-assets.org" do
   gem 'rails-assets-timepicker'
 end
 
+gem "pundit"
+
 group :development, :test do
   gem 'binding_of_caller'
   gem 'better_errors'
