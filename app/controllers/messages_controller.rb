@@ -14,18 +14,25 @@ class MessagesController < ApplicationController
     end
     message = Message.new(content: body, sent_by_user: true, user: user)
     message.save
-    coordinates = Geocoder(body + " France")
+    coordinates = Geocoder.coordinates(body + " France")
     lat = coordinates[0]
     lon = coordinates[1]
 
     generate_message(coordinates)
+
+    @client = Twilio::REST::Client.new ENV['TWILIO_ACCCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
+
+    @client.account.messages.create(
+      from: '+33644647897',
+      to: message.user.phone_number,
+      body: generate_message(coordinates)
+    )
   end
 
   private
 
-  def generate_message
+  def generate_message(coordinates)
     distributions = Distribution.near(coordinates)
-
     now = Time.now
 
     breakfast_min = Time.new(now.year, now.month, now.day, 06, 00)
@@ -57,13 +64,18 @@ class MessagesController < ApplicationController
       dinner_max += 1.day
     end
 
+    breakfast = nil
+    lunch = nil
+    dinner = nil
+
     # Finding breakfast
     distributions.each do |dis|
-      schedule = IceCube::Schedule.from_yaml(distribution.recurrence)
+      schedule = IceCube::Schedule.from_yaml(dis.recurrence)
       if schedule.occurs_between?(breakfast_min, breakfast_max)
+        puts "Found breakfast"
         breakfast = {
-          distribution = distribution,
-          time = schedule.next_occurrence(breakfast_min)
+          distribution: dis,
+          time: schedule.next_occurrence(breakfast_min)
         }
       end
       break unless breakfast == nil
@@ -71,11 +83,12 @@ class MessagesController < ApplicationController
 
     # Finding lunch
     distributions.each do |dis|
-      schedule = IceCube::Schedule.from_yaml(distribution.recurrence)
+      schedule = IceCube::Schedule.from_yaml(dis.recurrence)
       if schedule.occurs_between?(lunch_min, lunch_max)
+        puts "Found lunch"
         lunch = {
-          distribution = distribution,
-          time = schedule.next_occurrence(lunch_min)
+          distribution: dis,
+          time: schedule.next_occurrence(lunch_min)
         }
       end
       break unless lunch == nil
@@ -83,17 +96,24 @@ class MessagesController < ApplicationController
 
     # Finding dinner
     distributions.each do |dis|
-      schedule = IceCube::Schedule.from_yaml(distribution.recurrence)
+      schedule = IceCube::Schedule.from_yaml(dis.recurrence)
       if schedule.occurs_between?(dinner_min, dinner_max)
+        puts "Found dinner"
         dinner = {
-          distribution = distribution,
-          time = schedule.next_occurrence(dinner_min)
+          distribution: dis,
+          time: schedule.next_occurrence(dinner_min)
         }
       end
       break unless dinner == nil
     end
 
+    meals = [breakfast, lunch, dinner]
+    meals.sort! { |meal| meal[:time].start_time }
 
+    message = "REPAS 1\n#{meals[0][:time].strftime("%m/%e/%y %Hh%M")}\n#{meals[0][:distribution].address_1}\nREPAS 2\n#{meals[1][:time].strftime("%m/%e/%y %Hh%M")}\n#{meals[1][:distribution].address_1}\nREPAS 1\n#{meals[2][:time].strftime("%m/%e/%y %Hh%M")}\n#{meals[2][:distribution].address_1}"
 
+    puts message
+
+    return message
   end
 end
