@@ -77,8 +77,7 @@ function geolocate() {
   }
 }
 
-
-
+initAutocomplete();
 
 
 
