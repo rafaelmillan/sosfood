@@ -30,7 +30,7 @@ addresses = [
   },
   {
     address_1: "17 avenue des Gobelins",
-    postal_code: "7505",
+    postal_code: "75005",
     city: "Paris",
     country: "France"
   },

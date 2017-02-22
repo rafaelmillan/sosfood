@@ -26,6 +26,11 @@ function initAutocomplete() {
 function fillInAddress() {
   // Get the place details from the autocomplete object.
   var place = autocomplete.getPlace();
+  var street_number = ''
+  var route = ''
+  var locality = ''
+  var country = ''
+  var postal_code = ''
 
   // for (var component in componentForm) {
   //   document.getElementById(component).value = '';
@@ -35,13 +40,23 @@ function fillInAddress() {
   // Get each component of the address from the place details
   // and fill the corresponding field on the form.
   for (var i = 0; i < place.address_components.length; i++) {
-    console.log(i)
     var addressType = place.address_components[i].types[0];
-    if (componentForm[addressType]) {
-      var val = place.address_components[i][componentForm[addressType]];
-      document.getElementById(addressType).value = val;
+    if (addressType == 'street_number') {
+      street_number = place.address_components[i]['long_name']
+    } else if (addressType == 'route') {
+      route = place.address_components[i]['long_name']
+    } else if (addressType == 'locality') {
+      locality = place.address_components[i]['long_name']
+    } else if (addressType == 'postal_code') {
+      postal_code = place.address_components[i]['long_name']
+    } else if (addressType == 'country') {
+      country = place.address_components[i]['long_name']
     }
   }
+  document.getElementById('distribution_address_1').value = street_number + ' ' + route;
+  document.getElementById('postal_code').value = postal_code;
+  document.getElementById('locality').value = locality;
+  document.getElementById('country').value = country;
 }
 
 // Bias the autocomplete object to the user's geographical location,
