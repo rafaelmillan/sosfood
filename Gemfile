@@ -17,7 +17,15 @@ gem 'simple_form'
 gem 'autoprefixer-rails'
 gem 'devise'
 gem 'faker'
+gem 'ice_cube'
+
+source "https://rails-assets.org" do
+  gem 'rails-assets-bootstrap-datepicker'
+  gem 'rails-assets-timepicker'
+end
+
 gem "pundit"
+
 gem "geocoder"
 gem "coffee-rails"
 gem "gmaps4rails"
@@ -26,6 +34,7 @@ source 'https://rails-assets.org' do
   gem "rails-assets-underscore"
 end
 
+gem 'rails-i18n', '~> 5.0.0'
 
 group :development, :test do
   gem 'binding_of_caller'
