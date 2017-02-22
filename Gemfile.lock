@@ -213,9 +213,9 @@ DEPENDENCIES
   puma
   pundit
   rails (= 5.0.1)
-  rails-i18n (~> 5.0.0)
   rails-assets-bootstrap-datepicker!
   rails-assets-timepicker!
+  rails-i18n (~> 5.0.0)
   redis
   sass-rails
   simple_form
