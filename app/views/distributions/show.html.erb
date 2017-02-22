@@ -11,6 +11,7 @@
         <%= link_to @distribution.organization.organization_name, organization_path(@distribution.organization) %>
       </p>
       <p>Organized by: <%= @distribution.organization.organization_name %></p>
+
       <p>Recurrence: <%= @recurrence %></p>
       <ul>
         <% @recurrence.first(10).each do |recurrence| %>
@@ -19,6 +20,7 @@
           </li>
         <% end %>
       </ul>
+
     </div>
   </div>
 </div>
@@ -32,3 +34,25 @@
 <% end %>
 
 
+<div id="map"></div>
+
+<% content_for(:after_js) do %>
+
+  <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=AIzaSyAi-cd_OyaQVKbvoCGRTRSCapQKlqoks9E" %>
+
+  <%= javascript_tag do %>
+    $(document).ready(function() {
+      var handler = Gmaps.build('Google');
+      handler.buildMap({ internal: { id: 'map' } }, function() {
+        markers = handler.addMarkers(<%= raw @hash.to_json %>);
+        handler.bounds.extendWith(markers);
+        handler.fitMapToBounds();
+        if (markers.length == 0) {
+          handler.getMap().setZoom(2);
+        } else if (markers.length == 1) {
+          handler.getMap().setZoom(14);
+        }
+      });
+    });
+  <% end %>
+<% end %>

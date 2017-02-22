@@ -25,6 +25,15 @@ source "https://rails-assets.org" do
 end
 
 gem "pundit"
+
+gem "geocoder"
+gem "coffee-rails"
+gem "gmaps4rails"
+
+source 'https://rails-assets.org' do
+  gem "rails-assets-underscore"
+end
+
 gem 'rails-i18n', '~> 5.0.0'
 
 group :development, :test do
@@ -37,5 +46,7 @@ group :development, :test do
   gem 'listen', '~> 3.0.5'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
+
+
 
 

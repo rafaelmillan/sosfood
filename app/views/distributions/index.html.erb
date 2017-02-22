@@ -20,5 +20,3 @@
 <% if policy(Distribution).create? %>
   <%= link_to t('.add_new_distribution'), new_distribution_path(@distribution, locale: I18n.locale == I18n.default_locale ? nil : I18n.locale ) %>
 <% end %>
-
-
