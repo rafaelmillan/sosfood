@@ -7,5 +7,9 @@ class Distribution < ApplicationRecord
   validates :country, presence: true
   validates :recurrence, presence: true
 
+  geocoded_by :address_1
+  after_validation :geocode, if: :address_1_changed?
+  
   attr_accessor :date, :frequency, :start_time, :end_time, :weekdays, :monthdates
+
 end
