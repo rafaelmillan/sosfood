@@ -7,6 +7,8 @@ class OrganizationsController < ApplicationController
     @hash = Gmaps4rails.build_markers(@distributions) do |distribution, marker|
       marker.lat distribution.latitude
       marker.lng distribution.longitude
+      marker.infowindow "<h4>#{distribution.name}</h4><p>#{distribution.address_1}</p><p>#{distribution.postal_code}</p><p>#{distribution.recurrence.to_i}</p>"
+
     end
     authorize @organization
   end
