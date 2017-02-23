@@ -44,38 +44,32 @@
     </div>
   </div>
 
-  <div id="search">
-    <div class="row">
-      <div class="col-sm-6">
-      </div>
-      <div class="col-sm-6">
-        <h2 id="features-title">Couverture</h2>
-      </div>
-    </div>
   </div>
 
+  <div id="search-section" class="text-center">
+    <div class="container">
+    <h2 id="features-title">Trouver un repas</h2>
+    <form class="form-inline" action="/search">
+      <div class="form-group">
+        <label class="sr-only" for="address">Addresse</label>
+        <input type="text" class="form-control" name="address" id="address" placeholder="Addresse">
+      </div>
+      <div class="form-group">
+        <label class="sr-only" for="date">Date</label>
+        <input type="text" class="form-control" name="date" id="datepicker" placeholder="Date">
+      </div>
+      <div class="form-group">
+        <input type="hidden" class="form-control" name="lat" id="lat">
+      </div>
+      <div class="form-group">
+        <input type="hidden" class="form-control" name="lon" id="lon">
+      </div>
+      <button type="submit" class="btn btn-default">Chercher</button>
+    </form>
 
+  </div>
+  </div>
 
-  <h3>En ligne</h3>
-  <form class="form-inline" action="/search">
-    <div class="form-group">
-      <label class="sr-only" for="address">Addresse</label>
-      <input type="text" class="form-control" name="address" id="address" placeholder="Addresse">
-    </div>
-    <div class="form-group">
-      <label class="sr-only" for="date">Date</label>
-      <input type="text" class="form-control" name="date" id="datepicker" placeholder="Date">
-    </div>
-    <div class="form-group">
-      <input type="hidden" class="form-control" name="lat" id="lat">
-    </div>
-    <div class="form-group">
-      <input type="hidden" class="form-control" name="lon" id="lon">
-    </div>
-    <button type="submit" class="btn btn-default">Chercher</button>
-  </form>
-
-</div>
 
 <% content_for(:after_js) do %>
   <%= javascript_tag do %>

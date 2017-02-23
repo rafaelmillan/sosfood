@@ -135,3 +135,15 @@
   border-left: 1px solid #E6E6E6;
   border-top: 1px solid #E6E6E6;
 }
+
+.navbar-classic {
+  position: static;
+  a {
+    color: black;
+  }
+  .navbar-wagon-brand {
+  a {
+    color: #57D1C9;
+  }
+}
+}

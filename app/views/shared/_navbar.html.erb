@@ -1,7 +1,7 @@
-<div class="navbar-wagon">
+<div class="navbar-wagon <%= "navbar-classic" unless current_page?(root_path) %>">
   <!-- Logo -->
   <h1 class="navbar-wagon-brand">
-    <%= link_to "SOS Food", root_path %>
+    <%= link_to "<i class='fa fa-commenting-o'></i> sos food ".html_safe, root_path %>
   </h1>
 
   <!-- Right Navigation -->
@@ -52,7 +52,7 @@
     <% end %>
 
     <!-- Button (call-to-action) -->
-    <%= link_to t(".top_call_to_action", default: "Espace assos"), "#", class: "btn btn_transparent" %>
+    <%= link_to t(".top_call_to_action", default: "Espace assos"), "#", class: "btn btn_transparent#{'_black' unless current_page?(root_path)}" %>
   </div>
 
   <!-- Dropdown list appearing on mobile only -->

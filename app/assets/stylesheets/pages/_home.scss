@@ -28,9 +28,18 @@ body { margin: 0; }
 }
 
 #features {
-  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 
-#search {
-  background-color: #FFFBCB;
+#search-section {
+  background-color: #FFE869;
+  padding-top: 30px;
+  padding-bottom: 100px;
+  h2 {
+    border-bottom: none;
+  }
+  form {
+    margin-top: 30px;
+  }
 }
