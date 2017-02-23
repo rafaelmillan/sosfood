@@ -9,8 +9,8 @@
           <%= link_to distribution_path(result[:distribution]), class: "list-group-item" do %>
             <h4 class="list-group-item-heading"><%= result[:distribution].organization.organization_name %></h4>
             <p class="list-group-item-text">
-              <%= result[:distribution].address %><br>
-              <%= result[:occurrence].strftime("%m/%e/%Y %Hh%M") %>
+              Le <%= result[:occurrence].strftime("%m/%e/%Y") %>, de <%= result[:occurrence].strftime("%Hh%M") %> à <%=result[:occurrence].end_time.strftime("%Hh%M") %><br>
+              <%= result[:distribution].address %>
             </p>
           <% end %>
         <% end %>
