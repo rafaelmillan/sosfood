@@ -10,7 +10,6 @@ class DistributionsController < ApplicationController
 
   def show
     @alert_message = " You are viewing #{@distribution.name}"
-
     @distribution_coordinates = { lat: @distribution.latitude, lng: @distribution.longitude }
     @distributions = Distribution.where.not(latitude: nil, longitude: nil)
     @hash = Gmaps4rails.build_markers(@distributions) do |distribution, marker|
