@@ -1,4 +1,3 @@
-
 <div class="container">
   <div class="row">
     <div class="col-xs-6">
@@ -6,11 +5,11 @@
        <p><%= @organization.email %></p>
         <p><%= @organization.phone_number%></p>
         <div class="list-group">
-          <% @organization.distributions.each do |dis| %>
-            <%= link_to distribution_path(dis), class: "list-group-item" do %>
-            <%= dis.name %>
-            <%= dis.address_1 %>
-            <%= dis.postal_code %>
+          <% @organization.distributions.each_with_index do |dis, index| %>
+            <%= link_to distribution_path(dis), class: "list-group-item distribution-item", data: { id: index } do %>
+              <%= dis.name %>
+              <%= dis.address_1 %>
+              <%= dis.postal_code %>
             <% end %>
           <% end %>
         </div>
@@ -25,8 +24,9 @@
 
 <% content_for(:after_js) do %>
 
-
-  <%= javascript_tag do %>
+  <script>
+    window.distrib_markers = null;
+    window.distrib_map = null;
     $(document).ready(function() {
       var handler = Gmaps.build('Google');
       handler.buildMap({ internal: { id: 'map' } }, function() {
@@ -38,9 +38,22 @@
         } else if (markers.length == 1) {
           handler.getMap().setZoom(14);
         }
+        window.distrib_markers = markers;
+        window.distrib_map = handler;
+      });
+
+      $("body").on("mouseenter", ".distribution-item", function() {
+        var index = $(this).data("id");
+        var marker = window.distrib_markers[index];
+        var infowindow = marker.infowindow;
+        window.distrib_map.getMap().setCenter(marker.serviceObject.position)
+        google.maps.event.trigger(marker.getServiceObject(), 'click');
+      })
+      $("body").on("mouseleave", ".distribution-item", function() {
+        $(".gm-style-iw").next().click();
       });
     });
-  <% end %>
+  </script>
 <% end %>
 
 
