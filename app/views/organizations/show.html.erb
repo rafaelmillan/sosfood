@@ -1,21 +1,47 @@
+
 <div class="container">
   <div class="row">
-    <h1>Organization</h1>
-    <% @organization.first_name %>
-    <% @organization.last_name  %>
-    <h2>Name </h2>
-    <%= @organization.organization_name %>
-    <h2>Phone number</h2>
-    <%= @organization.phone_number %>
+    <div class="col-xs-6">
+     <h1><%= @organization.organization_name %></h1>
+       <p><%= @organization.email %></p>
+        <p><%= @organization.phone_number%></p>
+        <div class="list-group">
+          <% @organization.distributions.each do |dis| %>
+            <%= link_to distribution_path(dis), class: "list-group-item" do %>
+            <%= dis.name %>
+            <%= dis.address_1 %>
+            <%= dis.postal_code %>
+            <% end %>
+          <% end %>
+        </div>
+    </div>
 
-    <h1>Distribution</h1>
-    <% @organization.distributions.each do |dis| %>
-    <%= dis.name %>
-    <%= dis.address_1 %>
-    <%= dis.address_2 %>
-    <%= dis.station %>
-    <%= dis.city %>
-    <%= dis.country %>
-    <% end %>
+    <div class="col-xs-6">
+      <div id="map"> </div>
+    </div>
   </div>
 </div>
+
+
+<% content_for(:after_js) do %>
+
+
+  <%= javascript_tag do %>
+    $(document).ready(function() {
+      var handler = Gmaps.build('Google');
+      handler.buildMap({ internal: { id: 'map' } }, function() {
+        markers = handler.addMarkers(<%= raw @hash.to_json %>);
+        handler.bounds.extendWith(markers);
+        handler.fitMapToBounds();
+        if (markers.length == 0) {
+          handler.getMap().setZoom(2);
+        } else if (markers.length == 1) {
+          handler.getMap().setZoom(14);
+        }
+      });
+    });
+  <% end %>
+<% end %>
+
+
+
