@@ -3,7 +3,11 @@ class OrganizationsController < ApplicationController
 
   def show
     @organization = Organization.find(params[:id])
-    @distribution = @organization.distributions
+    @distributions = @organization.distributions.where.not(latitude: nil, longitude: nil)
+    @hash = Gmaps4rails.build_markers(@distributions) do |distribution, marker|
+      marker.lat distribution.latitude
+      marker.lng distribution.longitude
+    end
     authorize @organization
   end
 
