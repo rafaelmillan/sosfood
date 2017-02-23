@@ -1,5 +1,6 @@
 <div class="distribution-show">
   <div class="distribution-body">
+
     <div class="distribution-section-header">
       <h2><%= @distribution.name %></h2>
       <ul class="list-inline">
@@ -24,6 +25,7 @@
         </li>
       </ul>
     </div>
+
     <div class="distribution-section">
       <i class="fa fa-map-marker" aria-hidden="true"></i>
         <%= @distribution.address_1 %>,
@@ -46,6 +48,7 @@
 
     <div id="map" style="height: 400px; width: 100%;"></div>
   </div>
+
   <div class="distribution-aside">
     <div class="distribution-section">
       <h2>Share</h2>
@@ -74,11 +77,16 @@
 <% content_for(:after_js) do %>
   <%= javascript_tag do %>
     $(document).ready(function() {
-      var handler = Gmaps.build('Google', { markers: { clusterer: undefined }});
+      var handler = Gmaps.build('Google');
       handler.buildMap({ internal: { id: 'map' } }, function() {
-        markers = handler.addMarkers(<% raw @distribution_coordinates.to_json %>);
+        markers = handler.addMarkers(<% raw @hash.to_json %>);
         handler.bounds.extendWith(markers);
         handler.fitMapToBounds();
+        if (markers.length == 0) {
+          handler.getMap().setZoom(2);
+        } else if (markers.length == 1) {
+          handler.getMap().setZoom(14);
+        }
       });
     });
   <% end %>

@@ -17,6 +17,7 @@ class DistributionsController < ApplicationController
       marker.lng distribution.longitude
     end
 
+
     @recurrence = IceCube::Schedule.from_yaml(@distribution.recurrence) unless @distribution.recurrence.nil?
   end
 
