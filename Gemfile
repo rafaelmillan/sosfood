@@ -18,6 +18,7 @@ gem 'autoprefixer-rails'
 gem 'devise'
 gem 'faker'
 gem 'ice_cube'
+gem 'twilio-ruby', '~> 4.11.1'
 
 source "https://rails-assets.org" do
   gem 'rails-assets-bootstrap-datepicker'

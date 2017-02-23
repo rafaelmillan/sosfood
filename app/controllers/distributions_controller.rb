@@ -14,7 +14,7 @@ class DistributionsController < ApplicationController
       marker.lat distribution.latitude
       marker.lng distribution.longitude
     end
-    
+
     @recurrence = IceCube::Schedule.from_yaml(@distribution.recurrence) unless @distribution.recurrence.nil?
   end
 
@@ -75,7 +75,7 @@ class DistributionsController < ApplicationController
 
     day = params[:distribution][:date][0..1]
     month = params[:distribution][:date][3..4]
-    year = params[:distribution][:date][6..7]
+    year = params[:distribution][:date][6..9]
 
     weekdays = params[:distribution][:weekdays]
 
