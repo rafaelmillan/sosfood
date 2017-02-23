@@ -59,7 +59,8 @@ class DistributionsController < ApplicationController
     @results = Distribution.find_by_date(coordinates, date)
 
     @distributions = @results.map { |r| r[:distribution] }
-    @distributions = Distribution.where.not(latitude: nil, longitude: nil)
+    @distributions.reject! { |d| d.latitude.nil? || d.longitude.nil? }
+    # @distributions = Distribution.where.not(latitude: nil, longitude: nil)
     @hash = Gmaps4rails.build_markers(@distributions) do |distribution, marker|
       marker.lat distribution.latitude
       marker.lng distribution.longitude
