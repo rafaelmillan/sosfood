@@ -38,8 +38,6 @@
 
 <% content_for(:after_js) do %>
 
-  <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=AIzaSyAi-cd_OyaQVKbvoCGRTRSCapQKlqoks9E" %>
-
   <%= javascript_tag do %>
     $(document).ready(function() {
       var handler = Gmaps.build('Google');
