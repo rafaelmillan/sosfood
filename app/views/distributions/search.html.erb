@@ -1,0 +1,13 @@
+<div class="container">
+  <h1>Résultats</h1>
+  <ul>
+  <% @results.each do |result| %>
+  <li>
+    <%= result[:distribution].address %>
+  </li>
+  <li>
+    <%= result[:occurrence].strftime("%m/%e/%y %Hh%M") %>
+  </li>
+  <% end %>
+  </ul>
+</div>

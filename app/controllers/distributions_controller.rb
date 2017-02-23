@@ -1,5 +1,8 @@
 class DistributionsController < ApplicationController
   before_action :set_distribution, only: [:show, :edit, :update, :destroy]
+  skip_before_action :authenticate_organization!, only: :search
+  skip_after_action :verify_authorized, only: :search
+
 
   def index
     @distributions = policy_scope(Distribution)
@@ -49,6 +52,12 @@ class DistributionsController < ApplicationController
   def destroy
     @distribution.destroy
     redirect_to distributions_path
+  end
+
+  def search
+    date = Date.parse(params[:date])
+    coordinates = [params[:lat].to_f, params[:lon].to_f]
+    @results = Distribution.find_by_date(coordinates, date)
   end
 
   private
