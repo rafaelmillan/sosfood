@@ -17,7 +17,7 @@ class TwilioService
   private
 
   def generate_message(coordinates)
-    meals = Distribution.find_meals(coordinates)
+    meals = Distribution.find_next_three(coordinates)
 
     message = "#{meals[0][:name]}
 #{meals[0][:time].strftime("%m/%e/%y %Hh%M")}

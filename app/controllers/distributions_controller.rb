@@ -1,5 +1,8 @@
 class DistributionsController < ApplicationController
   before_action :set_distribution, only: [:show, :edit, :update, :destroy]
+  skip_before_action :authenticate_organization!, only: [:search, :show]
+  skip_after_action :verify_authorized, only: [:search, :show]
+
 
   def index
     @distributions = policy_scope(Distribution)
@@ -49,6 +52,20 @@ class DistributionsController < ApplicationController
   def destroy
     @distribution.destroy
     redirect_to distributions_path
+  end
+
+  def search
+    date = Date.parse(params[:date])
+    coordinates = [params[:lat].to_f, params[:lon].to_f]
+    @results = Distribution.find_by_date(coordinates, date)
+
+    @distributions = @results.map { |r| r[:distribution] }
+    @distributions = Distribution.where.not(latitude: nil, longitude: nil)
+    @hash = Gmaps4rails.build_markers(@distributions) do |distribution, marker|
+      marker.lat distribution.latitude
+      marker.lng distribution.longitude
+    end
+
   end
 
   private

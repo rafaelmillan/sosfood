@@ -16,7 +16,7 @@ class Distribution < ApplicationRecord
     [address_1, postal_code, city, country].compact.join(', ')
   end
 
-  def self.find_meals(coordinates)
+  def self.find_next_three(coordinates)
     distributions = Distribution.near(coordinates)
 
     meals = set_meal_hashes
@@ -35,6 +35,26 @@ class Distribution < ApplicationRecord
     meals.sort! { |meal| meal[:time].start_time }
 
     return meals
+  end
+
+  def self.find_by_date(coordinates, date)
+    distributions = Distribution.near(coordinates)
+    results = []
+
+    distributions.each do |dis|
+      schedule = IceCube::Schedule.from_yaml(dis.recurrence)
+      if schedule.occurs_on?(date)
+        schedule.occurrences_between(date.to_time, date.to_time + 1.day).each do |o|
+          results << {
+            occurrence: o,
+            distribution: dis
+          }
+        end
+      end
+    end
+
+    return results
+
   end
 
   private
