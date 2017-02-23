@@ -1,20 +1,21 @@
 .distribution-show {
   display: flex;
   background-color: #FAFAFA;
-  margin-left: 40px;
-  margin-right: 40px;
-  margin-top: 40px;
+  // margin-left: 40px;
+  // margin-right: 40px;
+  // margin-top: 40px;
 }
 .distribution-body {
   flex: 1 1 auto;
   flex: wrap;
-  padding: 20px;
+  padding: 50px;
+  padding-top: -20px;
 }
-.distribution-body img {
-  width: 100%;
-}
+// .distribution-body img {
+//   width: 100%;
+// }
 .distribution-aside {
-  flex: 0 0 600px;
+  flex: 0 0 450px;
   padding: 30px;
   align-self: stretch;
   background: #F8F7F7;
@@ -23,8 +24,9 @@
 .distribution-section-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: stretch;
   padding-top: 0px;
+  border-bottom: 1px solid #eee;
 }
 
 
@@ -41,7 +43,7 @@
 
 .share-links {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
 }
 .share-link {
@@ -50,7 +52,7 @@
   font-size: 18px;
   padding: 10px 0;
   text-align: center;
-  border-radius: 2px;
+  border-radius: 4px;
   cursor: pointer;
   &:hover {
     color: white;
@@ -73,7 +75,6 @@
   display: flex;
   justify-content: space-between;
   font-size: 30px;
-  color: gray;
-
+  font-color: gray;
 }
 
