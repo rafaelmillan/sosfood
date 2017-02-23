@@ -1,9 +1,9 @@
-<div class="banner" style="background-image: linear-gradient(-225deg, rgba(0,101,168,0.6) 0%, rgba(0,36,61,0.6) 50%), url('<%= image_path 'soup_kitchen_2.jpg' %>');">
+<div class="banner" style="background-image: linear-gradient(45deg, rgba(87,209,201,1) 0%,rgba(87,209,201,0.7) 100%), url('<%= image_path 'soup_kitchen_2.jpg' %>');">
   <div class="container">
     <div class="banner-content">
-      <h1>Aider les plus démunis à trouver des repas solidaires. Aussi simple qu'un SMS.</h1>
-      <%= link_to "Comment ça fonctionne ?", "#", class: "btn btn-default btn-lg" %>
-      <%= link_to "Ajouter un repas", "#", class: "btn btn-default btn-lg" %>
+      <h1>Trouver des repas solidaires.<br>Simple comme un SMS.</h1>
+      <%= link_to "Comment ça fonctionne ?", "#", class: "btn btn-primary btn" %>
+      <%= link_to "Ajouter un repas", "#", class: "btn btn_transparent btn" %>
     </div>
   </div>
 </div>
@@ -12,30 +12,45 @@
 <div class="container">
 
 
-<h2 class="text-center">Comment ça fonctionne ?</h2>
-
-  <div class="row">
-    <div class="col-sm-6">
-      <h3>Utilisation ponctuelle</h3>
-      <ol>
-        <li>
-          Envoyez une adresse, code postal, ou arrêt de métro au 06 07 08 09 10 (SMS standard non surtaxé). Par exemple, "Gare de l'Est"
-        </li>
-        <li>
-          Recevez un SMS avec trois propositions qui auront lieu dans les prochaines 24h (petit-déjeuner, déjeuner et dinner).
-        </li>
-      </ol>
+  <div id="features">
+    <div class="row">
+      <div class="col-sm-6">
+        <h2 id="features-title">Comment<br>ça fonctionne ?</h2>
+      </div>
+      <div class="col-sm-6">
+      <div class="row">
+        <div class="col-xs-3">
+          <%= image_tag 'Chat.png', class: "features-icon" %>
+        </div>
+        <div class="col-xs-9">
+          <h3>Utilisation ponctuelle</h3>
+          <p>
+            Envoyez une adresse, code postal, ou arrêt de métro au 06 07 08 09 10 (SMS standard non surtaxé). Recevez un SMS avec trois propositions qui auront lieu dans les prochaines 24h (petit-déjeuner, déjeuner et dinner).
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">
+          <%= image_tag 'Antenna.png', class: "features-icon" %>
+        </div>
+        <div class="col-xs-9">
+          <h3>Abonnement</h3>
+          <p>
+            Envoyez une adresse, code postal, ou arrêt de métro au 06 07 08 09 10 (SMS standard non surtaxé), précédée du mot-clé "alerte". Recevez un SMS tous les soirs avec trois propositions de repas pour le lendemain.
+          </p>
+        </div>
+      </div>
+      </div>
     </div>
-    <div class="col-sm-6">
-      <h3>Abonnement</h3>
-      <ol>
-        <li>
-          Envoyez une adresse, code postal, ou arrêt de métro au 06 07 08 09 10 (SMS standard non surtaxé), précédée du mot-clé "alerte". Par exemple, "alerte Gare de l'Est".
-        </li>
-        <li>
-          Recevez un SMS tous les soirs avec trois propositions de repas pour le lendemain.
-        </li>
-      </ol>
+  </div>
+
+  <div id="search">
+    <div class="row">
+      <div class="col-sm-6">
+      </div>
+      <div class="col-sm-6">
+        <h2 id="features-title">Couverture</h2>
+      </div>
     </div>
   </div>
 

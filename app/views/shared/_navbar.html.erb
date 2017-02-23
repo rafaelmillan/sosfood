@@ -1,19 +1,19 @@
 <div class="navbar-wagon">
   <!-- Logo -->
-  <div class="navbar-wagon-brand">
+  <h1 class="navbar-wagon-brand">
     <%= link_to "SOS Food", root_path %>
-  </div>
+  </h1>
 
   <!-- Right Navigation -->
   <div class="navbar-wagon-right hidden-xs hidden-sm">
 
     <!-- Search form -->
-    <form action="" class="navbar-wagon-search">
+<!--     <form action="" class="navbar-wagon-search">
       <input type="text" class="navbar-wagon-search-input" placeholder="Search something">
       <button type="submit" class="navbar-wagon-search-btn">
         <i class="fa fa-search"></i>
       </button>
-    </form>
+    </form> -->
 
     <!-- Different navigation if login or not -->
     <% if organization_signed_in? %>
@@ -52,7 +52,7 @@
     <% end %>
 
     <!-- Button (call-to-action) -->
-    <%= link_to t(".top_call_to_action", default: "Ajouter un repas"), "#", class: "navbar-wagon-item navbar-wagon-button btn" %>
+    <%= link_to t(".top_call_to_action", default: "Espace assos"), "#", class: "btn btn_transparent" %>
   </div>
 
   <!-- Dropdown list appearing on mobile only -->
