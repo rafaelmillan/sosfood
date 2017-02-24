@@ -1,20 +1,24 @@
 .distribution-show {
   display: flex;
   background-color: #FAFAFA;
-  margin-left: 40px;
-  margin-right: 40px;
-  margin-top: 40px;
+  // margin-left: 40px;
+  // margin-right: 40px;
+  // margin-top: 40px;
 }
 .distribution-body {
   flex: 1 1 auto;
   flex: wrap;
-  padding: 20px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-right: 40px;
+  padding-left: 40px;
 }
-.distribution-body img {
-  width: 100%;
-}
+// .distribution-body img {
+//   width: 100%;
+// }
 .distribution-aside {
-  flex: 0 0 600px;
+  // min-width: 450px;
+  flex: 0 0 450px;
   padding: 30px;
   align-self: stretch;
   background: #F8F7F7;
@@ -23,26 +27,37 @@
 .distribution-section-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
   padding-top: 0px;
+  border-bottom: 1px solid #f0efef;
+  // border-top: 1px solid #f0efef;
 }
-
 
 
 .distribution-section {
   margin: 20px auto;
+  letter-spacing: 1phpx;
 }
 .distribution-section:first-child {
-  margin-top: 0;
+  // margin-top: 0;
 }
 .distribution-section:last-child {
   margin-bottom: 0;
+}
+
+
+@media (max-width: 700px) {
+  .distribution-show {
+    flex-wrap: wrap;
+  }
 }
 
 .share-links {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid #f0efef;
+  padding: 15px 0px;
 }
 .share-link {
   flex: 0 0 24%;
@@ -50,7 +65,7 @@
   font-size: 18px;
   padding: 10px 0;
   text-align: center;
-  border-radius: 2px;
+  border-radius: 4px;
   cursor: pointer;
   &:hover {
     color: white;
@@ -73,7 +88,34 @@
   display: flex;
   justify-content: space-between;
   font-size: 30px;
-  color: gray;
-
+  font-color: gray;
 }
 
+#map {
+  margin-top: 20px;
+}
+
+.title-aside {
+  text-transform: uppercase;
+  color: #D23333;
+  margin-bottom: 10px;
+}
+
+.distribution-list-aside {
+  display: block;
+}
+
+.distribution-item {
+  align-items: center;
+  padding: 5px, 0px;
+}
+
+a.distribution-link:link, a.distribution-link:visited, a.distribution-link:active {
+  color: black;
+}
+
+.distribution-item:hover {
+  background: #F8F7F7;
+  cursor: pointer;
+  opacity: 0.3;
+}

@@ -3,7 +3,12 @@
  * (margin/padding adjustments)
  * ------------------------------------- */
 
-body { margin: 0; }
+body {
+  margin: 0;
+  alink: black;
+
+
+}
  #map {
         display: flex;
         height: 100vh;
