@@ -20,17 +20,17 @@ class TwilioService
   def generate_message(coordinates)
     meals = Distribution.find_next_three(coordinates)
 
-    message = "#{meals[0][:name]}
-#{meals[0][:time].strftime("%m/%e/%y %Hh%M")}
-#{meals[0][:distribution].address_1}
+    message = "#{meals[0][:name]} - #{meals[0][:time].strftime("%e/%m/%y %Hh%M")}
+#{meals[0][:distribution].organization.organization_name}
+#{meals[0][:distribution].address_1}, #{meals[0][:distribution].postal_code}
 
-#{meals[1][:name]}
-#{meals[1][:time].strftime("%m/%e/%y %Hh%M")}
-#{meals[1][:distribution].address_1}
+#{meals[1][:name]} - #{meals[1][:time].strftime("%e/%m/%y %Hh%M")}
+#{meals[1][:distribution].organization.organization_name}
+#{meals[1][:distribution].address_1}, #{meals[1][:distribution].postal_code}
 
-#{meals[2][:name]}
-#{meals[2][:time].strftime("%m/%e/%y %Hh%M")}
-#{meals[2][:distribution].address_1}"
+#{meals[2][:name]} - #{meals[2][:time].strftime("%e/%m/%y %Hh%M")}
+#{meals[2][:distribution].organization.organization_name}
+#{meals[2][:distribution].address_1}, #{meals[2][:distribution].postal_code}"
 
     return message
   end

@@ -26,14 +26,14 @@ class Distribution < ApplicationRecord
         schedule = IceCube::Schedule.from_yaml(dis.recurrence)
         if schedule.occurs_between?(meal[:min_time], meal[:max_time])
           meal[:distribution] = dis
-          meal[:time] = schedule.next_occurrence(meal[:min_time])
+          # The -1 avoids mismathing distributions that start at exactly the same time as the min_time
+          meal[:time] = schedule.next_occurrence(meal[:min_time] - 1)
         end
         break unless meal[:distribution] == nil
       end
     end
 
     meals.sort_by! { |meal| meal[:time] }
-    p meals
 
     return meals
   end
