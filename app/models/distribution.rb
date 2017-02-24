@@ -32,7 +32,8 @@ class Distribution < ApplicationRecord
       end
     end
 
-    meals.sort! { |meal| meal[:time].start_time }
+    meals.sort_by! { |meal| meal[:time] }
+    p meals
 
     return meals
   end
@@ -65,11 +66,11 @@ class Distribution < ApplicationRecord
     breakfast_min = Time.new(now.year, now.month, now.day, 06, 00)
     breakfast_max = Time.new(now.year, now.month, now.day, 11, 00)
     lunch_min = Time.new(now.year, now.month, now.day, 11, 00)
-    lunch_max = Time.new(now.year, now.month, now.day, 17, 00)
-    dinner_min = Time.new(now.year, now.month, now.day, 17, 00)
+    lunch_max = Time.new(now.year, now.month, now.day, 15, 00)
+    dinner_min = Time.new(now.year, now.month, now.day, 15, 00)
     dinner_max = Time.new(now.year, now.month, now.day, 23, 00)
 
-    if now.hour < 12
+    if now.hour > 10 && now.hour < 12
       breakfast_min += 1.day
       breakfast_max += 1.day
     elsif now.hour < 19
