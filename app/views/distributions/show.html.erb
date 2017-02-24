@@ -27,11 +27,12 @@
     </div>
 
     <div class="distribution-section">
-      <i class="fa fa-map-marker" aria-hidden="true"></i>
+      <p><i class="fa fa-map-marker" aria-hidden="true"></i>
         <%= @distribution.address_1 %>,
         <%= @distribution.postal_code %>
         <%= @distribution.city %>,
         <%= @distribution.country %>
+      </p>
       <p><i class="fa fa-subway" aria-hidden="true"></i> <%= @distribution.station %></p>
       <p><i class="fa fa-group" aria-hidden="true"></i>
         <%= link_to @distribution.organization.organization_name, organization_path(@distribution.organization) %>
@@ -50,26 +51,36 @@
   </div>
 
   <div class="distribution-aside">
-    <div class="distribution-section">
-      <h2>Share</h2>
-      <div class="share-links">
-        <a href="#" class="share-link bg-facebook">
-          <i class="fa fa-facebook"></i>
-        </a>
-        <a href="#" class="share-link bg-twitter">
-          <i class="fa fa-twitter"></i>
-        </a>
-        <a href="#" class="share-link bg-email">
-          <i class="fa fa-envelope-o"></i>
-        </a>
-        <a href="#" class="share-link bg-text">
-          <i class="fa fa-mobile"></i>
-        </a>
+    <div class="share-links">
+      <a href="#" class="share-link bg-facebook">
+        <i class="fa fa-facebook"></i>
+      </a>
+      <a href="#" class="share-link bg-twitter">
+        <i class="fa fa-twitter"></i>
+      </a>
+      <a href="#" class="share-link bg-email">
+        <i class="fa fa-envelope-o"></i>
+      </a>
+      <a href="#" class="share-link bg-text">
+        <i class="fa fa-mobile"></i>
+      </a>
       </div>
-    </div>
     <div class="distribution-section">
-      <h2>Near <%= @distribution.name %></h2>
-      <!-- list of distribution near around -->
+      <div class="title-aside">Vous vous interesserez aussi</div>
+      <div class="distribution-list-aside">
+      <% @distributions.each do |distribution| %>
+        <div class="distribution-item">
+          <%= link_to distribution_path(distribution), class: "distribution-link" do %>
+            <p><%= distribution.name %>
+              <%= distribution.address_1 %>
+              <%= distribution.postal_code %>
+              <%= distribution.city %>
+            </p>
+          <% end %>
+        </div>
+
+      <% end %>
+      </div>
     </div>
   </div>
 </div>
