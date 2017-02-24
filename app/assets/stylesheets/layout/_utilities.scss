@@ -23,3 +23,18 @@
 .bg-dark-blue {
   background: #3b5998;
 }
+
+h3 {
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+p {
+  color: gray;
+}
+
+h1 {
+  font-family: 'Dosis', sans-serif;
+  border-bottom: 10px $brand-primary solid;
+  padding-bottom: 20px;
+}
