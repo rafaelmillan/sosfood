@@ -1,16 +1,17 @@
 class TwilioService
-  def send_message(number, coordinates)
+  def send_message(number, coordinates, test_mode = false)
     # Uncomment below for production
-    # @client = Twilio::REST::Client.new ENV['TWILIO_ACCCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
+    if test_mode
+      puts generate_message(coordinates)
+    else
+      @client = Twilio::REST::Client.new ENV['TWILIO_ACCCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
 
-    # @client.account.messages.create(
-    #   from: '+33644647897',
-    #   to: number,
-    #   body: generate_message(coordinates)
-    # )
-
-    # Uncomment below for testing
-    puts generate_message(coordinates)
+      @client.account.messages.create(
+        from: '+33644647897',
+        to: number,
+        body: generate_message(coordinates)
+      )
+    end
 
   end
 

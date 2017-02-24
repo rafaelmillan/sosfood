@@ -6,17 +6,20 @@ class MessagesController < ApplicationController
   def receive
     body = params["Body"]
     sender = params["From"]
-    if User.find_by(phone_number: sender) # If user exists
-      user = User.find_by(phone_number: sender)
-    else # If user is new
-      user = User.new(phone_number: sender)
-      user.save
-    end
-    message = Message.new(content: body, sent_by_user: true, user: user)
-    message.save
-    coordinates = Geocoder.coordinates(body + " France")
+    test_mode = params["test_mode"] == "true" ? true : false
+    if params["key"] == ENV['SMS_WEBHOOK_KEY']
+      if User.find_by(phone_number: sender) # If user exists
+        user = User.find_by(phone_number: sender)
+      else # If user is new
+        user = User.new(phone_number: sender)
+        user.save
+      end
+      message = Message.new(content: body, sent_by_user: true, user: user)
+      message.save
+      coordinates = Geocoder.coordinates(body + " France")
 
-    twilio_service = TwilioService.new
-    twilio_service.send_message(message.user.phone_number, coordinates)
+      twilio_service = TwilioService.new
+      twilio_service.send_message(message.user.phone_number, coordinates, test_mode)
+    end
   end
 end
