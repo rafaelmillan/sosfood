@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-xs-6">
      <h1><%= @organization.organization_name %></h1>
-       <p><%= @organization.email %></p>
+       <p> <i class="fa fa-envelope-o"></i><%= @organization.email %></p>
         <p><%= @organization.phone_number%></p>
         <div class="list-group">
           <% @organization.distributions.each_with_index do |dis, index| %>
