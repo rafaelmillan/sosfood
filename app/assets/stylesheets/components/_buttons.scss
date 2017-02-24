@@ -10,6 +10,10 @@
   background-color: transparent;
   border: white 1px solid;
   color: white;
+  &:hover {
+    color: white;
+    background-color: rgba(245, 245, 245, 0.2);
+  }
 }
 
 .btn_transparent_black {
