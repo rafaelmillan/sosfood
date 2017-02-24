@@ -71,7 +71,7 @@
       <% @distributions.each do |distribution| %>
         <div class="distribution-item">
           <%= link_to distribution_path(distribution), class: "distribution-link" do %>
-            <p><%= distribution.name %>
+            <p><strong><%= distribution.name %></strong>:
               <%= distribution.address_1 %>
               <%= distribution.postal_code %>
               <%= distribution.city %>
