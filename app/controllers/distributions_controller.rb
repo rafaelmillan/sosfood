@@ -38,6 +38,15 @@ class DistributionsController < ApplicationController
   end
 
   def edit
+    schedule = IceCube::Schedule.from_yaml(@distribution.recurrence).rrules.first.to_hash
+    @recurrence = {}
+    if schedule[:rule_type] == "IceCube::WeeklyRule"
+      @recurrence[:weekly] = true
+      @recurrence[:days] = []
+      [:mon, :tue, :wed, :thu, :fri, :sat, :sun].each_with_index do |day, i|
+        @recurrence[:days] << day if schedule[:validations][:day].include? i + 1
+      end
+    end
   end
 
   def update
@@ -112,13 +121,13 @@ class DistributionsController < ApplicationController
       time = Time.new(now.year, now.month, now.day, start_hour, start_min)
       duration = Time.new(now.year, now.month, now.day, end_hour, end_min) - time
       schedule = IceCube::Schedule.new(time, duration: duration)
-      schedule.rrule(IceCube::Rule.weekly.day(:monday)) if weekdays.include?("Mon")
-      schedule.rrule(IceCube::Rule.weekly.day(:tuesday)) if weekdays.include?("Tue")
-      schedule.rrule(IceCube::Rule.weekly.day(:wednesday)) if weekdays.include?("Wed")
-      schedule.rrule(IceCube::Rule.weekly.day(:thursday)) if weekdays.include?("Thu")
-      schedule.rrule(IceCube::Rule.weekly.day(:friday)) if weekdays.include?("Fri")
-      schedule.rrule(IceCube::Rule.weekly.day(:saturday)) if weekdays.include?("Sat")
-      schedule.rrule(IceCube::Rule.weekly.day(:sunday)) if weekdays.include?("Sun")
+      schedule.rrule(IceCube::Rule.weekly.day(:monday)) if weekdays.include?("mon")
+      schedule.rrule(IceCube::Rule.weekly.day(:tuesday)) if weekdays.include?("tue")
+      schedule.rrule(IceCube::Rule.weekly.day(:wednesday)) if weekdays.include?("wed")
+      schedule.rrule(IceCube::Rule.weekly.day(:thursday)) if weekdays.include?("thu")
+      schedule.rrule(IceCube::Rule.weekly.day(:friday)) if weekdays.include?("fri")
+      schedule.rrule(IceCube::Rule.weekly.day(:saturday)) if weekdays.include?("sat")
+      schedule.rrule(IceCube::Rule.weekly.day(:sunday)) if weekdays.include?("sun")
     elsif freq == "monthly"
       schedule = IceCube::Schedule.new
     end
