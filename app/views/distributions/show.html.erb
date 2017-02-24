@@ -2,7 +2,7 @@
   <div class="distribution-body">
 
     <div class="distribution-section-header">
-      <h2><%= @distribution.name %></h2>
+      <h1><%= @distribution.name %></h1>
       <ul class="list-inline">
         <li>
           <% if policy(@distribution).edit? %>
@@ -18,11 +18,11 @@
             <% end %>
           <% end %>
         </li>
-        <li>
+        <!-- <li>
           <%= link_to distributions_path do %>
             <i class="fa fa-backward" aria-hidden="true"></i>
           <% end %>
-        </li>
+        </li> -->
       </ul>
     </div>
 
@@ -35,13 +35,16 @@
       </p>
       <p><i class="fa fa-subway" aria-hidden="true"></i> <%= @distribution.station %></p>
       <p><i class="fa fa-group" aria-hidden="true"></i>
-        <%= link_to @distribution.organization.organization_name, organization_path(@distribution.organization) %>
+        <span>Organisé par </span><%= link_to @distribution.organization.organization_name, organization_path(@distribution.organization) %>
       </p>
-      <p></p><i class="fa fa-calendar" aria-hidden="true"></i> <%= @recurrence %></p>
+      <p>
+        <i class="fa fa-calendar" aria-hidden="true"></i> <%= @recurrence %>
+        <span>à <%=  @recurrence.first.strftime("%Hh%M") %></span>
+      </p>
       <ul>
         <% @recurrence.first(5).each do |recurrence| %>
           <li>
-            <%= recurrence.strftime("%a, %e %b %Y %Hh%M") %>
+            <p><%= recurrence.strftime("%a, %e %b %Y %Hh%M") %></p>
           </li>
         <% end %>
       </ul>
@@ -86,11 +89,14 @@
 </div>
 
 <% content_for(:after_js) do %>
-  <%= javascript_tag do %>
+
+  <script>
+    window.distrib_markers = null;
+    window.distrib_map = null;
     $(document).ready(function() {
       var handler = Gmaps.build('Google');
       handler.buildMap({ internal: { id: 'map' } }, function() {
-        markers = handler.addMarkers(<% raw @hash.to_json %>);
+        markers = handler.addMarkers(<%= raw @hash.to_json %>);
         handler.bounds.extendWith(markers);
         handler.fitMapToBounds();
         if (markers.length == 0) {
@@ -98,8 +104,21 @@
         } else if (markers.length == 1) {
           handler.getMap().setZoom(14);
         }
+        window.distrib_markers = markers;
+        window.distrib_map = handler;
+      });
+
+      $("body").on("mouseenter", ".distribution-item", function() {
+        var index = $(this).data("id");
+        var marker = window.distrib_markers[index];
+        var infowindow = marker.infowindow;
+        window.distrib_map.getMap().setCenter(marker.serviceObject.position)
+        google.maps.event.trigger(marker.getServiceObject(), 'click');
+      })
+      $("body").on("mouseleave", ".distribution-item", function() {
+        $(".gm-style-iw").next().click();
       });
     });
-  <% end %>
+  </script>
 <% end %>
 
