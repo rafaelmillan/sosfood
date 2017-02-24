@@ -1,6 +1,6 @@
 .distribution-show {
   display: flex;
-  background-color: #FAFAFA;
+  // background-color: #FAFAFA;
   // margin-left: 40px;
   // margin-right: 40px;
   // margin-top: 40px;
@@ -10,18 +10,19 @@
   flex: wrap;
   padding-top: 30px;
   padding-bottom: 30px;
-  padding-right: 40px;
-  padding-left: 40px;
+  padding-right: 30px;
+  padding-left: 70px;
 }
 // .distribution-body img {
 //   width: 100%;
 // }
 .distribution-aside {
   // min-width: 450px;
-  flex: 0 0 450px;
-  padding: 30px;
+  flex: 0 0 600px;
+  padding-right: 70px;
+  padding-left: 30px;
   align-self: stretch;
-  background: #F8F7F7;
+  // background: #F8F7F7;
   border-left: 1px solid #f0efef;
 }
 .distribution-section-header {
@@ -29,7 +30,6 @@
   justify-content: space-between;
   align-items: baseline;
   padding-top: 0px;
-  border-bottom: 1px solid #f0efef;
   // border-top: 1px solid #f0efef;
 }
 
