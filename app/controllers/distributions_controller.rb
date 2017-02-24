@@ -57,7 +57,11 @@ class DistributionsController < ApplicationController
   end
 
   def search
-    date = Date.parse(params[:date])
+    begin
+      date = Date.parse(params[:date])
+    rescue ArgumentError
+      date = Date.today
+    end
     coordinates = [params[:lat].to_f, params[:lon].to_f]
     @results = Distribution.find_by_date(coordinates, date)
 
