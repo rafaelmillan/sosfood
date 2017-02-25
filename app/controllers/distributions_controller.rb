@@ -11,7 +11,7 @@ class DistributionsController < ApplicationController
   def show
     @alert_message = " You are viewing #{@distribution.name}"
     @distribution_coordinates = { lat: @distribution.latitude, lng: @distribution.longitude }
-    @distributions_around = Distribution.near([@distribution.latitude, @distribution.longitude], 5, units: :km)[0..10].delete_if { |d| d == @distribution }
+    @distributions_around = Distribution.near([@distribution.latitude, @distribution.longitude], 5, units: :km)[0..5].delete_if { |d| d == @distribution }
 
     @hash = Gmaps4rails.build_markers(@distribution) do |distribution, marker|
       marker.lat distribution.latitude

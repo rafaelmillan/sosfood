@@ -4,10 +4,60 @@
 -->
 
 <div class="container">
+    <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+
   <h1><%= @distribution.display_name %></h1>
+  </div>
+  </div>
   <div id="distribution-body">
   <div class="row">
-    <div class="col-sm-4">
+
+<div class="col-sm-6 col-md-4 col-sm-push-6 col-md-push-4 col-md-offset-2">
+
+  <ul class="fa-ul">
+    <li><i class="fa fa-li fa-map-marker" aria-hidden="true"></i>
+      <span class="details-title">Adresse</span>
+      <p>
+        <%= @distribution.address_1 %>,
+        <%= @distribution.postal_code %>
+        <%= @distribution.city %>
+      </p>
+    </li>
+  </ul>
+  <ul class="fa-ul">
+    <li><i class="fa fa-li fa-subway" aria-hidden="true"></i>
+      <span class="details-title">Transports</span>
+
+      <p><%= @distribution.station %></p>
+    </li>
+  </ul>
+
+  <!--   <div class="distribution-aside">
+-->    <div id="map" style="height: 300px; width: 100%;"></div>
+
+<div class="share-links">
+  <a href="#" class="share-link bg-facebook">
+    <i class="fa fa-facebook"></i>
+  </a>
+  <a href="#" class="share-link bg-twitter">
+    <i class="fa fa-twitter"></i>
+  </a>
+  <a href="#" class="share-link bg-email">
+    <i class="fa fa-envelope-o"></i>
+  </a>
+  <a href="#" class="share-link bg-text">
+    <i class="fa fa-mobile"></i>
+  </a>
+</div>
+  <!--     <div class="distribution-section">
+-->
+  <!--     </div>
+    </div>
+  </div> -->
+</div>
+
+<div class="col-sm-6 col-md-4 col-sm-pull-6 col-md-pull-4">
 
       <% if policy(@distribution).edit? || policy(@distribution).destroy? %>
       <ul class="list-inline">
@@ -63,7 +113,7 @@
 </ul>
 
 <ul class="fa-ul">
-  <li><i class="fa fa-li fa-calendar" aria-hidden="true"></i>
+  <li><i class="fa fa-li fa-cutlery" aria-hidden="true"></i>
     <span class="details-title">Prochaines distributions</span>
 
     <ul class="list-unstyled">
@@ -84,73 +134,19 @@
   </li>
 </ul>
 
-  <!--     </div>
-
-    </div>
-  -->
-</div>
-
-<div class="col-sm-4">
-
-  <ul class="fa-ul">
-    <li><i class="fa fa-li fa-map-marker" aria-hidden="true"></i>
-      <span class="details-title">Adresse</span>
-      <p>
-        <%= @distribution.address_1 %>,
-        <%= @distribution.postal_code %>
-        <%= @distribution.city %>
-      </p>
-    </li>
-  </ul>
-  <ul class="fa-ul">
-    <li><i class="fa fa-li fa-subway" aria-hidden="true"></i>
-      <span class="details-title">Transports</span>
-
-      <p><%= @distribution.station %></p>
-    </li>
-  </ul>
-
-  <!--   <div class="distribution-aside">
--->    <div id="map" style="height: 300px; width: 100%;"></div>
-
-<div class="share-links">
-  <a href="#" class="share-link bg-facebook">
-    <i class="fa fa-facebook"></i>
-  </a>
-  <a href="#" class="share-link bg-twitter">
-    <i class="fa fa-twitter"></i>
-  </a>
-  <a href="#" class="share-link bg-email">
-    <i class="fa fa-envelope-o"></i>
-  </a>
-  <a href="#" class="share-link bg-text">
-    <i class="fa fa-mobile"></i>
-  </a>
-</div>
-  <!--     <div class="distribution-section">
--->
-  <!--     </div>
-    </div>
-  </div> -->
-
-</div>
-
-<div class="col-xs-4">
-  <div class="title-aside">Vous vous interesserez aussi</div>
-<div class="distribution-list-aside">
+<ul class="fa-ul">
+  <li><i class="fa fa-li fa-compass" aria-hidden="true"></i>
+  <span class="details-title">Dans le même quartier</span>
   <% @distributions_around.each do |distribution| %>
-  <div class="distribution-item">
-    <%= link_to distribution_path(distribution), class: "distribution-link"  do %>
-    <p><%= distribution.name %>
+    <p>
+      <%= link_to distribution.display_name, distribution_path(distribution), class: "distribution-link" %><br>
       <%= distribution.address_1 %>
       <%= distribution.postal_code %>
       <%= distribution.city %>
     </p>
-    <% end %>
-  </div>
 
   <% end %>
-</div>
+
 </div>
 
 </div>
