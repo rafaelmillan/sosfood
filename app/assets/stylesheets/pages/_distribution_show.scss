@@ -119,3 +119,27 @@ a.distribution-link:link, a.distribution-link:visited, a.distribution-link:activ
   cursor: pointer;
   opacity: 0.3;
 }
+
+.days {
+  color: gray;
+  text-transform: uppercase;
+  font-size: 12px;
+  justify-content: space-around;
+  max-width: 300px;
+}
+
+.day {
+  background-color: #57D1C9;
+  color: white;
+  border-radius: 20px;
+  padding: 5px;
+  margin-top: 5px;
+  max-width: 300px;
+}
+
+.details-title {
+  color: black;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bolder;
+  font-size: 12px;
+}

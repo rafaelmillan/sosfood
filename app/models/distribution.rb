@@ -48,6 +48,14 @@ class Distribution < ApplicationRecord
     schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 7 }
   end
 
+  def display_name
+    if name.blank?
+      organization.organization_name
+    else
+      name
+    end
+  end
+
   def self.find_next_three(coordinates)
     distributions = Distribution.near(coordinates)
 
