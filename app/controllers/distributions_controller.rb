@@ -118,15 +118,15 @@ class DistributionsController < ApplicationController
       time = Time.new(now.year, now.month, now.day, start_hour, start_min)
       duration = Time.new(now.year, now.month, now.day, end_hour, end_min) - time
       schedule = IceCube::Schedule.new(time, duration: duration)
-      schedule.rrule(IceCube::Rule.weekly.day(:monday)) if weekdays.include?("mon")
-      schedule.rrule(IceCube::Rule.weekly.day(:tuesday)) if weekdays.include?("tue")
-      schedule.rrule(IceCube::Rule.weekly.day(:wednesday)) if weekdays.include?("wed")
-      schedule.rrule(IceCube::Rule.weekly.day(:thursday)) if weekdays.include?("thu")
-      schedule.rrule(IceCube::Rule.weekly.day(:friday)) if weekdays.include?("fri")
-      schedule.rrule(IceCube::Rule.weekly.day(:saturday)) if weekdays.include?("sat")
-      schedule.rrule(IceCube::Rule.weekly.day(:sunday)) if weekdays.include?("sun")
-    elsif freq == "monthly"
-      schedule = IceCube::Schedule.new
+      days = []
+      days << :monday if weekdays.include?("mon")
+      days << :tuesday if weekdays.include?("tue")
+      days << :wednesday if weekdays.include?("wed")
+      days << :thursday if weekdays.include?("thu")
+      days << :friday if weekdays.include?("fri")
+      days << :saturday if weekdays.include?("sat")
+      days << :sunday if weekdays.include?("sun")
+      schedule.rrule(IceCube::Rule.weekly.day(days))
     end
 
     return schedule.to_yaml

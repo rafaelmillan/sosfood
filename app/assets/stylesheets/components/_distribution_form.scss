@@ -1,6 +1,7 @@
 #dayspicker {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 #dayspicker {
@@ -33,4 +34,8 @@
     opacity: 1;
   }
   }
+}
+
+.distribution_frequency .radio-inline {
+  margin-top: 0;
 }
