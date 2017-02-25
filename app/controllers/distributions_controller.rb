@@ -23,12 +23,14 @@ class DistributionsController < ApplicationController
 
   def new
     @distribution = Distribution.new
+    @recurrence = {}
     authorize @distribution
   end
 
   def create
     @distribution = Distribution.create(distribution_params)
     @distribution.organization = current_organization
+    @recurrence = {}
     authorize @distribution
     if @distribution.save
       redirect_to distribution_path(@distribution)
@@ -108,16 +110,11 @@ class DistributionsController < ApplicationController
 
     weekdays = params[:distribution][:weekdays]
 
-    if freq == "Once"
+    if freq == "once"
       time = Time.new(year, month, day, start_hour, start_min)
       duration = Time.new(year, month, day, end_hour, end_min) - time
       schedule = IceCube::Schedule.new(time, duration: duration)
-    elsif freq == "Daily"
-      time = Time.new(now.year, now.month, now.day, start_hour, start_min)
-      duration = Time.new(now.year, now.month, now.day, end_hour, end_min) - time
-      schedule = IceCube::Schedule.new(time, duration: duration)
-      schedule.rrule(IceCube::Rule.daily)
-    elsif freq == "Weekly"
+    elsif freq == "regular"
       time = Time.new(now.year, now.month, now.day, start_hour, start_min)
       duration = Time.new(now.year, now.month, now.day, end_hour, end_min) - time
       schedule = IceCube::Schedule.new(time, duration: duration)

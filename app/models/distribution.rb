@@ -10,7 +10,7 @@ class Distribution < ApplicationRecord
   geocoded_by :address
   after_validation :geocode, if: (:address_1_changed? || :postal_code_changed? || :city_changed? || :country_changed? )
 
-  attr_accessor :date, :frequency, :start_time, :end_time, :weekdays, :monthdates
+  attr_accessor :date, :frequency, :start_time, :end_time, :weekdays, :monthdates, :address
 
   def address
     [address_1, postal_code, city, country].compact.join(', ')
