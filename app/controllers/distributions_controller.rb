@@ -12,9 +12,11 @@ class DistributionsController < ApplicationController
     @alert_message = " You are viewing #{@distribution.name}"
     @distribution_coordinates = { lat: @distribution.latitude, lng: @distribution.longitude }
     @distributions = Distribution.where.not(latitude: nil, longitude: nil)
-    @hash = Gmaps4rails.build_markers(@distributions) do |distribution, marker|
+
+    @hash = Gmaps4rails.build_markers(@distribution) do |distribution, marker|
       marker.lat distribution.latitude
       marker.lng distribution.longitude
+      marker.infowindow "<h4>#{distribution.name}</h4><p>#{distribution.address_1}</p><p>#{distribution.postal_code}</p>"
     end
 
 
@@ -66,7 +68,11 @@ class DistributionsController < ApplicationController
   end
 
   def search
-    date = Date.parse(params[:date])
+    begin
+      date = Date.parse(params[:date])
+    rescue ArgumentError
+      date = Date.today
+    end
     coordinates = [params[:lat].to_f, params[:lon].to_f]
     @results = Distribution.find_by_date(coordinates, date)
 
@@ -76,7 +82,7 @@ class DistributionsController < ApplicationController
     @hash = Gmaps4rails.build_markers(@distributions) do |distribution, marker|
       marker.lat distribution.latitude
       marker.lng distribution.longitude
-      marker.infowindow "<h4>#{distribution.name}</h4><p>#{distribution.address_1}</p><p>#{distribution.postal_code}</p> "
+      marker.infowindow "<h4>#{distribution.organization.organization_name}</h4><p>#{distribution.address_1}</p><p>#{distribution.postal_code}</p>"
 
     end
 

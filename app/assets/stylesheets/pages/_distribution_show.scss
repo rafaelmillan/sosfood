@@ -1,6 +1,6 @@
 .distribution-show {
   display: flex;
-  background-color: #FAFAFA;
+  // background-color: #FAFAFA;
   // margin-left: 40px;
   // margin-right: 40px;
   // margin-top: 40px;
@@ -8,20 +8,21 @@
 .distribution-body {
   flex: 1 1 auto;
   flex: wrap;
-  padding-top: 30px;
+  padding-top: 0px;
   padding-bottom: 30px;
   padding-right: 40px;
-  padding-left: 40px;
+  padding-left: 130px;
 }
 // .distribution-body img {
 //   width: 100%;
 // }
 .distribution-aside {
   // min-width: 450px;
-  flex: 0 0 450px;
-  padding: 30px;
+  flex: 0 0 550px;
+  padding-right: 130px;
+  padding-left: 40px;
   align-self: stretch;
-  background: #F8F7F7;
+  // background: #F8F7F7;
   border-left: 1px solid #f0efef;
 }
 .distribution-section-header {
@@ -29,7 +30,6 @@
   justify-content: space-between;
   align-items: baseline;
   padding-top: 0px;
-  border-bottom: 1px solid #f0efef;
   // border-top: 1px solid #f0efef;
 }
 
@@ -57,13 +57,13 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #f0efef;
-  padding: 15px 0px;
+  padding: 30px 0px;
 }
 .share-link {
   flex: 0 0 24%;
   color: white;
   font-size: 18px;
-  padding: 10px 0;
+  padding: 5px 0;
   text-align: center;
   border-radius: 4px;
   cursor: pointer;
