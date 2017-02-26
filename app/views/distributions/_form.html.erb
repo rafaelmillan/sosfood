@@ -9,7 +9,6 @@
       <%= f.input :postal_code, placeholder: "75012", input_html: { id: "postal_code" }  %>
       <%= f.input :city, placeholder: "Paris", input_html: { id: "locality" } %>
       <%= f.input :country, placeholder: "France", as: :string, input_html: { id: "country" }  %>
-      <%= f.input :station, placeholder: "Gare de l'Est" %>
       <%= f.input :frequency, as: :radio_buttons, collection: ["Once", "Daily", "Weekly", "Monthly"], item_wrapper_class: "radio-inline" %>
       <%= f.input :date, wrapper_html: { id: 'datepicker' } %>
       <%= f.input :weekdays, as: :check_boxes, collection: %w(Mon Tue Wed Thu Fri Sat Sun), item_wrapper_class: "checkbox-inline", wrapper_html: { id: 'dayspicker'} %>
