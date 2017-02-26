@@ -42,15 +42,19 @@ class DistributionsController < ApplicationController
   end
 
   def edit
-    schedule = IceCube::Schedule.from_yaml(@distribution.recurrence).rrules.first.to_hash
+    schedule = IceCube::Schedule.from_yaml(@distribution.recurrence)
+    frequency = schedule.rrules.first.to_hash[:rule_type]
+    days = schedule.rrules.first.to_hash[:validations][:day]
     @recurrence = {}
-    if schedule[:rule_type] == "IceCube::WeeklyRule"
+    if frequency == "IceCube::WeeklyRule"
       @recurrence[:weekly] = true
       @recurrence[:days] = []
       [:mon, :tue, :wed, :thu, :fri, :sat, :sun].each_with_index do |day, i|
-        @recurrence[:days] << day if schedule[:validations][:day].include? i + 1
+        @recurrence[:days] << day if days.include? i + 1
       end
     end
+    @recurrence[:start_min] = schedule.start_time.strftime("%Hh%M")
+    @recurrence[:end_time] = schedule.end_time.strftime("%Hh%M")
   end
 
   def update

@@ -29,10 +29,10 @@
 </div>
 <div class="row">
   <div class="col-xs-6">
-    <%= f.input :start_time, input_html: { id: 'start_time' }, label: "Heure de début" %>
+    <%= f.input :start_time, input_html: { id: 'start_time' }, label: "Heure de début", input_html: { value: @recurrence[:start_min] } %>
   </div>
   <div class="col-xs-6">
-    <%= f.input :end_time, input_html: { id: 'end_time' }, label: "Heure de fin" %>
+    <%= f.input :end_time, input_html: { id: 'end_time' }, label: "Heure de fin", input_html: { value: @recurrence[:end_time] } %>
   </div>
 </div>
 <%= f.button :submit %>
@@ -41,6 +41,8 @@
 
 <% content_for(:after_js) do %>
 <script>
+  $(document).ready(function() {
+
   $('#datepicker input').datepicker({
     format: "dd/mm/yyyy",
     weekStart: 1,
@@ -49,8 +51,8 @@
     todayHighlight: true
   });
 
-  $('#start_time').timepicker({ 'timeFormat': 'H\\hi', 'scrollDefault': 'now' });
-  $('#end_time').timepicker({ 'timeFormat': 'H\\hi', 'scrollDefault': 'now' });
+  $('#distribution_start_time').timepicker({ 'timeFormat': 'H\\hi', 'scrollDefault': 'now' });
+  $('#distribution_end_time').timepicker({ 'timeFormat': 'H\\hi', 'scrollDefault': 'now' });
 
   $('#datepicker').hide();
   $('#dayswrapper').show();
@@ -66,7 +68,7 @@
     }
   });
 
-  $(document).ready(function() {
+
     $("#dayspicker label").change(function(){
       $(this).toggleClass("active");
     });
