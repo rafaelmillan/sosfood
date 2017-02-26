@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  skip_before_action :authenticate_organization!, only: :receive
+  skip_before_action :authenticate_user!, only: :receive
   skip_before_action :verify_authenticity_token, only: :receive
   skip_after_action :verify_authorized, only: :receive
 

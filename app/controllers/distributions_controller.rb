@@ -1,6 +1,6 @@
 class DistributionsController < ApplicationController
   before_action :set_distribution, only: [:show, :edit, :update, :destroy]
-  skip_before_action :authenticate_organization!, only: [:search, :show]
+  skip_before_action :authenticate_user!, only: [:search, :show]
   skip_after_action :verify_authorized, only: [:search, :show]
 
 
@@ -30,7 +30,7 @@ class DistributionsController < ApplicationController
 
   def create
     @distribution = Distribution.create(distribution_params)
-    @distribution.organization = current_organization
+    @distribution.organization = current_user.organization
     authorize @distribution
     if @distribution.save
       redirect_to distribution_path(@distribution)
