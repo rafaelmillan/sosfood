@@ -1,8 +1,8 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-6">
-     <h1>Organization: <%= @organization.organization_name %></h1>
-     <p> <i class="fa fa-envelope-o"></i><%= @organization.email %></p>
+     <h1>Organization: <%= @organization.name %></h1>
+     <p> <i class="fa fa-envelope-o"></i>***remplacer email***</p>
      <p><%= @organization.phone_number%></p>
      <div class="list-group">
       <% @organization.distributions.each_with_index do |dis, index| %>

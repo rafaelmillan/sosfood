@@ -35,7 +35,7 @@
       </p>
       <p><i class="fa fa-subway" aria-hidden="true"></i> <%= @distribution.station %></p>
       <p><i class="fa fa-group" aria-hidden="true"></i>
-        <span>Organisé par </span><%= link_to @distribution.organization.organization_name, organization_path(@distribution.organization) %>
+        <span>Organisé par </span><%= link_to @distribution.organization.name, organization_path(@distribution.organization) %>
       </p>
       <p>
         <i class="fa fa-calendar" aria-hidden="true"></i> <%= @recurrence %>

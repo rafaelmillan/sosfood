@@ -17,6 +17,13 @@ class ApplicationController < ActionController::Base
   #   redirect_to(root_path)
   # end
 
+  def configure_permitted_parameters
+    # For additional fields in app/views/devise/registrations/new.html.erb
+    devise_parameter_sanitizer.permit(:sign_up)
+
+    # For additional in app/views/devise/registrations/edit.html.erb
+    devise_parameter_sanitizer.permit(:account_update)
+  end
 
   def default_url_options
     { locale: I18n.locale == I18n.default_locale ? nil : I18n.locale }

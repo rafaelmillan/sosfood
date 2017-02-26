@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   devise_for :users
-  devise_for :organizations
 
   scope '(:locale)', locale: /en/ do
     root to: 'pages#home'
