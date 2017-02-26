@@ -136,3 +136,20 @@ a.distribution-link:link, a.distribution-link:visited, a.distribution-link:activ
   font-family: 'Roboto', sans-serif;
   font-weight: bolder;
 }
+
+.line_number {
+  font-size: 12px;
+  font-weight: bolder;
+  padding: 2px;
+  margin: 2px;
+  display: inline-block;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+}
+
+.station_name {
+  font-size: 12px;
+  font-weight: bolder;
+}

@@ -56,6 +56,10 @@ class Distribution < ApplicationRecord
     end
   end
 
+  def stations
+    Station.near([latitude, longitude], 0.5)
+  end
+
   def self.find_next_three(coordinates)
     distributions = Distribution.near(coordinates)
 

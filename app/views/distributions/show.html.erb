@@ -29,7 +29,16 @@
     <li><i class="fa fa-li fa-subway" aria-hidden="true"></i>
       <span class="details-title">Transports</span>
 
-      <p><%= @distribution.station %></p>
+      <% @distribution.stations.each do |station| %>
+        <div>
+          <% station.lines.each do |line| %>
+            <span class="line_number" style="color: <%= line.text_color %>; background-color: <%= line.background_color %>">
+              <%= line.name %>
+            </span>
+          <% end %>
+          <span class="station_name"><%= station.name %></span>
+        </div>
+      <% end %>
     </li>
   </ul>
 
