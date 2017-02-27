@@ -1,65 +1,81 @@
-<div class="container">
-  <div class="row">
-    <div class="col-sm-offset-2 col-sm-8 col-md-6 col-md-offset-3">
-      <%= simple_form_for (@distribution) do |f| %>
-      <%= f.error_notification %>
-      <%= f.input :name %>
-      <%= f.input :address_1, placeholder: "12 square de Verdun", input_html: { onFocus: "geolocate()" } %>
-      <%= f.input :address_2 %>
-      <%= f.input :postal_code, placeholder: "75012", input_html: { id: "postal_code" }  %>
-      <%= f.input :city, placeholder: "Paris", input_html: { id: "locality" } %>
-      <%= f.input :country, placeholder: "France", as: :string, input_html: { id: "country" }  %>
-      <%= f.input :frequency, as: :radio_buttons, collection: ["Once", "Daily", "Weekly", "Monthly"], item_wrapper_class: "radio-inline" %>
-      <%= f.input :date, wrapper_html: { id: 'datepicker' } %>
-      <%= f.input :weekdays, as: :check_boxes, collection: %w(Mon Tue Wed Thu Fri Sat Sun), item_wrapper_class: "checkbox-inline", wrapper_html: { id: 'dayspicker'} %>
-      <%= f.input :monthdates, as: :select, collection: (1..31).to_a, wrapper_html: { id: 'monthdates'} %>
-      <%= f.input :start_time, input_html: { id: 'start_time' } %>
-      <%= f.input :end_time, input_html: { id: 'end_time' } %>
-      <%= f.button :submit %>
-      <% end %>
-    </div>
+<%= simple_form_for (@distribution) do |f| %>
+<%= f.error_notification %>
+<%= f.input :name, label: "Nom de la distribution", hint: "Si laissé vide, le nom de l'organisation s'affichera à la place." %>
+<%= f.input :address, input_html: { onFocus: "geolocate()" }, label: "Adresse de distribution", required: true, placeholder: "" %>
+<%= f.input :address_1, :as => :hidden  %>
+<%= f.input :address_2, label: "Complement d'adresse" %>
+<%= f.input :postal_code, placeholder: "75012", input_html: { id: "postal_code" }, :as => :hidden  %>
+<%= f.input :city, placeholder: "Paris", input_html: { id: "locality" }, :as => :hidden %>
+<%= f.input :country, placeholder: "France", as: :string, input_html: { id: "country" }, :as => :hidden  %>
+<%= f.input :frequency, as: :radio_buttons, collection: [["Régulière", :regular], ["Ponctuelle", :once]], item_wrapper_class: "radio-inline", label: "Périodicité", required: true, checked: :regular %>
+<%= f.input :date, wrapper_html: { id: 'datepicker' } %>
+<div id="dayswrapper">
+  <label class="control-label check_boxes optional">Jours de distribution</label>
+  <%= f.input :weekdays,
+    as: :check_boxes,
+    collection: [["Lu<i class='fa fa-check'></i>".html_safe, :mon],
+    ["Ma<i class='fa fa-check'></i>".html_safe, :tue],
+    ["Me<i class='fa fa-check'></i>".html_safe, :wed],
+    ["Je<i class='fa fa-check'></i>".html_safe, :thu],
+    ["Ve<i class='fa fa-check'></i>".html_safe, :fri],
+    ["Sa<i class='fa fa-check'></i>".html_safe, :sat],
+    ["Di<i class='fa fa-check'></i>".html_safe, :sun]],
+    item_wrapper_class: "checkbox-inline",
+    wrapper_html: { id: 'dayspicker' },
+    checked: @recurrence[:days],
+    label: false,
+    input_html: { class: "hidden" } %>
+</div>
+<div class="row">
+  <div class="col-xs-6">
+    <%= f.input :start_time, input_html: { id: 'start_time' }, label: "Heure de début", input_html: { value: @recurrence[:start_min] } %>
+  </div>
+  <div class="col-xs-6">
+    <%= f.input :end_time, input_html: { id: 'end_time' }, label: "Heure de fin", input_html: { value: @recurrence[:end_time] } %>
   </div>
 </div>
+<%= f.button :submit %>
+<% end %>
+
 
 <% content_for(:after_js) do %>
-  <%= javascript_tag do %>
-  <!-- <script> -->
-    $('#datepicker input').datepicker({
-      format: "dd/mm/yyyy",
-      weekStart: 1,
-      language: "fr",
-      autoclose: true
-    });
+<script>
+  $(document).ready(function() {
 
-  $('#start_time').timepicker({ 'timeFormat': 'H\\hi', 'scrollDefault': 'now' });
-  $('#end_time').timepicker({ 'timeFormat': 'H\\hi', 'scrollDefault': 'now' });
+  $('#datepicker input').datepicker({
+    format: "dd/mm/yyyy",
+    weekStart: 1,
+    language: "fr",
+    autoclose: true,
+    todayHighlight: true
+  });
+
+  $('#distribution_start_time').timepicker({ 'timeFormat': 'H\\hi', 'scrollDefault': 'now' });
+  $('#distribution_end_time').timepicker({ 'timeFormat': 'H\\hi', 'scrollDefault': 'now' });
 
   $('#datepicker').hide();
-  $('#dayspicker').hide();
-  $('#monthdates').hide();
+  $('#dayswrapper').show();
 
   $('.distribution_frequency input').click(function() {
     var frequency = $(".distribution_frequency input[type='radio']:checked").attr('id');
     if (frequency == "distribution_frequency_once") {
-      $('#datepicker').show();
-      $('#dayspicker').hide();
-      $('#monthdates').hide();
-    } else if (frequency == "distribution_frequency_daily") {
+      $('#datepicker').fadeIn();
+      $('#dayswrapper').hide();
+    } else if (frequency == "distribution_frequency_regular") {
       $('#datepicker').hide();
-      $('#dayspicker').hide();
-      $('#monthdates').hide();
-    } else if (frequency == "distribution_frequency_weekly") {
-      $('#datepicker').hide();
-      $('#dayspicker').show();
-      $('#monthdates').hide();
-    } else if (frequency == "distribution_frequency_monthly") {
-      $('#datepicker').hide();
-      $('#dayspicker').hide();
-      $('#monthdates').show();
+      $('#dayswrapper').fadeIn();
     }
+  });
+
+
+    $("#dayspicker label").change(function(){
+      $(this).toggleClass("active");
     });
 
-  <% end %>
-  <!-- </script> -->
-<!--   <script src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;key=AIzaSyAi-cd_OyaQVKbvoCGRTRSCapQKlqoks9E&callback=initAutocomplete"></script> -->
+    $("#dayspicker input").filter( ":checked" ).each(function() {
+      $(this).parent().addClass("active");
+   });
+  });
+
+</script>
 <% end %>
