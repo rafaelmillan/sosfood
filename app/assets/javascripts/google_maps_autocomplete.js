@@ -15,7 +15,7 @@ function initAutocomplete() {
   // Create the autocomplete object, restricting the search to geographical
   // location types.
   autocomplete = new google.maps.places.Autocomplete(
-      /** @type {!HTMLInputElement} */(document.getElementById('distribution_address_1')),
+      /** @type {!HTMLInputElement} */(document.getElementById('distribution_address')),
       {types: ['geocode']});
 
   // When the user selects an address from the dropdown, populate the address
@@ -53,6 +53,7 @@ function fillInAddress() {
       country = place.address_components[i]['long_name']
     }
   }
+  document.getElementById('distribution_address').value = place["formatted_address"];
   document.getElementById('distribution_address_1').value = street_number + ' ' + route;
   document.getElementById('postal_code').value = postal_code;
   document.getElementById('locality').value = locality;
