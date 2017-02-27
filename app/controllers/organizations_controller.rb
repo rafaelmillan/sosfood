@@ -1,5 +1,5 @@
 class OrganizationsController < ApplicationController
-  skip_before_action :authenticate_organization!, only: :show
+  skip_before_action :authenticate_user!, only: :show
 
   def show
     @organization = Organization.find(params[:id])

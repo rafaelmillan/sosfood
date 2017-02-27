@@ -1,6 +1,6 @@
 class DistributionsController < ApplicationController
   before_action :set_distribution, only: [:show, :edit, :update, :destroy]
-  skip_before_action :authenticate_organization!, only: [:search, :show]
+  skip_before_action :authenticate_user!, only: [:search, :show]
   skip_after_action :verify_authorized, only: [:search, :show]
 
 
@@ -31,7 +31,7 @@ class DistributionsController < ApplicationController
 
   def create
     @distribution = Distribution.create(distribution_params)
-    @distribution.organization = current_organization
+    @distribution.organization = current_user.organization
     @recurrence = {}
     authorize @distribution
     if @distribution.save
@@ -86,7 +86,7 @@ class DistributionsController < ApplicationController
     @hash = Gmaps4rails.build_markers(@distributions) do |distribution, marker|
       marker.lat distribution.latitude
       marker.lng distribution.longitude
-      marker.infowindow "<h4>#{distribution.organization.organization_name}</h4><p>#{distribution.address_1}</p><p>#{distribution.postal_code}</p>"
+      marker.infowindow "<h4>#{distribution.organization.name}</h4><p>#{distribution.address_1}</p><p>#{distribution.postal_code}</p>"
 
     end
 

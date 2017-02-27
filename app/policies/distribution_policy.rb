@@ -10,10 +10,10 @@ class DistributionPolicy < ApplicationPolicy
   end
 
   def update?
-    record.organization == user
+    record.organization.users.include? user
   end
 
   def destroy?
-    record.organization == user
+    record.organization.users.include? user
   end
 end

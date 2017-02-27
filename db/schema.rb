@@ -42,13 +42,30 @@ ActiveRecord::Schema.define(version: 20170226173737) do
   create_table "messages", force: :cascade do |t|
     t.text     "content"
     t.boolean  "sent_by_user"
-    t.integer  "user_id"
+    t.integer  "recipient_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
+    t.index ["recipient_id"], name: "index_messages_on_recipient_id", using: :btree
   end
 
   create_table "organizations", force: :cascade do |t|
+    t.string   "name"
+    t.string   "phone_number"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "recipients", force: :cascade do |t|
+    t.string   "phone_number"
+    t.boolean  "subscribed",   default: false
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
@@ -61,11 +78,15 @@ ActiveRecord::Schema.define(version: 20170226173737) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "organization_name"
-    t.integer  "phone_number"
+    t.integer  "organization_id"
     t.boolean  "admin"
+
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["organization_id"], name: "index_users_on_organization_id", using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  end
+
+  add_foreign_key "messages", "recipients"
     t.index ["email"], name: "index_organizations_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_organizations_on_reset_password_token", unique: true, using: :btree
   end

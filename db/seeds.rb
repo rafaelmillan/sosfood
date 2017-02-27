@@ -7,11 +7,9 @@ csv_options = { col_sep: ',', headers: :first_row }
 filepath = File.open(File.join(Rails.root, 'db', 'import.csv'))
 
 CSV.foreach(filepath, csv_options) do |row|
-  if Organization.find_by(organization_name: row['Asso name']).nil?
+  if Organization.find_by(name: row['Asso name']).nil?
     org = Organization.new(
-      email: "#{row['Asso name'].gsub(/[^0-9A-Za-z]/, '').downcase}@sos-food.org",
-      password: (0...8).map { (65 + rand(26)).chr }.join,
-      organization_name: row['Asso name']
+      name: row['Asso name']
     )
     org.save!
   end
@@ -32,7 +30,7 @@ CSV.foreach(filepath, csv_options) do |row|
       city: row['City'],
       country: "France",
       station: row['Transports'],
-      organization: Organization.find_by(organization_name: row['Asso name']),
+      organization: Organization.find_by(name: row['Asso name']),
       recurrence: schedule.to_yaml
     )
   dis.save!
