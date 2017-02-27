@@ -16,6 +16,50 @@ class Distribution < ApplicationRecord
     [address_1, postal_code, city, country].compact.join(', ')
   end
 
+  def schedule
+    IceCube::Schedule.from_yaml(recurrence)
+  end
+
+  def mon?
+    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 1 }
+  end
+
+  def tue?
+    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 2 }
+  end
+
+  def wed?
+    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 3 }
+  end
+
+  def thu?
+    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 4 }
+  end
+
+  def fri?
+    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 5 }
+  end
+
+  def sat?
+    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 6 }
+  end
+
+  def sun?
+    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 7 }
+  end
+
+  def display_name
+    if name.blank?
+      organization.organization_name
+    else
+      name
+    end
+  end
+
+  def stations
+    Station.near([latitude, longitude], 0.5)
+  end
+
   def self.find_next_three(coordinates)
     distributions = Distribution.near(coordinates)
 
