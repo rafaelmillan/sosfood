@@ -1,0 +1,41 @@
+#dayspicker {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+#dayspicker {
+  .checkbox {
+    margin: 0;
+    padding: 0;
+  }
+  label {
+  flex: 0 0 50px;
+  background-color: #ccc;
+  padding: 10px;
+  margin: 0;
+  text-align: center;
+  opacity: 0.4;
+  color: black;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  justify-content: center;
+  flex-direction: column;
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+  &.active {
+    background-color: #57D1C9;
+    color: white;
+    opacity: 1;
+  }
+  }
+}
+
+.distribution_frequency .radio-inline {
+  margin-top: 0;
+}

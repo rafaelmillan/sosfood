@@ -11,7 +11,7 @@ class DistributionsController < ApplicationController
   def show
     @alert_message = " You are viewing #{@distribution.name}"
     @distribution_coordinates = { lat: @distribution.latitude, lng: @distribution.longitude }
-    @distributions = Distribution.where.not(latitude: nil, longitude: nil)
+    @distributions_around = Distribution.near([@distribution.latitude, @distribution.longitude], 5, units: :km)[0..5].delete_if { |d| d == @distribution }
 
     @hash = Gmaps4rails.build_markers(@distribution) do |distribution, marker|
       marker.lat distribution.latitude
@@ -25,12 +25,14 @@ class DistributionsController < ApplicationController
 
   def new
     @distribution = Distribution.new
+    @recurrence = {}
     authorize @distribution
   end
 
   def create
     @distribution = Distribution.create(distribution_params)
     @distribution.organization = current_user.organization
+    @recurrence = {}
     authorize @distribution
     if @distribution.save
       redirect_to distribution_path(@distribution)
@@ -40,6 +42,19 @@ class DistributionsController < ApplicationController
   end
 
   def edit
+    schedule = IceCube::Schedule.from_yaml(@distribution.recurrence)
+    frequency = schedule.rrules.first.to_hash[:rule_type]
+    days = schedule.rrules.first.to_hash[:validations][:day]
+    @recurrence = {}
+    if frequency == "IceCube::WeeklyRule"
+      @recurrence[:weekly] = true
+      @recurrence[:days] = []
+      [:mon, :tue, :wed, :thu, :fri, :sat, :sun].each_with_index do |day, i|
+        @recurrence[:days] << day if days.include? i + 1
+      end
+    end
+    @recurrence[:start_min] = schedule.start_time.strftime("%Hh%M")
+    @recurrence[:end_time] = schedule.end_time.strftime("%Hh%M")
   end
 
   def update
@@ -105,28 +120,23 @@ class DistributionsController < ApplicationController
 
     weekdays = params[:distribution][:weekdays]
 
-    if freq == "Once"
+    if freq == "once"
       time = Time.new(year, month, day, start_hour, start_min)
       duration = Time.new(year, month, day, end_hour, end_min) - time
       schedule = IceCube::Schedule.new(time, duration: duration)
-    elsif freq == "Daily"
+    elsif freq == "regular"
       time = Time.new(now.year, now.month, now.day, start_hour, start_min)
       duration = Time.new(now.year, now.month, now.day, end_hour, end_min) - time
       schedule = IceCube::Schedule.new(time, duration: duration)
-      schedule.rrule(IceCube::Rule.daily)
-    elsif freq == "Weekly"
-      time = Time.new(now.year, now.month, now.day, start_hour, start_min)
-      duration = Time.new(now.year, now.month, now.day, end_hour, end_min) - time
-      schedule = IceCube::Schedule.new(time, duration: duration)
-      schedule.rrule(IceCube::Rule.weekly.day(:monday)) if weekdays.include?("Mon")
-      schedule.rrule(IceCube::Rule.weekly.day(:tuesday)) if weekdays.include?("Tue")
-      schedule.rrule(IceCube::Rule.weekly.day(:wednesday)) if weekdays.include?("Wed")
-      schedule.rrule(IceCube::Rule.weekly.day(:thursday)) if weekdays.include?("Thu")
-      schedule.rrule(IceCube::Rule.weekly.day(:friday)) if weekdays.include?("Fri")
-      schedule.rrule(IceCube::Rule.weekly.day(:saturday)) if weekdays.include?("Sat")
-      schedule.rrule(IceCube::Rule.weekly.day(:sunday)) if weekdays.include?("Sun")
-    elsif freq == "monthly"
-      schedule = IceCube::Schedule.new
+      days = []
+      days << :monday if weekdays.include?("mon")
+      days << :tuesday if weekdays.include?("tue")
+      days << :wednesday if weekdays.include?("wed")
+      days << :thursday if weekdays.include?("thu")
+      days << :friday if weekdays.include?("fri")
+      days << :saturday if weekdays.include?("sat")
+      days << :sunday if weekdays.include?("sun")
+      schedule.rrule(IceCube::Rule.weekly.day(days))
     end
 
     return schedule.to_yaml

@@ -5,13 +5,8 @@
   // margin-right: 40px;
   // margin-top: 40px;
 }
-.distribution-body {
-  flex: 1 1 auto;
-  flex: wrap;
-  padding-top: 0px;
-  padding-bottom: 30px;
-  padding-right: 40px;
-  padding-left: 130px;
+#distribution-body {
+  padding-top: 30px;
 }
 // .distribution-body img {
 //   width: 100%;
@@ -118,4 +113,43 @@ a.distribution-link:link, a.distribution-link:visited, a.distribution-link:activ
   background: #F8F7F7;
   cursor: pointer;
   opacity: 0.3;
+}
+
+.week_days {
+  color: gray;
+  text-transform: uppercase;
+  font-size: 12px;
+  justify-content: space-around;
+  max-width: 300px;
+}
+
+.week_day {
+  background-color: #57D1C9;
+  color: white;
+  border-radius: 20px;
+  padding: 5px;
+  margin-top: 5px;
+  max-width: 300px;
+}
+
+.details-title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: bolder;
+}
+
+.line_number {
+  font-size: 12px;
+  font-weight: bolder;
+  padding: 2px;
+  margin: 2px;
+  display: inline-block;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+}
+
+.station_name {
+  font-size: 12px;
+  font-weight: bolder;
 }
