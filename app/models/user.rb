@@ -5,4 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
   belongs_to :organization, optional: true
   has_many :distributions, through: :organization
+
+  accepts_nested_attributes_for :organization
 end
