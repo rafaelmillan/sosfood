@@ -34,6 +34,7 @@ class DistributionsController < ApplicationController
     @distribution.organization = current_user.organization
     @recurrence = {}
     authorize @distribution
+
     if @distribution.save_draft
       redirect_to distribution_path(@distribution)
     else

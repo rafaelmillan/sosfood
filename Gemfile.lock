@@ -185,6 +185,8 @@ GEM
       actionpack (> 4, < 5.1)
       activemodel (> 4, < 5.1)
     slop (3.6.0)
+    social-share-button (0.8.8)
+      coffee-rails
     spring (2.0.1)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -248,6 +250,7 @@ DEPENDENCIES
   redis
   sass-rails
   simple_form
+  social-share-button
   spring
   spring-watcher-listen (~> 2.0.0)
   twilio-ruby (~> 4.11.1)
