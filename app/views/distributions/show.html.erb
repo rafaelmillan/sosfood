@@ -36,7 +36,6 @@
               <%= line.name %>
             </span>
           <% end %>
-          <span class="station_name"><%= station.name %></span>
         </div>
       <% end %>
     </li>
@@ -92,29 +91,6 @@
         </ul>
       <% end %>
 
-    <div class="distribution-section">
-      <p><i class="fa fa-map-marker" aria-hidden="true"></i>
-        <%= @distribution.address_1 %>,
-        <%= @distribution.postal_code %>
-        <%= @distribution.city %>,
-        <%= @distribution.country %>
-      </p>
-      <p><i class="fa fa-subway" aria-hidden="true"></i> <%= @distribution.station %></p>
-      <p><i class="fa fa-group" aria-hidden="true"></i>
-        <span>Organisé par </span><%= link_to @distribution.organization.name, organization_path(@distribution.organization) %>
-      </p>
-      <p>
-        <i class="fa fa-calendar" aria-hidden="true"></i> <%= @recurrence %>
-        <span>à <%=  @recurrence.first.strftime("%Hh%M") %></span>
-      </p>
-      <ul>
-        <% @recurrence.first(5).each do |recurrence| %>
-          <li>
-            <p><%= recurrence.strftime("%a, %e %b %Y %Hh%M") %></p>
-          </li>
-        <% end %>
-      </ul>
-    </div>
 
 
 <ul class="fa-ul">
@@ -159,7 +135,7 @@
 <ul class="fa-ul">
   <li><i class="fa fa-li fa-group" aria-hidden="true"></i>
     <span class="details-title">Organisateur</span>
-    <p><%= link_to @distribution.organization.organization_name, organization_path(@distribution.organization) %></p>
+    <p><%= link_to @distribution.organization.name, organization_path(@distribution.organization) %></p>
   </li>
 </ul>
 
