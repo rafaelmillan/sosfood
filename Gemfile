@@ -20,6 +20,7 @@ gem 'devise-i18n'
 gem 'faker'
 gem 'ice_cube'
 gem 'twilio-ruby', '~> 4.11.1'
+gem 'social-share-button'
 
 source "https://rails-assets.org" do
   gem 'rails-assets-bootstrap-datepicker'
