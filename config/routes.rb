@@ -10,5 +10,7 @@ Rails.application.routes.draw do
     get 'search', to: 'distributions#search'
 
     post '/sms', to: 'messages#receive'
+
+    resources :users, only: [:show]
   end
 end

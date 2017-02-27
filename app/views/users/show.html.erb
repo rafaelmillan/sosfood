@@ -1,0 +1,46 @@
+<div class="container">
+  <h1>Espace asso</h1>
+  <h2>Vos distributions</h2>
+  <table class="table">
+    <tr>
+      <th>Adresse</th>
+      <th>
+        Jours
+        <ul class="list-inline week_days text-center">
+        <li>Lun</li>
+          <li>Mar</li>
+          <li>Mer</li>
+          <li>Jeu</li>
+          <li>Ven</li>
+          <li>Sam</li>
+          <li>Dim</li>
+        </ul>
+
+      </th>
+      <th>Heure</th>
+      <th>État</th>
+      <th>Actions</th>
+    </tr>
+    <% @distributions.each do |dis| %>
+    <tr>
+      <td><%= dis.address %></td>
+      <td>
+        <ul class="list-inline week_days text-center">
+          <li><%= dis.mon? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
+          <li><%= dis.tue? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
+          <li><%= dis.wed? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
+          <li><%= dis.thu? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
+          <li><%= dis.fri? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
+          <li><%= dis.sat? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
+          <li><%= dis.sun? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
+        </ul>
+      </td>
+      <td><%= l dis.schedule.start_time, format: :short %> à <%= l dis.schedule.end_time, format: :short %></td>
+      <td>
+
+      </td>
+      <td><%=  %></td>
+    </tr>
+    <% end %>
+  </table>
+</div>
