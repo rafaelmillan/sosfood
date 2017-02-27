@@ -29,7 +29,6 @@ CSV.foreach(filepath, csv_options) do |row|
       postal_code: row['Postal Code'],
       city: row['City'],
       country: "France",
-      station: row['Transports'],
       organization: Organization.find_by(name: row['Asso name']),
       recurrence: schedule.to_yaml
     )

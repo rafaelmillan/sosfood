@@ -34,6 +34,7 @@ class DistributionsController < ApplicationController
     @distribution.organization = current_user.organization
     @recurrence = {}
     authorize @distribution
+    raise
     if @distribution.save
       redirect_to distribution_path(@distribution)
     else
@@ -100,7 +101,7 @@ class DistributionsController < ApplicationController
   end
 
   def distribution_params
-    params.require(:distribution).permit(:name, :address_1, :address_2, :postal_code, :city, :country, :station, :date, :frequency, :start_time, :end_time, :weekdays, :monthdates).merge(recurrence: generate_recurrence)
+    params.require(:distribution).permit(:name, :address_1, :address_2, :postal_code, :city, :country, :station, :date, :frequency, :start_time, :end_time, :weekdays, :monthdates, :address).merge(recurrence: generate_recurrence)
   end
 
   def generate_recurrence
