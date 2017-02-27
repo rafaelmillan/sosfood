@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/liveeditor/draftsman.git
+  revision: 936d5a37c044c5ca0a5699a553d9bc111f2d91d2
+  specs:
+    draftsman (0.6.0)
+      activerecord (>= 3.0, < 5.1)
+
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
@@ -71,8 +78,6 @@ GEM
       responders
       warden (~> 1.2.3)
     devise-i18n (1.1.1)
-    draftsman (0.6.0)
-      activerecord (>= 3.0, < 5.1)
     erubis (2.7.0)
     execjs (2.7.0)
     faker (1.7.3)
@@ -220,7 +225,7 @@ DEPENDENCIES
   coffee-rails
   devise
   devise-i18n
-  draftsman (~> 0.6.0)
+  draftsman!
   faker
   figaro
   font-awesome-sass

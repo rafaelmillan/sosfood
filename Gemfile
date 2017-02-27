@@ -20,7 +20,7 @@ gem 'devise-i18n'
 gem 'faker'
 gem 'ice_cube'
 gem 'twilio-ruby', '~> 4.11.1'
-gem 'draftsman', '~> 0.6.0'
+gem 'draftsman', github: 'liveeditor/draftsman'
 
 source "https://rails-assets.org" do
   gem 'rails-assets-bootstrap-datepicker'
