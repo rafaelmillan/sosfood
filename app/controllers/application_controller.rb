@@ -30,6 +30,10 @@ class ApplicationController < ActionController::Base
     { locale: I18n.locale == I18n.default_locale ? nil : I18n.locale }
   end
 
+  def after_sign_in_path_for(resource_or_scope)
+   current_user
+  end
+
   private
 
   def set_locale

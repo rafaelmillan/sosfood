@@ -1,10 +1,10 @@
 <div class="container">
   <h1>Espace asso</h1>
-  <h2>Vos distributions</h2>
+  <h2>Distributions de <%= current_user.organization.name %></h2>
   <div class="table-responsive dashboard">
     <table class="table">
       <tr>
-        <th>Adresse</th>
+        <th>Distribution</th>
         <th>
           Jours
           <ul class="list-inline week_days text-center">
@@ -24,7 +24,9 @@
       </tr>
       <% @distributions.each do |dis| %>
       <tr>
-        <td><%= dis.address %></td>
+        <td>
+        <%= link_to dis.display_name, distribution_path(dis) %><br><%= dis.address %>
+        </td>
         <td>
           <ul class="list-inline week_days text-center">
             <li><%= dis.mon? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
@@ -53,5 +55,8 @@
       </tr>
       <% end %>
     </table>
+    <div class="text-center">
+      <%= link_to "Ajouter un repas", new_distribution_path, class: "btn btn-primary" %>
+    </div>
   </div>
 </div>
