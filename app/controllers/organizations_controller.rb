@@ -24,4 +24,20 @@ class OrganizationsController < ApplicationController
       @organizations = Organization.where("name ILIKE ?", "%#{params[:query]}%")
     end
   end
+
+  def new
+    @organization = Organization.new
+    authorize @organization
+  end
+
+  def create
+    @organization = Distribution.new(name: params[:name])
+    if @distribution.save
+      current_user.organization = @organization
+      current_user.save
+      redirect_to users_path(current_user)
+    else
+      render :new
+    end
+  end
 end
