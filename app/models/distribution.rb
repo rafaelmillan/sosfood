@@ -78,6 +78,8 @@ class Distribution < ApplicationRecord
       end
     end
 
+    meals.select! { |meal| meal.key? :time }
+
     meals.sort_by! { |meal| meal[:time] }
 
     return meals
