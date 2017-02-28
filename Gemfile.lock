@@ -39,6 +39,8 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    animate-rails (1.0.10)
+      rails
     arel (7.1.4)
     autoprefixer-rails (6.7.3)
       execjs
@@ -211,6 +213,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  animate-rails
   autoprefixer-rails
   better_errors
   binding_of_caller
