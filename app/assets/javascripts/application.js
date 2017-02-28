@@ -6,6 +6,7 @@
 //= require bootstrap-datepicker
 //= require timepicker
 //= require social-share-button
+//= require typeahead.js.js
 //= require_tree .
 
 
