@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
   var organizations = new Bloodhound({
-    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     prefetch: '/organizations.json',
     remote: {
@@ -12,6 +12,7 @@ $(document).ready(function() {
 
   $('#org-wrapper .typeahead').typeahead(null, {
     display: 'name',
+    minLength: 0,
     source: organizations
   });
 
