@@ -4,7 +4,7 @@
      <h1>Organization: <%= @organization.name %></h1>
      <p> <i class="fa fa-envelope-o"></i>***remplacer email***</p>
      <p><%= @organization.phone_number%></p>
-     <div class="list-group">
+      <div class="list-group">
       <% @organization.distributions.each_with_index do |dis, index| %>
       <%= link_to distribution_path(dis), class: "list-group-item distribution-item", data: { id: index } do %>
       <%= dis.name %>
