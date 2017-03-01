@@ -1,4 +1,4 @@
-<div class="container-orga">
+<div class="container" id="container-orga">
   <div class="row">
     <div class="col-sm-6 ">
       <h1>Organization: <%= @organization.name %></h1>
@@ -7,9 +7,10 @@
      <div class="list-group">
       <% @organization.distributions.each_with_index do |dis, index| %>
       <%= link_to distribution_path(dis), class: "list-group-item distribution-item", data: { id: index } do %>
-      <%= dis.name %>
-      <%= dis.address_1 %>
-      <%= dis.postal_code %>
+      <h5><%= dis.name %></h5>
+        <%= dis.address_1 %>
+        <%= dis.postal_code %>
+
       <p><i class="fa fa-calendar" aria-hidden="true"></i> <%= IceCube::Schedule.from_yaml(dis.recurrence) %></p>
       <% end %>
       <% end %>
