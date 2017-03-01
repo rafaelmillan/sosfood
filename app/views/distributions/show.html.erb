@@ -160,11 +160,9 @@
 </div>
 </div>
 
-
-<% content_for :meta_title, @distribution.display_name %>
-<% content_for :meta_description, "#{@distribution.address_1}, #{@distribution.postal_code}, #{@distribution.city}" %>
-
-
+<% content_for :meta_title do %>
+  Regardez <%= @distribution.display_name %> via <%= meta_title %>
+<% end %>
 
 
 <% content_for(:after_js) do %>
