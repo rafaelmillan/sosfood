@@ -41,7 +41,7 @@
         <td><%= l dis.schedule.start_time, format: :short %> à <%= l dis.schedule.end_time, format: :short %></td>
         <td>
           <% if dis.draft? %>
-          <span class="label label-warning">En cours de validation</span>
+          <span class="label label-info">En cours de validation</span>
           <% else %>
           <span class="label label-success">Publiée</span>
           <% end %>

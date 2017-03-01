@@ -35,9 +35,7 @@ class DistributionsController < ApplicationController
     @recurrence = {}
     authorize @distribution
 
-
     if @distribution.save_draft
-
       redirect_to distribution_path(@distribution)
     else
       render :new
@@ -45,26 +43,16 @@ class DistributionsController < ApplicationController
   end
 
   def edit
-    schedule = IceCube::Schedule.from_yaml(@distribution.recurrence)
-    frequency = schedule.rrules.first.to_hash[:rule_type]
-    days = schedule.rrules.first.to_hash[:validations][:day]
-    @recurrence = {}
-    if frequency == "IceCube::WeeklyRule"
-      @recurrence[:weekly] = true
-      @recurrence[:days] = []
-      [:mon, :tue, :wed, :thu, :fri, :sat, :sun].each_with_index do |day, i|
-        @recurrence[:days] << day if days.include? i + 1
-      end
-    end
-    @recurrence[:start_min] = schedule.start_time.strftime("%Hh%M")
-    @recurrence[:end_time] = schedule.end_time.strftime("%Hh%M")
+    @distribution = @distribution.draft.reify if @distribution.draft? # Checks if there is a draft
+    @recurrence = set_recurrence
   end
 
   def update
     @distribution.assign_attributes(distribution_params)
     if @distribution.save_draft
-      redirect_to distribution_path(@distribution)
+      redirect_to user_path(current_user)
     else
+      @recurrence = set_recurrence
       render :edit
     end
   end
@@ -143,6 +131,23 @@ class DistributionsController < ApplicationController
     end
 
     return schedule.to_yaml
+  end
+
+  def set_recurrence
+    schedule = @distribution.schedule
+    frequency = schedule.rrules.first.to_hash[:rule_type]
+    days = schedule.rrules.first.to_hash[:validations][:day]
+    recurrence = {}
+    if frequency == "IceCube::WeeklyRule"
+      recurrence[:weekly] = true
+      recurrence[:days] = []
+      [:sun, :mon, :tue, :wed, :thu, :fri, :sat].each_with_index do |day, i|
+        recurrence[:days] << day if days.include? i
+      end
+    end
+    recurrence[:start_min] = schedule.start_time.strftime("%Hh%M")
+    recurrence[:end_time] = schedule.end_time.strftime("%Hh%M")
+    return recurrence
   end
 
 end
