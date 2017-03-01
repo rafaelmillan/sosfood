@@ -8,4 +8,8 @@ class OrganizationPolicy < ApplicationPolicy
       true
     end
   end
+
+  def create?
+    @user.organization.nil?
+  end
 end

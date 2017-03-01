@@ -1,5 +1,7 @@
 class OrganizationsController < ApplicationController
   skip_before_action :authenticate_user!, only: :show
+  skip_before_action :authenticate_user!, only: :index
+  skip_after_action :verify_policy_scoped, only: :index
 
   def show
     @organization = Organization.find(params[:id])
@@ -13,5 +15,29 @@ class OrganizationsController < ApplicationController
       # @recurrence = @organization.distributions.each do |dis|
       # dis.start_time
     authorize @organization
+  end
+
+  def index
+    if params[:query].blank?
+      @organizations = Organization.all
+    else
+      @organizations = Organization.where("name ILIKE ?", "%#{params[:query]}%")
+    end
+  end
+
+  def new
+    @organization = Organization.new
+    authorize @organization
+  end
+
+  def create
+    @organization = Distribution.new(name: params[:name])
+    if @distribution.save
+      current_user.organization = @organization
+      current_user.save
+      redirect_to users_path(current_user)
+    else
+      render :new
+    end
   end
 end

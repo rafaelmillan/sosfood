@@ -29,6 +29,7 @@ gem 'social-share-button'
 source "https://rails-assets.org" do
   gem 'rails-assets-bootstrap-datepicker'
   gem 'rails-assets-timepicker'
+  gem 'rails-assets-typeahead.js'
 end
 
 gem "pundit"
