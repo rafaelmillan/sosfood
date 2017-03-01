@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, :controllers => { registrations: 'registrations' }
 
   scope '(:locale)', locale: /en/ do
     root to: 'pages#home'
@@ -10,5 +10,7 @@ Rails.application.routes.draw do
     get 'search', to: 'distributions#search'
 
     post '/sms', to: 'messages#receive'
+
+    resources :users, only: [:show]
   end
 end

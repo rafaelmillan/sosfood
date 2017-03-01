@@ -47,25 +47,22 @@
   }
 }
 
-.share-links {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+
+
+.social-share-button {
+  letter-spacing: 20px;
   border-bottom: 1px solid #f0efef;
-  padding: 30px 0px;
-}
-.share-link {
-  flex: 0 0 24%;
-  color: white;
-  font-size: 18px;
-  padding: 5px 0;
-  text-align: center;
-  border-radius: 4px;
-  cursor: pointer;
-  &:hover {
-    color: white;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  .ssb-icon {
+    background-size: 30px 30px !important;
+    height: 30px !important;
+    width: 30px !important;
+    cursor: pointer;
+    border-radius: 4px;
   }
 }
+
 .bg-text {
   background: #4a4a4a;
 }
@@ -79,12 +76,12 @@
   background: #3b5998;
 }
 
-.list-inline {
-  display: flex;
-  justify-content: space-between;
-  font-size: 30px;
-  font-color: gray;
-}
+// .list-inline {
+//   display: flex;
+//   justify-content: space-between;
+//   font-size: 30px;
+//   font-color: gray;
+// }
 
 #map {
   margin-top: 20px;

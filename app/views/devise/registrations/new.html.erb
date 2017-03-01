@@ -1,17 +1,28 @@
-<h2><%= t(".sign_up") %></h2>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-4 col-sm-offset-4">
+      <div class="form-login">
+        <h2><%= t(".sign_up") %></h2>
+        <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+          <%= f.error_notification %>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= f.error_notification %>
+          <div class="form-inputs">
+            <%= f.input :email, required: true, autofocus: true, label: "Email", placeholder: "john@gmail.com" %>
+            <%= f.input :password, required: true, placeholder: "******" %>
+            <%= f.input :password_confirmation, required: true, placeholder: "******" %>
+            <%= simple_fields_for Organization.new do |o| %>
+              <%= o.input :name, label: "Organisation" %>
+            <% end %>
+          </div>
 
-  <div class="form-inputs">
-    <%= f.input :email, required: true, autofocus: true %>
-    <%= f.input :password, required: true %>
-    <%= f.input :password_confirmation, required: true %>
+          <div class="form-actions">
+            <%= f.button :submit, t(".sign_up"), class: "btn btn-primary" %>
+          </div>
+        <% end %>
+
+        <%= render "devise/shared/links" %>
+      </div>
+    </div>
   </div>
+</div>
 
-  <div class="form-actions">
-    <%= f.button :submit, t(".sign_up") %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>

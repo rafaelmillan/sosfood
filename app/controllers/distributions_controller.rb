@@ -30,12 +30,14 @@ class DistributionsController < ApplicationController
   end
 
   def create
-    @distribution = Distribution.create(distribution_params)
+    @distribution = Distribution.new(distribution_params)
     @distribution.organization = current_user.organization
     @recurrence = {}
     authorize @distribution
 
-    if @distribution.save
+
+    if @distribution.save_draft
+
       redirect_to distribution_path(@distribution)
     else
       render :new
@@ -59,8 +61,8 @@ class DistributionsController < ApplicationController
   end
 
   def update
-    @distribution.update(distribution_params)
-    if @distribution.save
+    @distribution.assign_attributes(distribution_params)
+    if @distribution.save_draft
       redirect_to distribution_path(@distribution)
     else
       render :edit

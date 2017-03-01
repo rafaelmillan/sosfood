@@ -71,6 +71,24 @@
   </div>
   </div>
 
+  <div class="footer">
+  <div class="row">
+    <div class="col-sx-12 col-sm-12 col-md-6">
+      <p>
+      <span><i class="fa fa-envelope-o"></i></span>
+      <span>contact@sos-food.org</span>
+      </p>
+    </div>
+    <div class="col-sx-12 col-sm-12 col-md-6">
+       <ul class = "list-inline text-right">
+          <li><%= link_to '<i class="fa fa-facebook"></i>'.html_safe, 'https://www.facebook.com/sosfoodorg', target: :blank %></li>
+          <li><%= link_to '<i class="fa fa-twitter"></i>'.html_safe, 'https://twitter.com/SOSFoodorg', target: :blank %></li>
+          <li><%= link_to '<i class="fa fa-google-plus-square"></i>'.html_safe, 'https://plus.google.com/u/0/113285215270868545544', target: :blank %></li>
+       </ul>
+    </div>
+  </div>
+</div>
+
 
 <% content_for(:after_js) do %>
   <%= javascript_tag do %>

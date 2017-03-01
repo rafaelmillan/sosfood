@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/liveeditor/draftsman.git
+  revision: 936d5a37c044c5ca0a5699a553d9bc111f2d91d2
+  specs:
+    draftsman (0.6.0)
+      activerecord (>= 3.0, < 5.1)
+
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
@@ -180,6 +187,8 @@ GEM
       actionpack (> 4, < 5.1)
       activemodel (> 4, < 5.1)
     slop (3.6.0)
+    social-share-button (0.8.8)
+      coffee-rails
     spring (2.0.1)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -221,6 +230,7 @@ DEPENDENCIES
   coffee-rails
   devise
   devise-i18n
+  draftsman!
   faker
   figaro
   font-awesome-sass
@@ -243,6 +253,7 @@ DEPENDENCIES
   redis
   sass-rails
   simple_form
+  social-share-button
   spring
   spring-watcher-listen (~> 2.0.0)
   twilio-ruby (~> 4.11.1)
