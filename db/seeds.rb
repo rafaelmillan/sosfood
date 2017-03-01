@@ -2,6 +2,7 @@ require 'csv'
 
 Distribution.destroy_all
 Organization.destroy_all
+User.destroy_all
 
 csv_options = { col_sep: ',', headers: :first_row }
 filepath = File.open(File.join(Rails.root, 'db', 'import.csv'))
@@ -21,7 +22,7 @@ CSV.foreach(filepath, csv_options) do |row|
     days << :thursday if row["Je"] == "Y"
     days << :friday if row["Ve"] == "Y"
     days << :saturday if row["Sa"] == "Y"
-    days << :sunday if row["Su"] == "Y"
+    days << :sunday if row["Di"] == "Y"
     schedule.rrule(IceCube::Rule.weekly.day(days))
     dis = Distribution.new(
       name: row['Distribution name'],

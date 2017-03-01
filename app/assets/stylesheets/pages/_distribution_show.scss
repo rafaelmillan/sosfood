@@ -76,17 +76,6 @@
   background: #3b5998;
 }
 
-// .list-inline {
-//   display: flex;
-//   justify-content: space-between;
-//   font-size: 30px;
-//   font-color: gray;
-// }
-
-#map {
-  margin-top: 20px;
-}
-
 .title-aside {
   text-transform: uppercase;
   color: #D23333;
@@ -116,8 +105,8 @@ a.distribution-link:link, a.distribution-link:visited, a.distribution-link:activ
   color: gray;
   text-transform: uppercase;
   font-size: 12px;
-  justify-content: space-around;
-  max-width: 300px;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .week_day {
@@ -125,8 +114,6 @@ a.distribution-link:link, a.distribution-link:visited, a.distribution-link:activ
   color: white;
   border-radius: 20px;
   padding: 5px;
-  margin-top: 5px;
-  max-width: 300px;
 }
 
 .details-title {
@@ -149,4 +136,14 @@ a.distribution-link:link, a.distribution-link:visited, a.distribution-link:activ
 .station_name {
   font-size: 12px;
   font-weight: bolder;
+}
+
+.day-block {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+}
+
+.day-wrapper {
+  display: inline-block;
 }
