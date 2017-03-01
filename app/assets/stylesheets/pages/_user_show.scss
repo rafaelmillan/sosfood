@@ -4,5 +4,8 @@
   }
   .week_days {
     margin-bottom: 0;
+    .day-block {
+      height: inherit
+    }
   }
 }

@@ -45,7 +45,7 @@
       </div> -->
     <%= link_to t(".sign_out", default: "Déconnexion"), destroy_user_session_path, method: :delete %>
     <!-- Button (call-to-action) -->
-    <%= link_to t(".top_call_to_action", default: "Espace asso"), "#", class: "btn btn_transparent#{'_black' unless current_page?(root_path)}" %>
+    <%= link_to t(".top_call_to_action", default: "Espace asso"), user_path(current_user), class: "btn btn_transparent#{'_black' unless current_page?(root_path)}" %>
 
     <% else %>
 
