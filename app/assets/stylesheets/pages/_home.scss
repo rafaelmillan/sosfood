@@ -46,3 +46,19 @@ body {
     margin-top: 30px;
   }
 }
+
+.home-alert {
+  position: fixed;
+  bottom: 15px;
+  border-radius: 3px;
+  border: none;
+  padding-left: 30px;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.25);
+  font-size: 14px;
+  right: 15px;
+  font-weight: bolder;
+  padding-bottom: 10px;
+  z-index: 1;
+  background-color: white;
+  color: inherit;
+}

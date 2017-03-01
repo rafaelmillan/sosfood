@@ -4,5 +4,17 @@
   }
   .week_days {
     margin-bottom: 0;
+    .day-block {
+      height: inherit
+    }
   }
+  .btn_transparent_black {
+    font-size: 10px;
+    padding: 5px 15px;
+    margin-top: 10px;
+  }
+}
+
+.label-info {
+  color: inherit;
 }
