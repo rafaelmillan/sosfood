@@ -1,6 +1,7 @@
 <div class="container">
 
-  <h1>Résultats</h1>
+  <h1>Votre recherche</h1>
+  <p><strong><%= @results.count %></strong> distribution<%= "s" if @results.count > 1 %> trouvée<%= "s" if @results.count > 1 %> autour de <strong><%= @address %></strong> pour le <strong><%= @date.strftime("%e/%m/%Y") %></strong>.</p>
 
   <div class="row">
   <div class="col-sm-6">
@@ -9,9 +10,9 @@
         <div class="list-group">
           <% @results.each_with_index do |result, index| %>
             <%= link_to distribution_path(result[:distribution]), class: "list-group-item distribution-item", data: { id: index } do %>
-              <h4 class="list-group-item-heading"><%= result[:distribution].organization.name %></h4>
+              <h4 class="list-group-item-heading"><%= result[:distribution].display_name %></h4>
               <p class="list-group-item-text">
-                Le <%= result[:occurrence].strftime("%m/%e/%Y") %>, de <%= result[:occurrence].strftime("%Hh%M") %> à <%=result[:occurrence].end_time.strftime("%Hh%M") %><br>
+                <%= result[:occurrence].strftime("%Hh%M") %> à <%=result[:occurrence].end_time.strftime("%Hh%M") %><br>
                 <%= result[:distribution].address %>
               </p>
             <% end %>

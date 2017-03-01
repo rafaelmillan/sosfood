@@ -76,12 +76,13 @@ class DistributionsController < ApplicationController
 
   def search
     begin
-      date = Date.parse(params[:date])
+      @date = Date.parse(params[:date])
     rescue ArgumentError
-      date = Date.today
+      @date = Date.today
     end
+    @address = params[:address]
     coordinates = [params[:lat].to_f, params[:lon].to_f]
-    @results = Distribution.find_by_date(coordinates, date)
+    @results = Distribution.find_by_date(coordinates, @date)
 
     @distributions = @results.map { |r| r[:distribution] }
     @distributions.reject! { |d| d.latitude.nil? || d.longitude.nil? }
