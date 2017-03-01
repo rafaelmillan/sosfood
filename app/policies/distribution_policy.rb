@@ -16,4 +16,12 @@ class DistributionPolicy < ApplicationPolicy
   def destroy?
     record.organization.users.include? user
   end
+
+  def accept?
+    user.admin
+  end
+
+  def decline?
+    user.admin
+  end
 end

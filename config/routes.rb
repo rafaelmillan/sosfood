@@ -7,6 +7,9 @@ Rails.application.routes.draw do
     resources :organizations, only: [:show, :index, :new]
     resources :distributions
 
+    post '/distributions/:id/accept', to: 'distributions#accept', as: 'accept_distribution'
+    post '/distributions/:id/decline', to: 'distributions#decline', as: 'decline_distribution'
+
     get 'search', to: 'distributions#search'
 
     post '/sms', to: 'messages#receive'

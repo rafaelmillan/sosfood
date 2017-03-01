@@ -1,5 +1,5 @@
 class DistributionsController < ApplicationController
-  before_action :set_distribution, only: [:show, :edit, :update, :destroy]
+  before_action :set_distribution, only: [:show, :edit, :update, :destroy, :accept, :decline]
   skip_before_action :authenticate_user!, only: [:search, :show]
   skip_after_action :verify_authorized, only: [:search, :show]
 
@@ -80,7 +80,16 @@ class DistributionsController < ApplicationController
       marker.infowindow "<h4>#{distribution.organization.name}</h4><p>#{distribution.address_1}</p><p>#{distribution.postal_code}</p>"
 
     end
+  end
 
+  def accept
+    @distribution.draft.publish!
+    redirect_to user_path(current_user)
+  end
+
+  def decline
+    @distribution.draft.revert!
+    redirect_to user_path(current_user)
   end
 
   private
