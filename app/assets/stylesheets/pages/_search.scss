@@ -6,6 +6,10 @@ $search-height: calc(100vh - 250px);
   overflow: scroll;
 }
 
+#map-wrapper {
+  margin-top: 20px;
+}
+
 #map-wrapper #map {
   height: $search-height;
 }
