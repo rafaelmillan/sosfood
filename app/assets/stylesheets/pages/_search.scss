@@ -1,3 +1,11 @@
+$search-height: calc(100vh - 250px);
+
 .list-group-container {
   margin-top: 20px;
+  height: $search-height;
+  overflow: scroll;
+}
+
+#map-wrapper #map {
+  height: $search-height;
 }
