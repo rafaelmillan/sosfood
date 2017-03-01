@@ -35,7 +35,9 @@ class DistributionsController < ApplicationController
     @recurrence = {}
     authorize @distribution
 
+
     if @distribution.save_draft
+
       redirect_to distribution_path(@distribution)
     else
       render :new
