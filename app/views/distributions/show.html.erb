@@ -8,6 +8,24 @@
     <div class="col-md-8 col-md-offset-2">
 
   <h1><%= @distribution.display_name %></h1>
+   <% if policy(@distribution).edit? || policy(@distribution).destroy? %>
+      <ul class="list-inline">
+        <li>
+          <% if policy(@distribution).edit? %>
+          <%= link_to edit_distribution_path(@distribution) do %>
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Modifier
+          <% end %>
+          <% end %>
+        </li>
+        <li>
+          <% if policy(@distribution).destroy? %>
+          <%= link_to distribution_path(@distribution), method: :delete, data: { confirm: I18n.t('confirm_delete') } do %>
+          <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer
+          <% end %>
+          <% end %>
+        </li>
+        </ul>
+      <% end %>
   </div>
   </div>
   <div id="distribution-body">
@@ -15,147 +33,116 @@
 
 <div class="col-sm-6 col-md-4 col-sm-push-6 col-md-push-4 col-md-offset-2">
 
-  <ul class="fa-ul">
-    <li><i class="fa fa-li fa-map-marker" aria-hidden="true"></i>
-      <span class="details-title">Adresse</span>
-      <p>
-        <%= @distribution.address_1 %>,
-        <%= @distribution.postal_code %>
-        <%= @distribution.city %>
-      </p>
-    </li>
-  </ul>
-  <ul class="fa-ul">
-    <li><i class="fa fa-li fa-subway" aria-hidden="true"></i>
-      <span class="details-title">Transports</span>
+  <div class="card">
+    <div class="card-content">
+      <ul class="fa-ul">
+        <li><i class="fa fa-li fa-map-marker" aria-hidden="true"></i>
+          <span class="details-title">Adresse</span>
+          <p>
+            <%= @distribution.address_1 %>,
+            <%= @distribution.postal_code %>
+            <%= @distribution.city %>
+          </p>
+        </li>
+      </ul>
+      <ul class="fa-ul">
+        <li><i class="fa fa-li fa-subway" aria-hidden="true"></i>
+          <span class="details-title">Transports</span>
 
-      <% @distribution.stations.each do |station| %>
-        <div>
-          <% station.lines.each do |line| %>
-            <span class="line_number" style="color: <%= line.text_color %>; background-color: <%= line.background_color %>">
-              <%= line.name %>
-            </span>
+          <% @distribution.stations.each do |station| %>
+            <div>
+              <% station.lines.each do |line| %>
+                <span class="line_number" style="color: <%= line.text_color %>; background-color: <%= line.background_color %>">
+                  <%= line.name %>
+                </span>
+              <% end %>
+              <span class="station_name"><%= station.name %></span>
+            </div>
           <% end %>
-          <span class="station_name"><%= station.name %></span>
-        </div>
-      <% end %>
-    </li>
-  </ul>
-
-  <!--   <div class="distribution-aside">
--->    <div id="map" style="height: 300px; width: 100%;"></div>
-
-<div class="share-links">
-  <%= social_share_button_tag(@distribution.display_name) %>
-  <!-- <a href="#" class="share-link bg-facebook">
-    <i class="fa fa-facebook"></i>
-  </a>
-  <a href="#" class="share-link bg-twitter">
-    <i class="fa fa-twitter"></i>
-  </a>
-  <a href="#" class="share-link bg-email">
-    <i class="fa fa-envelope-o"></i>
-  </a>
-  <a href="#" class="share-link bg-text">
-    <i class="fa fa-mobile"></i>
-  </a> -->
-</div>
-  <!--     <div class="distribution-section">
--->
-  <!--     </div>
+        </li>
+      </ul>
     </div>
-  </div> -->
+
+    <div id="map" style="height: 300px; width: 100%;"></div>
+
+    <div class="share-links">
+      <%= social_share_button_tag(@distribution.display_name) %>
+    </div>
+
+  </div>
 </div>
 
 <div class="col-sm-6 col-md-4 col-sm-pull-6 col-md-pull-4">
+  <div class="card">
+    <div class="card-content">
 
-      <% if policy(@distribution).edit? || policy(@distribution).destroy? %>
-      <ul class="list-inline">
-        <li>
-          <% if policy(@distribution).edit? %>
-          <%= link_to edit_distribution_path(@distribution) do %>
-          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-          <% end %>
-          <% end %>
-        </li>
-        <li>
-          <% if policy(@distribution).destroy? %>
-          <%= link_to distribution_path(@distribution), method: :delete, data: { confirm: I18n.t('confirm_delete') } do %>
-          <i class="fa fa-trash-o" aria-hidden="true"></i>
-          <% end %>
-          <% end %>
-        </li>
-          <!-- <li>
-            <%= link_to distributions_path do %>
-              <i class="fa fa-backward" aria-hidden="true"></i>
-            <% end %>
-          </li> -->
-        </ul>
-      <% end %>
+    <ul class="fa-ul">
+      <li><i class="fa fa-li fa-clock-o" aria-hidden="true"></i>
+        <span class="details-title">Heure de distribution</span>
 
-
-
-<ul class="fa-ul">
-  <li><i class="fa fa-li fa-clock-o" aria-hidden="true"></i>
-    <span class="details-title">Heure de distribution</span>
-
-    <p><%=  @distribution.schedule.start_time.strftime("%Hh%M") %> à <%=  @distribution.schedule.end_time.strftime("%Hh%M") %></p>
-  </li>
-</ul>
-<ul class="fa-ul">
-  <li><i class="fa fa-li fa-calendar" aria-hidden="true"></i>
-    <span class="details-title">Jours</span>
-
-    <ul class="list-inline week_days text-center">
-      <li>Lun<br><%= @distribution.mon? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
-      <li>Mar<br><%= @distribution.tue? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
-      <li>Mer<br><%= @distribution.wed? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
-      <li>Jeu<br><%= @distribution.thu? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
-      <li>Ven<br><%= @distribution.fri? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
-      <li>Sam<br><%= @distribution.sat? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
-      <li>Dim<br><%= @distribution.sun? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
-    </ul>
-
-  </li>
-</ul>
-
-<ul class="fa-ul">
-  <li><i class="fa fa-li fa-cutlery" aria-hidden="true"></i>
-    <span class="details-title">Prochaines distributions</span>
-
-    <ul class="list-unstyled">
-      <% @distribution.schedule.next_occurrences(5).each do |recurrence| %>
-      <li>
-        <%= l(recurrence, format: "%A, %e %B %Y") %>
+        <p><%=  @distribution.schedule.start_time.strftime("%Hh%M") %> à <%=  @distribution.schedule.end_time.strftime("%Hh%M") %></p>
       </li>
-      <% end %>
+    </ul>
+    <ul class="fa-ul">
+      <li><i class="fa fa-li fa-calendar" aria-hidden="true"></i>
+        <span class="details-title">Jours</span>
+
+        <ul class="list-inline week_days text-center">
+          <li>Lun<br><%= @distribution.mon? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
+          <li>Mar<br><%= @distribution.tue? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
+          <li>Mer<br><%= @distribution.wed? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
+          <li>Jeu<br><%= @distribution.thu? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
+          <li>Ven<br><%= @distribution.fri? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
+          <li>Sam<br><%= @distribution.sat? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
+          <li>Dim<br><%= @distribution.sun? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
+        </ul>
+
+      </li>
     </ul>
 
-  </li>
-</ul>
+    <ul class="fa-ul">
+      <li><i class="fa fa-li fa-cutlery" aria-hidden="true"></i>
+        <span class="details-title">Prochaines distributions</span>
 
-<ul class="fa-ul">
-  <li><i class="fa fa-li fa-group" aria-hidden="true"></i>
-    <span class="details-title">Organisateur</span>
-    <p><%= link_to @distribution.organization.name, organization_path(@distribution.organization) %></p>
-  </li>
-</ul>
+        <ul class="list-unstyled">
+          <% @distribution.schedule.next_occurrences(5).each do |recurrence| %>
+          <li>
+            <%= l(recurrence, format: "%A, %e %B %Y") %>
+          </li>
+          <% end %>
+        </ul>
 
-<ul class="fa-ul">
-  <li><i class="fa fa-li fa-compass" aria-hidden="true"></i>
-  <span class="details-title">Dans le même quartier</span>
-  <% @distributions_around.each do |distribution| %>
-    <p>
-      <%= link_to distribution.display_name, distribution_path(distribution), class: "distribution-link" %><br>
-      <%= distribution.address_1 %>
-      <%= distribution.postal_code %>
-      <%= distribution.city %>
-    </p>
+      </li>
+    </ul>
 
-  <% end %>
+    <ul class="fa-ul">
+      <li><i class="fa fa-li fa-group" aria-hidden="true"></i>
+        <span class="details-title">Organisateur</span>
+        <p><%= link_to @distribution.organization.name, organization_path(@distribution.organization) %></p>
+      </li>
+    </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-content">
+      <ul class="fa-ul">
+        <li><i class="fa fa-li fa-compass" aria-hidden="true"></i>
+        <span class="details-title">Dans le même quartier</span>
+        <% @distributions_around.each do |distribution| %>
+          <p>
+            <%= link_to distribution.display_name, distribution_path(distribution), class: "distribution-link" %><br>
+            <%= distribution.address_1 %>
+            <%= distribution.postal_code %>
+            <%= distribution.city %>
+          </p>
+
+          <% end %>
 
 </div>
+</div>
 
+</div>
 </div>
 </div>
 </div>

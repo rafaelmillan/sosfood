@@ -46,7 +46,7 @@ class Distribution < ApplicationRecord
   end
 
   def sun?
-    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 7 }
+    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 0 }
   end
 
   def display_name
