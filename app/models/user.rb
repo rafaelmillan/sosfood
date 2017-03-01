@@ -6,5 +6,7 @@ class User < ApplicationRecord
   belongs_to :organization
   has_many :distributions, through: :organization
 
+  validates :organization_id, presence: true
+
   accepts_nested_attributes_for :organization
 end
