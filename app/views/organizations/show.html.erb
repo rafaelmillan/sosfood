@@ -1,24 +1,22 @@
 <div class="container">
   <div class="row">
-    <div class="col-xs-6">
+    <div class="col-sm-6 ">
      <h1>Organization: <%= @organization.name %></h1>
      <p> <i class="fa fa-envelope-o"></i>***remplacer email***</p>
      <p><%= @organization.phone_number%></p>
-     <div class="list-group">
+      <div class="list-group">
       <% @organization.distributions.each_with_index do |dis, index| %>
       <%= link_to distribution_path(dis), class: "list-group-item distribution-item", data: { id: index } do %>
       <%= dis.name %>
       <%= dis.address_1 %>
       <%= dis.postal_code %>
       <p><i class="fa fa-calendar" aria-hidden="true"></i> <%= IceCube::Schedule.from_yaml(dis.recurrence) %></p>
-        <% end %>
       <% end %>
-
+      <% end %>
     </div>
   </div>
-
-  <div class="col-xs-6">
-    <div id="map"> </div>
+  <div class="col-sm-6 ">
+    <div id="map"></div>
   </div>
 </div>
 </div>
