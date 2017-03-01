@@ -87,15 +87,36 @@
       <li><i class="fa fa-li fa-calendar" aria-hidden="true"></i>
         <span class="details-title">Jours</span>
 
-        <ul class="list-inline week_days text-center">
-          <li>Lun<br><%= @distribution.mon? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
-          <li>Mar<br><%= @distribution.tue? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
-          <li>Mer<br><%= @distribution.wed? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
-          <li>Jeu<br><%= @distribution.thu? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
-          <li>Ven<br><%= @distribution.fri? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
-          <li>Sam<br><%= @distribution.sat? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
-          <li>Dim<br><%= @distribution.sun? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></li>
-        </ul>
+        <div class="week_days">
+          <div class="day-wrapper">
+            <div class="day-block">Lun</div>
+            <div class="day-block"><%= @distribution.mon? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+          </div>
+          <div class="day-wrapper">
+            <div class="day-block">Mar</div>
+            <div class="day-block"><%= @distribution.tue? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+          </div>
+          <div class="day-wrapper">
+            <div class="day-block">Mer</div>
+            <div class="day-block"><%= @distribution.wed? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+          </div>
+          <div class="day-wrapper">
+            <div class="day-block">Jeu</div>
+            <div class="day-block"><%= @distribution.thu? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+          </div>
+          <div class="day-wrapper">
+            <div class="day-block">Ven</div>
+            <div class="day-block"><%= @distribution.fri? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+          </div>
+          <div class="day-wrapper">
+            <div class="day-block">Sam</div>
+            <div class="day-block"><%= @distribution.sat? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+          </div>
+          <div class="day-wrapper">
+            <div class="day-block">Dim</div>
+            <div class="day-block"><%= @distribution.sun? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+          </div>
+        </div>
 
       </li>
     </ul>
