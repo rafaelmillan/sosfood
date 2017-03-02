@@ -7,8 +7,9 @@
 <%= f.input :postal_code, placeholder: "75012", input_html: { id: "postal_code" }, :as => :hidden  %>
 <%= f.input :city, placeholder: "Paris", input_html: { id: "locality" }, :as => :hidden %>
 <%= f.input :country, placeholder: "France", as: :string, input_html: { id: "country" }, :as => :hidden  %>
-<%= f.input :frequency, as: :radio_buttons, collection: [["Régulière", :regular], ["Ponctuelle", :once]], item_wrapper_class: "radio-inline", label: "Périodicité", required: true, checked: :regular %>
-<%= f.input :date, wrapper_html: { id: 'datepicker' } %>
+<%= f.input :frequency, as: :radio_buttons, collection: [["Réccurent", :regular], ["Ponctuel", :once]], item_wrapper_class: "radio-inline" , label: "Type d'évènement", required: true, checked: :regular %>
+  <%= f.input :date, wrapper_html: { id: 'datepicker' } %>
+
 <div id="dayswrapper">
   <label class="control-label check_boxes optional">Jours de distribution</label>
   <%= f.input :weekdays,
