@@ -10,6 +10,10 @@
   padding-bottom: 5em;
 }
 
+#page-content {
+  margin-bottom: 30px;
+}
+
 // Backgrounds
 .bg-black {
   background: #4a4a4a;
@@ -38,4 +42,8 @@ h1 {
   border-bottom: 10px $brand-primary solid;
   padding-bottom: 20px;
   display: inline-block;
+}
+
+#body-wrapper {
+  min-height: calc(100vh - 100px);
 }

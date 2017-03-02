@@ -1,32 +1,39 @@
-<div class="container">
+<div id="page-content">
 
-  <h1>Votre recherche</h1>
-  <p><strong><%= @results.count %></strong> distribution<%= "s" if @results.count > 1 %> trouvée<%= "s" if @results.count > 1 %> autour de <strong><%= @address %></strong> pour le <strong><%= @date.strftime("%e/%m/%Y") %></strong>.</p>
+  <div class="container">
 
-  <div class="row">
-  <div class="col-sm-6">
-    <!-- <div id="search-results"> -->
-      <div class="list-group-container">
-        <div class="list-group">
-          <% @results.each_with_index do |result, index| %>
-            <%= link_to distribution_path(result[:distribution]), class: "list-group-item distribution-item", data: { id: index } do %>
-              <h4 class="list-group-item-heading"><%= result[:distribution].display_name %></h4>
-              <p class="list-group-item-text">
-                <%= result[:occurrence].strftime("%Hh%M") %> à <%=result[:occurrence].end_time.strftime("%Hh%M") %><br>
-                <%= result[:distribution].address %>
-              </p>
+    <h1>Votre recherche</h1>
+    <p><strong><%= @results.count %></strong> distribution<%= "s" if @results.count > 1 %> trouvée<%= "s" if @results.count > 1 %> autour de <strong><%= @address %></strong> pour le <strong><%= @date.strftime("%e/%m/%Y") %></strong>.</p>
+
+    <div class="row">
+    <div class="col-sm-6">
+      <!-- <div id="search-results"> -->
+        <div class="list-group-container">
+          <div class="list-group">
+            <% @results.each_with_index do |result, index| %>
+              <%= link_to distribution_path(result[:distribution]), class: "list-group-item distribution-item", data: { id: index } do %>
+                <h4 class="list-group-item-heading"><%= result[:distribution].display_name %></h4>
+                <p class="list-group-item-text">
+                  <%= result[:occurrence].strftime("%Hh%M") %> à <%=result[:occurrence].end_time.strftime("%Hh%M") %><br>
+                  <%= result[:distribution].address %>
+                </p>
+              <% end %>
             <% end %>
-          <% end %>
+          </div>
+        </div>
+      <!-- </div> -->
+      </div>
+      <div class="col-sm-6">
+        <div id="map-wrapper">
+          <div id="map"></div>
         </div>
       </div>
-    <!-- </div> -->
     </div>
-    <div class="col-sm-6">
-      <div id="map-wrapper">
-        <div id="map"></div>
-      </div>
-    </div>
+
   </div>
+
+</div>
+
 
 <% content_for(:after_js) do %>
 
