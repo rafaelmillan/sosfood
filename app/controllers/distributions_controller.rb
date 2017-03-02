@@ -1,7 +1,7 @@
 class DistributionsController < ApplicationController
   before_action :set_distribution, only: [:show, :edit, :update, :destroy, :accept, :decline]
-  skip_before_action :authenticate_user!, only: [:search, :show]
-  skip_after_action :verify_authorized, only: [:search, :show]
+  skip_before_action :authenticate_user!, only: [:search, :show, :explore]
+  skip_after_action :verify_authorized, only: [:search, :show, :explore]
 
 
   def index
@@ -79,7 +79,18 @@ class DistributionsController < ApplicationController
       marker.lat distribution.latitude
       marker.lng distribution.longitude
       marker.infowindow "<h4>#{distribution.organization.name}</h4><p>#{distribution.address_1}</p><p>#{distribution.postal_code}</p>"
+    end
+  end
 
+  def explore
+    @address = params[:address]
+    coordinates = [params[:lat].to_f, params[:lon].to_f]
+
+    @results = Distribution.near(coordinates, 5).reject { |d| d.latitude.nil? || d.longitude.nil? }
+    @hash = Gmaps4rails.build_markers(@results) do |distribution, marker|
+      marker.lat distribution.latitude
+      marker.lng distribution.longitude
+      marker.infowindow "<h4>#{distribution.organization.name}</h4><p>#{distribution.address_1}</p><p>#{distribution.postal_code}</p>"
     end
   end
 

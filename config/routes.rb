@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     post '/distributions/:id/decline', to: 'distributions#decline', as: 'decline_distribution'
 
     get 'search', to: 'distributions#search'
+    get '/explore', to: 'distributions#explore'
 
     post '/sms', to: 'messages#receive'
 
