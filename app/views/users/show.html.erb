@@ -1,67 +1,69 @@
-<div class="container">
-  <h1>Espace asso</h1>
-  <h2>Distributions de <%= current_user.organization.name %></h2>
-  <div class="table-responsive dashboard">
-    <table class="table">
-      <tr>
-        <th>Distribution</th>
-        <th>
-          Jours
-          <div class="week_days">
-            <div class="day-block">Lun</div>
-            <div class="day-block">Mar</div>
-            <div class="day-block">Mer</div>
-            <div class="day-block">Jeu</div>
-            <div class="day-block">Ven</div>
-            <div class="day-block">Sam</div>
-            <div class="day-block">Dim</div>
-          </div>
+<div id="page-content">
+  <div class="container">
+    <h1>Espace asso</h1>
+    <h2>Distributions de <%= current_user.organization.name %></h2>
+    <div class="table-responsive dashboard">
+      <table class="table">
+        <tr>
+          <th>Distribution</th>
+          <th>
+            Jours
+            <div class="week_days">
+              <div class="day-block">Lun</div>
+              <div class="day-block">Mar</div>
+              <div class="day-block">Mer</div>
+              <div class="day-block">Jeu</div>
+              <div class="day-block">Ven</div>
+              <div class="day-block">Sam</div>
+              <div class="day-block">Dim</div>
+            </div>
 
-        </th>
-        <th>Heure</th>
-        <th>État</th>
-        <th>Actions</th>
-      </tr>
-      <% @distributions.each do |dis| %>
-      <tr>
-        <td>
-        <%= link_to dis.display_name, distribution_path(dis) %><br><%= dis.address %>
-        </td>
-        <td>
-          <div class="week_days text-center">
-            <div class="day-block"><%= dis.mon? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-            <div class="day-block"><%= dis.tue? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-            <div class="day-block"><%= dis.wed? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-            <div class="day-block"><%= dis.thu? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-            <div class="day-block"><%= dis.fri? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-            <div class="day-block"><%= dis.sat? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-            <div class="day-block"><%= dis.sun? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-          </div>
-        </td>
-        <td><%= l dis.schedule.start_time, format: :short %> à <%= l dis.schedule.end_time, format: :short %></td>
-        <td>
-          <% if dis.draft? %>
-            <span class="label label-info">En cours de validation</span>
-            <% if current_user.admin %>
-              <br>
-              <%= link_to "Valider", accept_distribution_path(dis), class: "btn btn_transparent_black btn-xs", method: :post %>
-              <%= link_to "Décliner", decline_distribution_path(dis), class: "btn btn_transparent_black btn-xs", method: :post %>
+          </th>
+          <th>Heure</th>
+          <th>État</th>
+          <th>Actions</th>
+        </tr>
+        <% @distributions.each do |dis| %>
+        <tr>
+          <td>
+          <%= link_to dis.display_name, distribution_path(dis) %><br><%= dis.address %>
+          </td>
+          <td>
+            <div class="week_days text-center">
+              <div class="day-block"><%= dis.mon? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+              <div class="day-block"><%= dis.tue? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+              <div class="day-block"><%= dis.wed? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+              <div class="day-block"><%= dis.thu? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+              <div class="day-block"><%= dis.fri? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+              <div class="day-block"><%= dis.sat? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+              <div class="day-block"><%= dis.sun? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+            </div>
+          </td>
+          <td><%= l dis.schedule.start_time, format: :short %> à <%= l dis.schedule.end_time, format: :short %></td>
+          <td>
+            <% if dis.draft? %>
+              <span class="label label-info">En cours de validation</span>
+              <% if current_user.admin %>
+                <br>
+                <%= link_to "Valider", accept_distribution_path(dis), class: "btn btn_transparent_black btn-xs", method: :post %>
+                <%= link_to "Décliner", decline_distribution_path(dis), class: "btn btn_transparent_black btn-xs", method: :post %>
+              <% end %>
+            <% else %>
+              <span class="label label-success">Publiée</span>
             <% end %>
-          <% else %>
-            <span class="label label-success">Publiée</span>
-          <% end %>
-        </td>
-        <td>
-          <ul class="fa-ul">
-            <li><i class="fa-li fa fa-pencil-square-o"></i><%= link_to "Modifier", edit_distribution_path(dis) %></li>
-            <li><i class="fa-li fa fa-trash"></i><%= link_to "Supprimer", distribution_path(dis), method: :delete, data: { confirm: I18n.t('confirm_delete') } %></li>
-          </ul>
-        </td>
-      </tr>
-      <% end %>
-    </table>
-    <div class="text-center">
-      <%= link_to "Ajouter un repas", new_distribution_path, class: "btn btn-primary" %>
+          </td>
+          <td>
+            <ul class="fa-ul">
+              <li><i class="fa-li fa fa-pencil-square-o"></i><%= link_to "Modifier", edit_distribution_path(dis) %></li>
+              <li><i class="fa-li fa fa-trash"></i><%= link_to "Supprimer", distribution_path(dis), method: :delete, data: { confirm: I18n.t('confirm_delete') } %></li>
+            </ul>
+          </td>
+        </tr>
+        <% end %>
+      </table>
+      <div class="text-center">
+        <%= link_to "Ajouter un repas", new_distribution_path, class: "btn btn-primary" %>
+      </div>
     </div>
   </div>
 </div>

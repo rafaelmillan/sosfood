@@ -1,6 +1,26 @@
-<div class="container" id="container-orga">
-  <div class="row">
+<div id="page-content">
+  <div class="container" id="container-orga">
+    <h1>Organisation : <%= @organization.name %></h1>
+    <h3>Liste des distributions</h3>
+    <div class="row">
+      <div class="col-sm-6 ">
+     <!--   <p><i class="fa fa-phone-square"></i><%= @organization.phone_number%></p> -->
+       <div class="list-group-container">
+         <div class="list-group">
+          <% @organization.distributions.each_with_index do |dis, index| %>
+          <%= link_to distribution_path(dis), class: "list-group-item distribution-item", data: { id: index } do %>
+          <h5><%= dis.name %></h5>
+            <%= dis.address_1 %>
+            <%= dis.postal_code %>
+
+          <p><i class="fa fa-calendar" aria-hidden="true"></i> <%= IceCube::Schedule.from_yaml(dis.recurrence) %></p>
+          <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
     <div class="col-sm-6 ">
+
       <h1>Organisation: <%= @organization.name %></h1>
    <!--   <p><i class="fa fa-phone-square"></i><%= @organization.phone_number%></p> -->
       <h3>Liste des distributions</h3>
@@ -14,12 +34,14 @@
       <p><i class="fa fa-calendar" aria-hidden="true"></i> <%= IceCube::Schedule.from_yaml(dis.recurrence) %></p>
       <% end %>
       <% end %>
+
+      <div id="map-wrapper">
+        <div id="map"></div>
+      </div>
+
     </div>
   </div>
-  <div class="col-sm-6 ">
-    <div id="map"></div>
   </div>
-</div>
 </div>
 
 
