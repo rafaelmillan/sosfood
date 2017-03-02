@@ -69,18 +69,20 @@ class MessageProcessingService
       meals = Distribution.find_next_three(@coordinates)
 
       meals_array = meals.map do |meal|
-"#{meal[:name]} - #{meal[:time].strftime("%e/%m/%y %Hh%M")}
-#{meal[:distribution].organization.name}
-#{meal[:distribution].address_1}, #{meal[:distribution].postal_code}"
+"#{meal[:name]} - #{meal[:time].strftime("%e/%m/%y de %Hh%M")} à #{meal[:time].end_time.strftime("%Hh%M")}
+#{meal[:distribution].display_name}
+#{meal[:distribution].address_1}, #{meal[:distribution].postal_code} #{meal[:distribution].city}
+Métro #{meal[:distribution].stations.first.name}"
       end
 
-"Repas solidaires près de \"#{@location.address}\":
+"SOS Food
+Repas solidaires près de \"#{@location.address}\" :
 
 #{meals_array.join("\n\n")}"
     elsif action == :subscribe
-"Bienvenue sur SOS Food. Votre abonnement à été pris en compte à l'adresse \"#{@location.address}\". Chaque soir, vous recevrez par SMS trois propositions de repas pour le lendemain."
+"Bienvenue sur SOS Food. Votre abonnement à été pris en compte à l'adresse \"#{@location.address}\". Chaque soir, vous recevrez par SMS trois propositions de repas pour le lendemain. À bientôt, SOS Food."
     elsif action == :unvalid_address
-"Nous n'avons pas compris l'adresse #{@original_address}. Veuillez nous renvoyer une adresse, code postal ou station de métro."
+"Nous n'avons pas compris l'adresse \"#{@original_address}\". Merci de nous renvoyer une adresse, un code postal, ou une station de métro. À bientôt, SOS Food."
     elsif action == :uncovered_area
 "L'adresse \"#{@location.address}\" n'est pas encore couverte par SOS Food."
     end
