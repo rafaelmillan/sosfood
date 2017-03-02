@@ -142,6 +142,10 @@
   border-top: 1px solid #E6E6E6;
 }
 
+.dropdown-toggle {
+  color: white;
+}
+
 .navbar-classic {
   position: static;
   a {
@@ -151,5 +155,8 @@
   a {
     color: #57D1C9;
   }
-}
+  }
+  .dropdown-toggle {
+    color: black;
+  }
 }
