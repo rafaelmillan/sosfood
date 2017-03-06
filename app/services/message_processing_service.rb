@@ -33,6 +33,7 @@ class MessageProcessingService
     else # If recipient is new
       @recipient = Recipient.new(phone_number: sender_number)
       @recipient.save
+      @recipient
     end
   end
 
