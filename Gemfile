@@ -25,6 +25,8 @@ gem 'animate-rails'
 gem 'draftsman', github: 'liveeditor/draftsman'
 
 gem 'social-share-button'
+gem 'activeadmin', github: 'activeadmin/activeadmin'
+gem 'inherited_resources', github: 'activeadmin/inherited_resources'
 
 source "https://rails-assets.org" do
   gem 'rails-assets-bootstrap-datepicker'
