@@ -4,7 +4,9 @@ class Distribution < ApplicationRecord
   validates :postal_code, presence: true
   validates :city, presence: true
   validates :country, presence: true
-  validates :recurrence, presence: true
+  validates :event_type, presence: true
+  validates :start_time, presence: true
+  validates :end_time, presence: true
 
   has_drafts
 
@@ -18,7 +20,17 @@ class Distribution < ApplicationRecord
   end
 
   def schedule
-    IceCube::Schedule.from_yaml(recurrence)
+    schedule = IceCube::Schedule.new(start_time, end_time: end_time)
+    days = []
+    days << :monday if monday
+    days << :tuesday if tuesday
+    days << :wednesday if wednesday
+    days << :thursday if thursday
+    days << :friday if friday
+    days << :saturday if saturday
+    days << :sunday if sunday
+    schedule.rrule(IceCube::Rule.weekly.day(days))
+    return schedule
   end
 
   def mon?
@@ -68,7 +80,7 @@ class Distribution < ApplicationRecord
 
     meals.each do |meal|
       distributions.each do |dis|
-        schedule = IceCube::Schedule.from_yaml(dis.recurrence)
+        schedule = dis.schedule
         if schedule.occurs_between?(meal[:min_time], meal[:max_time])
           meal[:distribution] = dis
           # The -1 avoids mismathing distributions that start at exactly the same time as the min_time
