@@ -33,8 +33,10 @@ CSV.foreach(filepath, csv_options) do |row|
     saturday: row["Sa"] == "Y",
     sunday: row["Su"] == "Y",
     event_type: "weekly",
-    start_time: Time.parse(row['Start time']),
-    end_time: Time.parse(row['End time'])
+    start_time: Time.now,
+    end_time: Time.now
+    #start_time: Time.parse(row['Start time']),
+    #end_time: Time.parse(row['End time'])
   )
   dis.save!
 end
