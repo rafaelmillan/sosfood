@@ -19,8 +19,7 @@ class DistributionsController < ApplicationController
       marker.infowindow "<h4>#{distribution.name}</h4><p>#{distribution.address_1}</p><p>#{distribution.postal_code}</p>"
     end
 
-
-    @recurrence = IceCube::Schedule.from_yaml(@distribution.recurrence) unless @distribution.recurrence.nil?
+    @recurrence = @distribution.schedule
   end
 
   def new

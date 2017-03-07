@@ -13,7 +13,7 @@ class Distribution < ApplicationRecord
   geocoded_by :address
   after_validation :geocode, if: (:address_1_changed? || :postal_code_changed? || :city_changed? || :country_changed? )
 
-  attr_accessor :date, :frequency, :start_time, :end_time, :weekdays, :monthdates, :address
+  attr_accessor :date, :frequency, :weekdays, :monthdates, :address
 
   def address
     [address_1, postal_code, city, country].compact.join(', ')
@@ -34,31 +34,31 @@ class Distribution < ApplicationRecord
   end
 
   def mon?
-    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 1 }
+    monday
   end
 
   def tue?
-    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 2 }
+    tuesday
   end
 
   def wed?
-    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 3 }
+    wednesday
   end
 
   def thu?
-    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 4 }
+    thursday
   end
 
   def fri?
-    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 5 }
+    friday
   end
 
   def sat?
-    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 6 }
+    saturday
   end
 
   def sun?
-    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 0 }
+    sunday
   end
 
   def display_name
@@ -102,7 +102,7 @@ class Distribution < ApplicationRecord
     results = []
 
     distributions.each do |dis|
-      schedule = IceCube::Schedule.from_yaml(dis.recurrence)
+      schedule = dis.schedule
       if schedule.occurs_on?(date)
         schedule.occurrences_between(date.to_time, date.to_time + 1.day).each do |o|
           results << {
