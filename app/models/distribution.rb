@@ -8,8 +8,6 @@ class Distribution < ApplicationRecord
   validates :start_time, presence: true
   validates :end_time, presence: true
 
-  has_drafts
-
   geocoded_by :address
   after_validation :geocode, if: (:address_1_changed? || :postal_code_changed? || :city_changed? || :country_changed? )
 
@@ -73,8 +71,18 @@ class Distribution < ApplicationRecord
     Station.near([latitude, longitude], 0.5)
   end
 
+  def accept!
+    self.status = "accepted"
+    self.save
+  end
+
+  def decline!
+    self.status = "declined"
+    self.save
+  end
+
   def self.find_next_three(coordinates)
-    distributions = Distribution.near(coordinates)
+    distributions = Distribution.near(coordinates).where(status: "accepted")
 
     meals = set_meal_hashes
 
@@ -98,7 +106,7 @@ class Distribution < ApplicationRecord
   end
 
   def self.find_by_date(coordinates, date)
-    distributions = Distribution.near(coordinates)
+    distributions = Distribution.near(coordinates).where(status: "accepted")
     results = []
 
     distributions.each do |dis|

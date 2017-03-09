@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  ActiveAdmin.routes(self)
   devise_for :users, :controllers => { registrations: 'registrations' }
 
   scope '(:locale)', locale: /en/ do

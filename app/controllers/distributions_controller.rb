@@ -11,7 +11,7 @@ class DistributionsController < ApplicationController
   def show
     @alert_message = " You are viewing #{@distribution.name}"
     @distribution_coordinates = { lat: @distribution.latitude, lng: @distribution.longitude }
-    @distributions_around = Distribution.near([@distribution.latitude, @distribution.longitude], 5, units: :km)[0..5].delete_if { |d| d == @distribution }
+    @distributions_around = Distribution.near([@distribution.latitude, @distribution.longitude], 5, units: :km).where(status: "accepted").where.not(id: @distribution.id)[0..4]
 
     @hash = Gmaps4rails.build_markers(@distribution) do |distribution, marker|
       marker.lat distribution.latitude
@@ -32,7 +32,7 @@ class DistributionsController < ApplicationController
     @distribution.organization = current_user.organization
     authorize @distribution
 
-    if @distribution.save_draft
+    if @distribution.save
       redirect_to distribution_path(@distribution)
     else
       render :new
@@ -40,12 +40,11 @@ class DistributionsController < ApplicationController
   end
 
   def edit
-    @distribution = @distribution.draft.reify if @distribution.draft? # Checks if there is a draft
   end
 
   def update
     @distribution.assign_attributes(distribution_params)
-    if @distribution.save_draft
+    if @distribution.save
       redirect_to user_path(current_user)
     else
       render :edit
@@ -81,7 +80,7 @@ class DistributionsController < ApplicationController
     @address = params[:address]
     coordinates = [params[:lat].to_f, params[:lon].to_f]
 
-    @results = Distribution.near(coordinates, 5).reject { |d| d.latitude.nil? || d.longitude.nil? }
+    @results = Distribution.near(coordinates, 5).where(status: "accepted").reject { |d| d.latitude.nil? || d.longitude.nil? }
     @hash = Gmaps4rails.build_markers(@results) do |distribution, marker|
       marker.lat distribution.latitude
       marker.lng distribution.longitude
@@ -90,12 +89,12 @@ class DistributionsController < ApplicationController
   end
 
   def accept
-    @distribution.draft.publish!
+    @distribution.accept!
     redirect_to user_path(current_user)
   end
 
   def decline
-    @distribution.draft.revert!
+    @distribution.decline!
     redirect_to user_path(current_user)
   end
 
