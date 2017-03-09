@@ -24,14 +24,12 @@ class DistributionsController < ApplicationController
 
   def new
     @distribution = Distribution.new
-    @recurrence = {}
     authorize @distribution
   end
 
   def create
     @distribution = Distribution.new(distribution_params)
     @distribution.organization = current_user.organization
-    @recurrence = {}
     authorize @distribution
 
     if @distribution.save_draft
@@ -43,7 +41,6 @@ class DistributionsController < ApplicationController
 
   def edit
     @distribution = @distribution.draft.reify if @distribution.draft? # Checks if there is a draft
-    @recurrence = set_recurrence
   end
 
   def update
@@ -51,7 +48,6 @@ class DistributionsController < ApplicationController
     if @distribution.save_draft
       redirect_to user_path(current_user)
     else
-      @recurrence = set_recurrence
       render :edit
     end
   end
@@ -111,7 +107,26 @@ class DistributionsController < ApplicationController
   end
 
   def distribution_params
-    params.require(:distribution).permit(:name, :address_1, :address_2, :postal_code, :city, :country, :station, :date, :frequency, :start_time, :end_time, :weekdays, :monthdates, :address).merge(recurrence: generate_recurrence)
+    params.require(:distribution).permit(
+      :name,
+      :address_1,
+      :address_2,
+      :postal_code,
+      :city,
+      :country,
+      :date,
+      :address,
+      :event_type,
+      :monday,
+      :tuesday,
+      :wednesday,
+      :thursday,
+      :friday,
+      :saturday,
+      :sunday,
+      :start_time,
+      :end_time
+    )
   end
 
   def generate_recurrence
