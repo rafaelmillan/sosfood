@@ -7,12 +7,21 @@
 <%= f.input :postal_code, placeholder: "75012", input_html: { id: "postal_code" }, :as => :hidden  %>
 <%= f.input :city, placeholder: "Paris", input_html: { id: "locality" }, :as => :hidden %>
 <%= f.input :country, placeholder: "France", as: :string, input_html: { id: "country" }, :as => :hidden  %>
-<%= f.input :frequency, as: :radio_buttons, collection: [["Réccurent", :regular], ["Ponctuel", :once]], item_wrapper_class: "radio-inline" , label: "Type d'évènement", required: true, checked: :regular, wrapper_html:{ id: 'event-inline'} %>
-  <%= f.input :date, wrapper_html: { id: 'datepicker' } %>
+<%= f.input :frequency, as: :radio_buttons, collection: [["Récurrent", :regular], ["Ponctuel", :once]], item_wrapper_class: "radio-inline" , label: "Type d'évènement", required: true, checked: :regular, wrapper_html:{ id: 'event-inline'} %>
+  <%= f.input :date, as: :string, wrapper_html: { id: 'datepicker' } %>
 
 <div id="dayswrapper">
   <label class="control-label check_boxes optional">Jours de distribution</label>
-  <%= f.input :weekdays,
+  <div id="dayspicker">
+    <%= f.input :monday, input_html: { class: "hidden" }, label: "Lu<i class='fa fa-check'></i>".html_safe %>
+    <%= f.input :tuesday, input_html: { class: "hidden" }, label: "Ma<i class='fa fa-check'></i>".html_safe %>
+    <%= f.input :wednesday, input_html: { class: "hidden" }, label: "Me<i class='fa fa-check'></i>".html_safe %>
+    <%= f.input :thursday, input_html: { class: "hidden" }, label: "Je<i class='fa fa-check'></i>".html_safe %>
+    <%= f.input :friday, input_html: { class: "hidden" }, label: "Ve<i class='fa fa-check'></i>".html_safe %>
+    <%= f.input :saturday, input_html: { class: "hidden" }, label: "Sa<i class='fa fa-check'></i>".html_safe %>
+    <%= f.input :sunday, input_html: { class: "hidden" }, label: "Di<i class='fa fa-check'></i>".html_safe %>
+  </div>
+<!--   <%= f.input :weekdays,
     as: :check_boxes,
     collection: [["Lu<i class='fa fa-check'></i>".html_safe, :mon],
     ["Ma<i class='fa fa-check'></i>".html_safe, :tue],
@@ -25,14 +34,14 @@
     wrapper_html: { id: 'dayspicker' },
     checked: @recurrence[:days],
     label: false,
-    input_html: { class: "hidden" } %>
+    input_html: { class: "hidden" } %> -->
 </div>
 <div class="row">
   <div class="col-xs-6">
-    <%= f.input :start_time, input_html: { id: 'start_time' }, label: "Heure de début", input_html: { value: @recurrence[:start_min] } %>
+    <%= f.input :start_time, as: :string, input_html: { id: 'start_time' }, label: "Heure de début", input_html: { value: @recurrence[:start_min] } %>
   </div>
   <div class="col-xs-6">
-    <%= f.input :end_time, input_html: { id: 'end_time' }, label: "Heure de fin", input_html: { value: @recurrence[:end_time] } %>
+    <%= f.input :end_time, as: :string, input_html: { id: 'end_time' }, label: "Heure de fin", input_html: { value: @recurrence[:end_time] } %>
   </div>
 </div>
 <%= f.button :submit, class: "btn btn-primary" %>
