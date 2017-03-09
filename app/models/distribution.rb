@@ -8,8 +8,6 @@ class Distribution < ApplicationRecord
   validates :start_time, presence: true
   validates :end_time, presence: true
 
-  has_drafts
-
   geocoded_by :address
   after_validation :geocode, if: (:address_1_changed? || :postal_code_changed? || :city_changed? || :country_changed? )
 

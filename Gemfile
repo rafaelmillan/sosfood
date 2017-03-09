@@ -21,9 +21,6 @@ gem 'faker'
 gem 'ice_cube'
 gem 'twilio-ruby', '~> 4.11.1'
 gem 'animate-rails'
-
-gem 'draftsman', github: 'liveeditor/draftsman'
-
 gem 'social-share-button'
 gem 'activeadmin', github: 'activeadmin/activeadmin'
 gem 'inherited_resources', github: 'activeadmin/inherited_resources'

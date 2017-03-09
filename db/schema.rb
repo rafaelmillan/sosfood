@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170307145644) do
+ActiveRecord::Schema.define(version: 20170309151719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,15 +36,12 @@ ActiveRecord::Schema.define(version: 20170307145644) do
     t.string   "postal_code"
     t.string   "city"
     t.string   "country"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.float    "latitude"
     t.float    "longitude"
     t.string   "recurrence"
     t.integer  "organization_id"
-    t.integer  "draft_id"
-    t.datetime "published_at"
-    t.datetime "trashed_at"
     t.boolean  "monday"
     t.boolean  "tuesday"
     t.boolean  "wednesday"
@@ -56,24 +53,8 @@ ActiveRecord::Schema.define(version: 20170307145644) do
     t.datetime "start_time"
     t.datetime "end_time"
     t.date     "date"
+    t.boolean  "approved",        default: false
     t.index ["organization_id"], name: "index_distributions_on_organization_id", using: :btree
-  end
-
-  create_table "drafts", force: :cascade do |t|
-    t.string   "item_type",      null: false
-    t.integer  "item_id",        null: false
-    t.string   "event",          null: false
-    t.string   "whodunnit"
-    t.text     "object"
-    t.text     "previous_draft"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.index ["created_at"], name: "index_drafts_on_created_at", using: :btree
-    t.index ["event"], name: "index_drafts_on_event", using: :btree
-    t.index ["item_id"], name: "index_drafts_on_item_id", using: :btree
-    t.index ["item_type"], name: "index_drafts_on_item_type", using: :btree
-    t.index ["updated_at"], name: "index_drafts_on_updated_at", using: :btree
-    t.index ["whodunnit"], name: "index_drafts_on_whodunnit", using: :btree
   end
 
   create_table "lines", force: :cascade do |t|
