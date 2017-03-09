@@ -7,32 +7,29 @@
 <%= f.input :postal_code, placeholder: "75012", input_html: { id: "postal_code" }, :as => :hidden  %>
 <%= f.input :city, placeholder: "Paris", input_html: { id: "locality" }, :as => :hidden %>
 <%= f.input :country, placeholder: "France", as: :string, input_html: { id: "country" }, :as => :hidden  %>
-<%= f.input :frequency, as: :radio_buttons, collection: [["Réccurent", :regular], ["Ponctuel", :once]], item_wrapper_class: "radio-inline" , label: "Type d'évènement", required: true, checked: :regular, wrapper_html:{ id: 'event-inline'} %>
-  <%= f.input :date, wrapper_html: { id: 'datepicker' } %>
+<%= f.input :event_type, as: :radio_buttons, collection: [["Récurrent", :regular], ["Ponctuel", :once]], item_wrapper_class: "radio-inline" , label: "Type d'évènement", required: true, checked: :regular, wrapper_html:{ id: 'event-inline'} %>
+  <%= f.input :date, as: :string, wrapper_html: { id: 'datepicker' } %>
 
 <div id="dayswrapper">
   <label class="control-label check_boxes optional">Jours de distribution</label>
-  <%= f.input :weekdays,
-    as: :check_boxes,
-    collection: [["Lu<i class='fa fa-check'></i>".html_safe, :mon],
-    ["Ma<i class='fa fa-check'></i>".html_safe, :tue],
-    ["Me<i class='fa fa-check'></i>".html_safe, :wed],
-    ["Je<i class='fa fa-check'></i>".html_safe, :thu],
-    ["Ve<i class='fa fa-check'></i>".html_safe, :fri],
-    ["Sa<i class='fa fa-check'></i>".html_safe, :sat],
-    ["Di<i class='fa fa-check'></i>".html_safe, :sun]],
-    item_wrapper_class: "checkbox-inline",
-    wrapper_html: { id: 'dayspicker' },
-    checked: @recurrence[:days],
-    label: false,
-    input_html: { class: "hidden" } %>
+  <div id="dayspicker">
+    <%= f.input :monday, input_html: { class: "hidden" }, label: "Lu<i class='fa fa-check'></i>".html_safe %>
+    <%= f.input :tuesday, input_html: { class: "hidden" }, label: "Ma<i class='fa fa-check'></i>".html_safe %>
+    <%= f.input :wednesday, input_html: { class: "hidden" }, label: "Me<i class='fa fa-check'></i>".html_safe %>
+    <%= f.input :thursday, input_html: { class: "hidden" }, label: "Je<i class='fa fa-check'></i>".html_safe %>
+    <%= f.input :friday, input_html: { class: "hidden" }, label: "Ve<i class='fa fa-check'></i>".html_safe %>
+    <%= f.input :saturday, input_html: { class: "hidden" }, label: "Sa<i class='fa fa-check'></i>".html_safe %>
+    <%= f.input :sunday, input_html: { class: "hidden" }, label: "Di<i class='fa fa-check'></i>".html_safe %>
+  </div>
 </div>
 <div class="row">
   <div class="col-xs-6">
-    <%= f.input :start_time, input_html: { id: 'start_time' }, label: "Heure de début", input_html: { value: @recurrence[:start_min] } %>
+    <% f.object.start_time.nil? ? start_time = "" : start_time = localize(f.object.start_time, format: :short) %>
+    <%= f.input :start_time, as: :string, label: "Heure de début", input_html: { value: start_time } %>
   </div>
   <div class="col-xs-6">
-    <%= f.input :end_time, input_html: { id: 'end_time' }, label: "Heure de fin", input_html: { value: @recurrence[:end_time] } %>
+    <% f.object.end_time.nil? ? end_time = "" : end_time = localize(f.object.end_time, format: :short) %>
+    <%= f.input :end_time, as: :string, label: "Heure de fin", input_html: { value: end_time } %>
   </div>
 </div>
 <%= f.button :submit, class: "btn btn-primary" %>
@@ -57,12 +54,12 @@
   $('#datepicker').hide();
   $('#dayswrapper').show();
 
-  $('.distribution_frequency input').click(function() {
-    var frequency = $(".distribution_frequency input[type='radio']:checked").attr('id');
-    if (frequency == "distribution_frequency_once") {
+  $('.distribution_event_type input').click(function() {
+    var frequency = $(".distribution_event_type input[type='radio']:checked").attr('id');
+    if (frequency == "distribution_event_type_once") {
       $('#datepicker').fadeIn();
       $('#dayswrapper').hide();
-    } else if (frequency == "distribution_frequency_regular") {
+    } else if (frequency == "distribution_event_type_regular") {
       $('#datepicker').hide();
       $('#dayswrapper').fadeIn();
     }

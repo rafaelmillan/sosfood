@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170307134309) do
+ActiveRecord::Schema.define(version: 20170307145644) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,17 @@ ActiveRecord::Schema.define(version: 20170307134309) do
     t.integer  "draft_id"
     t.datetime "published_at"
     t.datetime "trashed_at"
+    t.boolean  "monday"
+    t.boolean  "tuesday"
+    t.boolean  "wednesday"
+    t.boolean  "thursday"
+    t.boolean  "friday"
+    t.boolean  "saturday"
+    t.boolean  "sunday"
+    t.string   "event_type"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.date     "date"
     t.index ["organization_id"], name: "index_distributions_on_organization_id", using: :btree
   end
 

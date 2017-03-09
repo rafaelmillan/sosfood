@@ -13,7 +13,7 @@
             <%= dis.address_1 %>
             <%= dis.postal_code %>
 
-          <p><i class="fa fa-calendar" aria-hidden="true"></i> <%= IceCube::Schedule.from_yaml(dis.recurrence) %></p>
+          <p><i class="fa fa-calendar" aria-hidden="true"></i> <%= dis.schedule %></p>
           <% end %>
           <% end %>
         </div>

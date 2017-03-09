@@ -4,49 +4,61 @@ class Distribution < ApplicationRecord
   validates :postal_code, presence: true
   validates :city, presence: true
   validates :country, presence: true
-  validates :recurrence, presence: true
+  validates :event_type, presence: true
+  validates :start_time, presence: true
+  validates :end_time, presence: true
 
   has_drafts
 
   geocoded_by :address
   after_validation :geocode, if: (:address_1_changed? || :postal_code_changed? || :city_changed? || :country_changed? )
 
-  attr_accessor :date, :frequency, :start_time, :end_time, :weekdays, :monthdates, :address
+  attr_accessor :date, :frequency, :weekdays, :monthdates, :address
 
   def address
     [address_1, postal_code, city, country].compact.join(', ')
   end
 
   def schedule
-    IceCube::Schedule.from_yaml(recurrence)
+    schedule = IceCube::Schedule.new(start_time, end_time: end_time)
+    days = []
+    days << :monday if monday
+    days << :tuesday if tuesday
+    days << :wednesday if wednesday
+    days << :thursday if thursday
+    days << :friday if friday
+    days << :saturday if saturday
+    days << :sunday if sunday
+    schedule.rrule(IceCube::Rule.weekly.day(days))
+    return schedule
   end
 
   def mon?
-    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 1 }
+    monday
   end
 
   def tue?
-    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 2 }
+    tuesday
   end
 
   def wed?
-    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 3 }
+    wednesday
   end
 
   def thu?
-    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 4 }
+    thursday
   end
 
   def fri?
-    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 5 }
+    friday
   end
 
   def sat?
-    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 6 }
+    saturday
   end
 
   def sun?
-    schedule.to_hash[:rrules].any? { |rule| rule[:validations][:day].include? 0 }
+    sunday
   end
 
   def display_name
@@ -68,7 +80,7 @@ class Distribution < ApplicationRecord
 
     meals.each do |meal|
       distributions.each do |dis|
-        schedule = IceCube::Schedule.from_yaml(dis.recurrence)
+        schedule = dis.schedule
         if schedule.occurs_between?(meal[:min_time], meal[:max_time])
           meal[:distribution] = dis
           # The -1 avoids mismathing distributions that start at exactly the same time as the min_time
@@ -90,7 +102,7 @@ class Distribution < ApplicationRecord
     results = []
 
     distributions.each do |dis|
-      schedule = IceCube::Schedule.from_yaml(dis.recurrence)
+      schedule = dis.schedule
       if schedule.occurs_on?(date)
         schedule.occurrences_between(date.to_time, date.to_time + 1.day).each do |o|
           results << {
