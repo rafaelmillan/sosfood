@@ -11,7 +11,7 @@ class DistributionsController < ApplicationController
   def show
     @alert_message = " You are viewing #{@distribution.name}"
     @distribution_coordinates = { lat: @distribution.latitude, lng: @distribution.longitude }
-    @distributions_around = Distribution.near([@distribution.latitude, @distribution.longitude], 5, units: :km)[0..5].delete_if { |d| d == @distribution }
+    @distributions_around = Distribution.near([@distribution.latitude, @distribution.longitude], 5, units: :km).where(status: "accepted").where.not(id: @distribution.id)[0..4]
 
     @hash = Gmaps4rails.build_markers(@distribution) do |distribution, marker|
       marker.lat distribution.latitude
@@ -80,7 +80,7 @@ class DistributionsController < ApplicationController
     @address = params[:address]
     coordinates = [params[:lat].to_f, params[:lon].to_f]
 
-    @results = Distribution.near(coordinates, 5).reject { |d| d.latitude.nil? || d.longitude.nil? }
+    @results = Distribution.near(coordinates, 5).where(status: "accepted").reject { |d| d.latitude.nil? || d.longitude.nil? }
     @hash = Gmaps4rails.build_markers(@results) do |distribution, marker|
       marker.lat distribution.latitude
       marker.lng distribution.longitude

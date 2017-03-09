@@ -82,7 +82,7 @@ class Distribution < ApplicationRecord
   end
 
   def self.find_next_three(coordinates)
-    distributions = Distribution.near(coordinates)
+    distributions = Distribution.near(coordinates).where(status: "accepted")
 
     meals = set_meal_hashes
 
@@ -106,7 +106,7 @@ class Distribution < ApplicationRecord
   end
 
   def self.find_by_date(coordinates, date)
-    distributions = Distribution.near(coordinates)
+    distributions = Distribution.near(coordinates).where(status: "accepted")
     results = []
 
     distributions.each do |dis|
