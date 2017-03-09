@@ -32,7 +32,7 @@ class DistributionsController < ApplicationController
     @distribution.organization = current_user.organization
     authorize @distribution
 
-    if @distribution.save_draft
+    if @distribution.save
       redirect_to distribution_path(@distribution)
     else
       render :new
@@ -40,12 +40,11 @@ class DistributionsController < ApplicationController
   end
 
   def edit
-    @distribution = @distribution.draft.reify if @distribution.draft? # Checks if there is a draft
   end
 
   def update
     @distribution.assign_attributes(distribution_params)
-    if @distribution.save_draft
+    if @distribution.save
       redirect_to user_path(current_user)
     else
       render :edit
@@ -90,12 +89,12 @@ class DistributionsController < ApplicationController
   end
 
   def accept
-    @distribution.draft.publish!
+    @distribution.accept!
     redirect_to user_path(current_user)
   end
 
   def decline
-    @distribution.draft.revert!
+    @distribution.decline!
     redirect_to user_path(current_user)
   end
 

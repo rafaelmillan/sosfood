@@ -27,9 +27,6 @@ ActiveAdmin.register Distribution do
     column :latitude
     column :longitude
     column :organization_id
-    column :draft_id
-    column :published_at
-    column :trashed_at
     column :monday
     column :tuesday
     column :wednesday
@@ -41,6 +38,7 @@ ActiveAdmin.register Distribution do
     column :start_time
     column :end_time
     column :date
+    column :status
     actions
   end
 
@@ -58,9 +56,6 @@ ActiveAdmin.register Distribution do
       f.input :latitude
       f.input :longitude
       f.input :organization_id
-      f.input :draft_id
-      f.input :published_at
-      f.input :trashed_at
       f.input :monday
       f.input :tuesday
       f.input :wednesday
@@ -72,6 +67,7 @@ ActiveAdmin.register Distribution do
       f.input :start_time
       f.input :end_time
       f.input :date
+      f.input :status
     end
     f.actions
   end

@@ -71,6 +71,16 @@ class Distribution < ApplicationRecord
     Station.near([latitude, longitude], 0.5)
   end
 
+  def accept!
+    self.status = "accepted"
+    self.save
+  end
+
+  def decline!
+    self.status = "declined"
+    self.save
+  end
+
   def self.find_next_three(coordinates)
     distributions = Distribution.near(coordinates)
 

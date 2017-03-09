@@ -36,8 +36,8 @@ ActiveRecord::Schema.define(version: 20170309151719) do
     t.string   "postal_code"
     t.string   "city"
     t.string   "country"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.float    "latitude"
     t.float    "longitude"
     t.string   "recurrence"
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 20170309151719) do
     t.datetime "start_time"
     t.datetime "end_time"
     t.date     "date"
-    t.boolean  "approved",        default: false
+    t.string   "status",          default: "pending"
     t.index ["organization_id"], name: "index_distributions_on_organization_id", using: :btree
   end
 
