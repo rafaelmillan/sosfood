@@ -1,10 +1,29 @@
 ActiveAdmin.register Distribution do
-
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
-# permit_params :list, :of, :attributes, :on, :model
-#
+
+  permit_params(
+    :name,
+    :address_1,
+    :address_2,
+    :postal_code,
+    :city,
+    # :country,
+    :organization_id,
+    :monday,
+    :tuesday,
+    :wednesday,
+    :thursday,
+    :friday,
+    :saturday,
+    :sunday,
+    :event_type,
+    :start_time,
+    :end_time,
+    :date,
+    :status
+  )
 # or
 #
 # permit_params do
@@ -22,8 +41,6 @@ ActiveAdmin.register Distribution do
     column :postal_code
     column :city
     column :country
-    column :created_at
-    column :updated_at
     column :latitude
     column :longitude
     column :organization_id
@@ -39,23 +56,20 @@ ActiveAdmin.register Distribution do
     column :end_time
     column :date
     column :status
+    column :created_at
+    column :updated_at
     actions
   end
 
   form do |f|
     f.inputs "Details" do
-      f.input :id
       f.input :name
       f.input :address_1
       f.input :address_2
       f.input :postal_code
       f.input :city
       # f.input :country
-      f.input :created_at
-      f.input :updated_at
-      f.input :latitude
-      f.input :longitude
-      f.input :organization_id
+      f.input :organization
       f.input :monday
       f.input :tuesday
       f.input :wednesday
@@ -67,7 +81,7 @@ ActiveAdmin.register Distribution do
       f.input :start_time
       f.input :end_time
       f.input :date
-      f.input :status
+      f.input :status, as: :radio, collection: %w(pending accepted declined)
     end
     f.actions
   end

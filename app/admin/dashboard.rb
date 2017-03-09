@@ -11,23 +11,23 @@ ActiveAdmin.register_page "Dashboard" do
     end
 
     # Here is an example of a simple dashboard with columns and panels.
-    #
-    # columns do
-    #   column do
-    #     panel "Recent Posts" do
-    #       ul do
-    #         Post.recent(5).map do |post|
-    #           li link_to(post.title, admin_post_path(post))
-    #         end
-    #       end
-    #     end
-    #   end
 
-    #   column do
-    #     panel "Info" do
-    #       para "Welcome to ActiveAdmin."
-    #     end
-    #   end
-    # end
+    columns do
+      column do
+        panel "Pending approvals" do
+          ul do
+            Distribution.where(status: "pending").map do |dis|
+              li link_to(dis.display_name, edit_admin_distribution_path(dis))
+            end
+          end
+        end
+      end
+
+      column do
+        panel "Info" do
+          para "Welcome to ActiveAdmin."
+        end
+      end
+    end
   end # content
 end
