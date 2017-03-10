@@ -3,11 +3,6 @@ class DistributionsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:search, :show, :explore]
   skip_after_action :verify_authorized, only: [:search, :show, :explore]
 
-
-  def index
-    @distributions = policy_scope(Distribution)
-  end
-
   def show
     @alert_message = " You are viewing #{@distribution.name}"
     @distribution_coordinates = { lat: @distribution.latitude, lng: @distribution.longitude }
@@ -55,7 +50,7 @@ class DistributionsController < ApplicationController
 
   def destroy
     @distribution.destroy
-    redirect_to distributions_path
+    redirect_to user_path(current_user)
   end
 
   def search

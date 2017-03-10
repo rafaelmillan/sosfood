@@ -3,9 +3,9 @@ class UsersController < ApplicationController
 
   def show
     if current_user.admin == true
-      @distributions = Distribution.all
+      @distributions = Distribution.order(created_at: :desc)
     else
-      @distributions = current_user.organization.distributions
+      @distributions = current_user.organization.distributions.order(created_at: :desc)
     end
   end
 end

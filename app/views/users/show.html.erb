@@ -55,7 +55,7 @@
           <td>
             <ul class="fa-ul">
               <li><i class="fa-li fa fa-pencil-square-o"></i><%= link_to "Modifier", edit_distribution_path(dis) %></li>
-              <li><i class="fa-li fa fa-trash"></i><%= link_to "Supprimer", distribution_path(dis), method: :delete, data: { confirm: I18n.t('confirm_delete') } %></li>
+              <li><i class="fa-li fa fa-trash"></i><%= link_to "Supprimer", distribution_path(dis), method: :delete, data: { confirm: "Voulez-vous supprimer ce repas ?" } %></li>
             </ul>
           </td>
         </tr>
