@@ -48,8 +48,10 @@
             <%= link_to "Valider", accept_distribution_path(dis), class: "btn btn_transparent_black btn-xs", method: :post %>
             <%= link_to "Décliner", decline_distribution_path(dis), class: "btn btn_transparent_black btn-xs", method: :post %>
             <% end %>
-            <% else %>
+            <% elsif dis.status == "accepted" %>
             <span class="label label-success">Publiée</span>
+            <% elsif dis.status == "declined" %>
+            <span class="label label-danger">Refusée</span>
             <% end %>
           </td>
           <td>

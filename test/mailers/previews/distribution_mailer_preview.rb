@@ -16,4 +16,9 @@ class DistributionMailerPreview < ActionMailer::Preview
     distribution = Distribution.last
     DistributionMailer.create(user, distribution)
   end
+
+  def review
+    distribution = Distribution.last
+    DistributionMailer.review(distribution)
+  end
 end
