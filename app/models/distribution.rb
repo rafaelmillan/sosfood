@@ -11,6 +11,8 @@ class Distribution < ApplicationRecord
   geocoded_by :address
   after_validation :geocode, if: (:address_1_changed? || :postal_code_changed? || :city_changed? || :country_changed? )
 
+  after_validation :send_email if :status_changed?
+
   attr_accessor :date, :frequency, :weekdays, :monthdates, :address
 
   def address
@@ -171,5 +173,17 @@ class Distribution < ApplicationRecord
         name: "Dinner"
       }
     ]
+  end
+
+  def send_email
+    p "Hello!!!!!!!!!!!!!!"
+    p status_changed?
+    p changes
+    p status_change == ["pending", "accepted"]
+    if status_change == ["pending", "accepted"]
+      DistributionMailer.accept(User.last, self).deliver_now
+    elsif status_change == ["pending", "declined"]
+      DistributionMailer.decline(User.last, self).deliver_now
+    end
   end
 end
