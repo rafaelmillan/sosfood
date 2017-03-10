@@ -41,6 +41,7 @@ class DistributionsController < ApplicationController
   def update
     @distribution.assign_attributes(distribution_params)
     @distribution.user = current_user
+    @distribution.status = "pending" if @distribution.status = "declined"
     if @distribution.save
       redirect_to user_path(current_user)
     else
