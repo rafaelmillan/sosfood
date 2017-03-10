@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170309151719) do
+ActiveRecord::Schema.define(version: 20170310145033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,7 +54,9 @@ ActiveRecord::Schema.define(version: 20170309151719) do
     t.datetime "end_time"
     t.date     "date"
     t.string   "status",          default: "pending"
+    t.integer  "user_id"
     t.index ["organization_id"], name: "index_distributions_on_organization_id", using: :btree
+    t.index ["user_id"], name: "index_distributions_on_user_id", using: :btree
   end
 
   create_table "lines", force: :cascade do |t|
@@ -128,6 +130,7 @@ ActiveRecord::Schema.define(version: 20170309151719) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "distributions", "users"
   add_foreign_key "messages", "recipients"
   add_foreign_key "stops", "lines"
   add_foreign_key "stops", "stations"

@@ -30,6 +30,7 @@ class DistributionsController < ApplicationController
   def create
     @distribution = Distribution.new(distribution_params)
     @distribution.organization = current_user.organization
+    @distribution.user = current_user
     authorize @distribution
 
     if @distribution.save
@@ -44,6 +45,7 @@ class DistributionsController < ApplicationController
 
   def update
     @distribution.assign_attributes(distribution_params)
+    @distribution.user = current_user
     if @distribution.save
       redirect_to user_path(current_user)
     else
