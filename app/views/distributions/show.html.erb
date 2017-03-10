@@ -24,8 +24,17 @@
           <% end %>
           <% end %>
         </li>
-        </ul>
-      <% end %>
+        <li>
+          <% if @distribution.status == "pending" %>
+            <span class="label label-info">En cours de validation</span>
+          <% elsif @distribution.status == "accepted" %>
+            <span class="label label-success">Publiée</span>
+          <% elsif @distribution.status == "declined" %>
+            <span class="label label-danger">Refusée</span>
+          <% end %>
+        </li>
+      </ul>
+    <% end %>
   </div>
   </div>
   <div id="distribution-body">

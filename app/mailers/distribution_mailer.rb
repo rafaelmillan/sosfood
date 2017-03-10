@@ -32,4 +32,10 @@ class DistributionMailer < ApplicationMailer
 
     mail(to: @user.email, subject: "Votre distribution est en cours de validation")
   end
+
+  def review(distribution)
+    @distribution = distribution
+
+    mail(to: "contact@sos-food.org", subject: "Une nouvelle distribution doit être validée")
+  end
 end
