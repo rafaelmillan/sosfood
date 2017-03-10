@@ -30,6 +30,7 @@ class DistributionsController < ApplicationController
   def create
     @distribution = Distribution.new(distribution_params)
     @distribution.organization = current_user.organization
+    @distribution.user = current_user
     authorize @distribution
 
     if @distribution.save
@@ -44,6 +45,7 @@ class DistributionsController < ApplicationController
 
   def update
     @distribution.assign_attributes(distribution_params)
+    @distribution.user = current_user
     if @distribution.save
       redirect_to user_path(current_user)
     else
@@ -126,62 +128,6 @@ class DistributionsController < ApplicationController
       :start_time,
       :end_time
     )
-  end
-
-  def generate_recurrence
-    now = Time.now
-
-    freq = params[:distribution][:frequency]
-
-    start_hour = params[:distribution][:start_time][0..1]
-    start_min = params[:distribution][:start_time][3..4]
-
-    end_hour = params[:distribution][:end_time][0..1]
-    end_min = params[:distribution][:end_time][3..4]
-
-    day = params[:distribution][:date][0..1]
-    month = params[:distribution][:date][3..4]
-    year = params[:distribution][:date][6..9]
-
-    weekdays = params[:distribution][:weekdays]
-
-    if freq == "once"
-      time = Time.new(year, month, day, start_hour, start_min)
-      duration = Time.new(year, month, day, end_hour, end_min) - time
-      schedule = IceCube::Schedule.new(time, duration: duration)
-    elsif freq == "regular"
-      time = Time.new(now.year, now.month, now.day, start_hour, start_min)
-      duration = Time.new(now.year, now.month, now.day, end_hour, end_min) - time
-      schedule = IceCube::Schedule.new(time, duration: duration)
-      days = []
-      days << :monday if weekdays.include?("mon")
-      days << :tuesday if weekdays.include?("tue")
-      days << :wednesday if weekdays.include?("wed")
-      days << :thursday if weekdays.include?("thu")
-      days << :friday if weekdays.include?("fri")
-      days << :saturday if weekdays.include?("sat")
-      days << :sunday if weekdays.include?("sun")
-      schedule.rrule(IceCube::Rule.weekly.day(days))
-    end
-
-    return schedule.to_yaml
-  end
-
-  def set_recurrence
-    schedule = @distribution.schedule
-    frequency = schedule.rrules.first.to_hash[:rule_type]
-    days = schedule.rrules.first.to_hash[:validations][:day]
-    recurrence = {}
-    if frequency == "IceCube::WeeklyRule"
-      recurrence[:weekly] = true
-      recurrence[:days] = []
-      [:sun, :mon, :tue, :wed, :thu, :fri, :sat].each_with_index do |day, i|
-        recurrence[:days] << day if days.include? i
-      end
-    end
-    recurrence[:start_min] = schedule.start_time.strftime("%Hh%M")
-    recurrence[:end_time] = schedule.end_time.strftime("%Hh%M")
-    return recurrence
   end
 
 end

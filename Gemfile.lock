@@ -68,6 +68,8 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    addressable (2.5.0)
+      public_suffix (~> 2.0, >= 2.0.2)
     animate-rails (1.0.10)
       rails
     arbre (1.1.1)
@@ -150,6 +152,10 @@ GEM
       activerecord
       kaminari-core (= 1.0.1)
     kaminari-core (1.0.1)
+    launchy (2.4.3)
+      addressable (~> 2.3)
+    letter_opener (1.4.1)
+      launchy (~> 2.2)
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -180,6 +186,7 @@ GEM
       pry (~> 0.10)
     pry-rails (0.3.5)
       pry (>= 0.9.10)
+    public_suffix (2.0.5)
     puma (3.7.0)
     pundit (1.1.0)
       activesupport (>= 3.0.0)
@@ -297,6 +304,7 @@ DEPENDENCIES
   inherited_resources!
   jbuilder (~> 2.0)
   jquery-rails
+  letter_opener
   listen (~> 3.0.5)
   pg
   pry-byebug

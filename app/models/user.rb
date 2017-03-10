@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   belongs_to :organization
-  has_many :distributions, through: :organization
+  has_many :distributions
 
   validates :organization_id, presence: true
 

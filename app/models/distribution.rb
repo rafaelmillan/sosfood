@@ -1,5 +1,6 @@
 class Distribution < ApplicationRecord
   belongs_to :organization
+  belongs_to :user # Owner of the distribution (receives notifications)
   validates :address_1, presence: true
   validates :postal_code, presence: true
   validates :city, presence: true
@@ -10,6 +11,9 @@ class Distribution < ApplicationRecord
 
   geocoded_by :address
   after_validation :geocode, if: (:address_1_changed? || :postal_code_changed? || :city_changed? || :country_changed? )
+
+  after_validation :send_review_email if :status_changed?
+  after_create :send_creation_email
 
   attr_accessor :date, :frequency, :weekdays, :monthdates, :address
 
@@ -171,5 +175,17 @@ class Distribution < ApplicationRecord
         name: "Dinner"
       }
     ]
+  end
+
+  def send_review_email
+    if status_change == ["pending", "accepted"]
+      DistributionMailer.accept(self.user, self).deliver_now
+    elsif status_change == ["pending", "declined"]
+      DistributionMailer.decline(self.user, self).deliver_now
+    end
+  end
+
+  def send_creation_email
+    DistributionMailer.create(self.user, self).deliver_now
   end
 end
