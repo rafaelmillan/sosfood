@@ -19,7 +19,7 @@
         </li>
         <li>
           <% if policy(@distribution).destroy? %>
-          <%= link_to distribution_path(@distribution), method: :delete, data: { confirm: I18n.t('confirm_delete') } do %>
+          <%= link_to distribution_path(@distribution), method: :delete, data: { confirm: "Voulez-vous supprimer ce repas ?" } do %>
           <i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer
           <% end %>
           <% end %>
