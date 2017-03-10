@@ -125,6 +125,7 @@ GEM
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     gmaps4rails (2.1.2)
+    google-analytics-rails (1.1.0)
     has_scope (0.7.0)
       actionpack (>= 4.1, < 5.1)
       activesupport (>= 4.1, < 5.1)
@@ -300,6 +301,7 @@ DEPENDENCIES
   font-awesome-sass
   geocoder
   gmaps4rails
+  google-analytics-rails (= 1.1.0)
   ice_cube
   inherited_resources!
   jbuilder (~> 2.0)
