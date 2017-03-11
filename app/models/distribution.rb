@@ -12,25 +12,31 @@ class Distribution < ApplicationRecord
   geocoded_by :address
   after_validation :geocode, if: (:address_1_changed? || :postal_code_changed? || :city_changed? || :country_changed? )
 
-  after_validation :send_review_email if :status_changed?
+  around_save :send_review_email if :status_changed?
 
-  attr_accessor :date, :frequency, :weekdays, :monthdates, :address
+  attr_accessor :frequency, :weekdays, :monthdates, :address
 
   def address
     [address_1, postal_code, city, country].compact.join(', ')
   end
 
   def schedule
-    schedule = IceCube::Schedule.new(start_time, end_time: end_time)
-    days = []
-    days << :monday if monday
-    days << :tuesday if tuesday
-    days << :wednesday if wednesday
-    days << :thursday if thursday
-    days << :friday if friday
-    days << :saturday if saturday
-    days << :sunday if sunday
-    schedule.rrule(IceCube::Rule.weekly.day(days))
+    if event_type == "regular"
+      schedule = IceCube::Schedule.new(start_time, end_time: end_time)
+      days = []
+      days << :monday if monday
+      days << :tuesday if tuesday
+      days << :wednesday if wednesday
+      days << :thursday if thursday
+      days << :friday if friday
+      days << :saturday if saturday
+      days << :sunday if sunday
+      schedule.rrule(IceCube::Rule.weekly.day(days))
+    elsif event_type == "once"
+      schedule_start = date + start_time.seconds_since_midnight.seconds
+      schedule_end = date + end_time.seconds_since_midnight.seconds
+      schedule = IceCube::Schedule.new(schedule_start, end_time: schedule_end)
+    end
     return schedule
   end
 
@@ -178,11 +184,14 @@ class Distribution < ApplicationRecord
 
   def send_review_email
     if status_change == ["pending", "accepted"]
+      yield
       DistributionMailer.accept(self.user, self).deliver_now
     elsif status_change == ["pending", "declined"]
+      yield
       DistributionMailer.decline(self.user, self).deliver_now
     elsif status == "pending"
-      DistributionMailer.create(self.user, self).deliver_now
+      yield
+      DistributionMailer.create(self.user, self).deliver_now unless self.user.nil?
       DistributionMailer.review(self).deliver_now
     end
   end

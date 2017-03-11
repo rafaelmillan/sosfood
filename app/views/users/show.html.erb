@@ -29,15 +29,20 @@
             <%= link_to dis.display_name, distribution_path(dis) %><br><%= dis.address %>
           </td>
           <td>
-            <div class="week_days text-center">
-              <div class="day-block"><%= dis.mon? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-              <div class="day-block"><%= dis.tue? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-              <div class="day-block"><%= dis.wed? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-              <div class="day-block"><%= dis.thu? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-              <div class="day-block"><%= dis.fri? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-              <div class="day-block"><%= dis.sat? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-              <div class="day-block"><%= dis.sun? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-            </div>
+            <% if dis.event_type == "regular" %>
+              <div class="week_days text-center">
+                <div class="day-block"><%= dis.mon? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                <div class="day-block"><%= dis.tue? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                <div class="day-block"><%= dis.wed? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                <div class="day-block"><%= dis.thu? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                <div class="day-block"><%= dis.fri? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                <div class="day-block"><%= dis.sat? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                <div class="day-block"><%= dis.sun? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+              </div>
+            <% elsif dis.event_type == "once" %>
+              <%= l(dis.date, format: "%A, %e %B %Y") %>
+              <br><span class="week_days">(Distribution ponctuelle)</span>
+            <% end %>
           </td>
           <td><%= l dis.schedule.start_time, format: :short %> à <%= l dis.schedule.end_time, format: :short %></td>
           <td>

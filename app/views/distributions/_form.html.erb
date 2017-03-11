@@ -7,8 +7,9 @@
 <%= f.input :postal_code, placeholder: "75012", input_html: { id: "postal_code" }, :as => :hidden  %>
 <%= f.input :city, placeholder: "Paris", input_html: { id: "locality" }, :as => :hidden %>
 <%= f.input :country, placeholder: "France", as: :string, input_html: { id: "country" }, :as => :hidden  %>
-<%= f.input :event_type, as: :radio_buttons, collection: [["Récurrent", :regular], ["Ponctuel", :once]], item_wrapper_class: "radio-inline" , label: "Type d'évènement", required: true, checked: :regular, wrapper_html:{ id: 'event-inline'} %>
-  <%= f.input :date, as: :string, wrapper_html: { id: 'datepicker' } %>
+<%= f.input :event_type, as: :radio_buttons, collection: [["Récurrent", :regular], ["Ponctuel", :once]], item_wrapper_class: "radio-inline" , label: "Type d'évènement", required: true, wrapper_html:{ id: 'event-inline'} %>
+<% f.object.date.nil? ? date = "" : date = f.object.date.strftime("%d/%m/%Y") %>
+<%= f.input :date, as: :string, wrapper_html: { id: 'datepicker' }, input_html: { value: date } %>
 
 <div id="dayswrapper">
   <label class="control-label check_boxes optional">Jours de distribution</label>
@@ -40,39 +41,45 @@
 <script>
   $(document).ready(function() {
 
-  $('#datepicker input').datepicker({
-    format: "dd/mm/yyyy",
-    weekStart: 1,
-    language: "fr",
-    autoclose: true,
-    todayHighlight: true
-  });
-
-  $('#distribution_start_time').timepicker({ 'timeFormat': 'H\\hi', 'scrollDefault': 'now' });
-  $('#distribution_end_time').timepicker({ 'timeFormat': 'H\\hi', 'scrollDefault': 'now' });
-
-  $('#datepicker').hide();
-  $('#dayswrapper').show();
-
-  $('.distribution_event_type input').click(function() {
-    var frequency = $(".distribution_event_type input[type='radio']:checked").attr('id');
-    if (frequency == "distribution_event_type_once") {
-      $('#datepicker').fadeIn();
-      $('#dayswrapper').hide();
-    } else if (frequency == "distribution_event_type_regular") {
-      $('#datepicker').hide();
-      $('#dayswrapper').fadeIn();
-    }
-  });
-
-
-    $("#dayspicker label").change(function(){
-      $(this).toggleClass("active");
+    $('#datepicker input').datepicker({
+      format: "dd/mm/yyyy",
+      weekStart: 1,
+      language: "fr",
+      autoclose: true,
+      todayHighlight: true
     });
 
-    $("#dayspicker input").filter( ":checked" ).each(function() {
-      $(this).parent().addClass("active");
-   });
+    $('#distribution_start_time').timepicker({ 'timeFormat': 'H\\hi', 'scrollDefault': 'now' });
+    $('#distribution_end_time').timepicker({ 'timeFormat': 'H\\hi', 'scrollDefault': 'now' });
+
+    if ("<%= @distribution.event_type %>" == "regular") {
+      $('#datepicker').hide();
+      $('#dayswrapper').show();
+    } else if ("<%= @distribution.event_type %>" == "once") {
+      $('#datepicker').show();
+      $('#dayswrapper').hide();
+    }
+
+    $('.distribution_event_type input').click(function() {
+      var frequency = $(".distribution_event_type input[type='radio']:checked").attr('id');
+      if (frequency == "distribution_event_type_once") {
+        $('#datepicker').slideDown();
+        $('#dayswrapper').slideUp();
+      } else if (frequency == "distribution_event_type_regular") {
+        $('#datepicker').slideUp();
+        $('#dayswrapper').slideDown();
+      }
+    });
+
+
+      $("#dayspicker label").change(function(){
+        $(this).toggleClass("active");
+      });
+
+      $("#dayspicker input").filter( ":checked" ).each(function() {
+        $(this).parent().addClass("active");
+     });
+
   });
 
 </script>
