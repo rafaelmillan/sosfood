@@ -32,7 +32,7 @@ CSV.foreach(filepath, csv_options) do |row|
     friday: row["Ve"] == "Y",
     saturday: row["Sa"] == "Y",
     sunday: row["Di"] == "Y",
-    event_type: "weekly",
+    event_type: "regular",
     start_time: Time.parse(row['Start time']),
     end_time: Time.parse(row['End time'])
   )
