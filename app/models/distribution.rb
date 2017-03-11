@@ -191,7 +191,7 @@ class Distribution < ApplicationRecord
       DistributionMailer.decline(self.user, self).deliver_now
     elsif status == "pending"
       yield
-      DistributionMailer.create(self.user, self).deliver_now
+      DistributionMailer.create(self.user, self).deliver_now unless self.user.nil?
       DistributionMailer.review(self).deliver_now
     end
   end
