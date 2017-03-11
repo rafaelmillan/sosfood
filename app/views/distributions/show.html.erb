@@ -4,11 +4,11 @@
 -->
 
 <div class="container">
-    <div class="row">
+  <div class="row">
     <div class="col-md-8 col-md-offset-2">
 
-  <h1><%= @distribution.display_name %></h1>
-   <% if policy(@distribution).edit? || policy(@distribution).destroy? %>
+      <h1><%= @distribution.display_name %></h1>
+      <% if policy(@distribution).edit? || policy(@distribution).destroy? %>
       <ul class="list-inline">
         <li>
           <% if policy(@distribution).edit? %>
@@ -26,193 +26,204 @@
         </li>
         <li>
           <% if @distribution.status == "pending" %>
-            <span class="label label-info">En cours de validation</span>
+          <span class="label label-info">En cours de validation</span>
           <% elsif @distribution.status == "accepted" %>
-            <span class="label label-success">Publiée</span>
+          <span class="label label-success">Publiée</span>
           <% elsif @distribution.status == "declined" %>
-            <span class="label label-danger">Refusée</span>
+          <span class="label label-danger">Refusée</span>
           <% end %>
         </li>
       </ul>
-    <% end %>
-  </div>
+      <% end %>
+    </div>
   </div>
   <div id="distribution-body">
-  <div class="row">
+    <div class="row">
 
-<div class="col-sm-6 col-md-4 col-sm-push-6 col-md-push-4 col-md-offset-2">
+      <div class="col-sm-6 col-md-4 col-sm-push-6 col-md-push-4 col-md-offset-2">
 
-  <div class="card">
-    <div class="card-content">
-      <ul class="fa-ul">
-        <li><i class="fa fa-li fa-map-marker" aria-hidden="true"></i>
-          <span class="details-title">Adresse</span>
-          <p>
-            <%= @distribution.address_1 %>,
-            <%= @distribution.postal_code %>
-            <%= @distribution.city %>
-          </p>
-        </li>
-      </ul>
-      <ul class="fa-ul">
-        <li><i class="fa fa-li fa-subway" aria-hidden="true"></i>
-          <span class="details-title">Transports</span>
+        <div class="card">
+          <div class="card-content">
+            <ul class="fa-ul">
+              <li><i class="fa fa-li fa-map-marker" aria-hidden="true"></i>
+                <span class="details-title">Adresse</span>
+                <p>
+                  <%= @distribution.address_1 %>,
+                  <%= @distribution.postal_code %>
+                  <%= @distribution.city %>
+                </p>
+              </li>
+            </ul>
+            <ul class="fa-ul">
+              <li><i class="fa fa-li fa-subway" aria-hidden="true"></i>
+                <span class="details-title">Transports</span>
 
-          <% @distribution.stations.each do |station| %>
-            <div>
-              <% station.lines.each do |line| %>
-                <span class="line_number" style="color: <%= line.text_color %>; background-color: <%= line.background_color %>">
-                  <%= line.name %>
-                </span>
+                <% @distribution.stations.each do |station| %>
+                <div>
+                  <% station.lines.each do |line| %>
+                  <span class="line_number" style="color: <%= line.text_color %>; background-color: <%= line.background_color %>">
+                    <%= line.name %>
+                  </span>
+                  <% end %>
+                  <span class="station_name"><%= station.name %></span>
+                </div>
+                <% end %>
+              </li>
+            </ul>
+          </div>
+
+          <div id="map" style="height: 300px; width: 100%;"></div>
+
+          <div class="share-links">
+            <%= social_share_button_tag(@distribution.display_name) %>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-md-4 col-sm-pull-6 col-md-pull-4">
+        <div class="card">
+          <div class="card-content">
+
+            <ul class="fa-ul">
+              <li><i class="fa fa-li fa-clock-o" aria-hidden="true"></i>
+                <span class="details-title">Heure de distribution</span>
+
+                <p><%=  @distribution.schedule.start_time.strftime("%Hh%M") %> à <%=  @distribution.schedule.end_time.strftime("%Hh%M") %></p>
+              </li>
+            </ul>
+            <% if @distribution.event_type == "regular" %>
+            <ul class="fa-ul">
+              <li><i class="fa fa-li fa-calendar" aria-hidden="true"></i>
+                <span class="details-title">Jours</span>
+
+                <div class="week_days">
+                  <div class="day-wrapper">
+                    <div class="day-block">Lun</div>
+                    <div class="day-block"><%= @distribution.mon? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                  </div>
+                  <div class="day-wrapper">
+                    <div class="day-block">Mar</div>
+                    <div class="day-block"><%= @distribution.tue? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                  </div>
+                  <div class="day-wrapper">
+                    <div class="day-block">Mer</div>
+                    <div class="day-block"><%= @distribution.wed? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                  </div>
+                  <div class="day-wrapper">
+                    <div class="day-block">Jeu</div>
+                    <div class="day-block"><%= @distribution.thu? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                  </div>
+                  <div class="day-wrapper">
+                    <div class="day-block">Ven</div>
+                    <div class="day-block"><%= @distribution.fri? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                  </div>
+                  <div class="day-wrapper">
+                    <div class="day-block">Sam</div>
+                    <div class="day-block"><%= @distribution.sat? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                  </div>
+                  <div class="day-wrapper">
+                    <div class="day-block">Dim</div>
+                    <div class="day-block"><%= @distribution.sun? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                  </div>
+                </div>
+              </ul>
+              <ul class="fa-ul">
+                <li><i class="fa fa-li fa-cutlery" aria-hidden="true"></i>
+                  <span class="details-title">Prochaines distributions</span>
+
+                  <ul class="list-unstyled">
+                    <% @distribution.schedule.next_occurrences(5).each do |recurrence| %>
+                    <li>
+                      <%= l(recurrence, format: "%A, %e %B %Y") %>
+                    </li>
+                    <% end %>
+                  </ul>
+
+                </li>
+              </ul>
+              <% elsif @distribution.event_type == "once" %>
+              <ul class="fa-ul">
+                <li><i class="fa fa-li fa-calendar" aria-hidden="true"></i>
+                  <span class="details-title">Date</span>
+                  <p>
+                    <%= l(@distribution.date, format: "%A, %e %B %Y") %>
+                  </p>
+                </li>
+              </ul>
               <% end %>
-              <span class="station_name"><%= station.name %></span>
+
+
+
+
+              <ul class="fa-ul">
+                <li><i class="fa fa-li fa-group" aria-hidden="true"></i>
+                  <span class="details-title">Organisateur</span>
+                  <p><%= link_to @distribution.organization.name, organization_path(@distribution.organization) %></p>
+                </li>
+              </ul>
             </div>
-          <% end %>
-        </li>
-      </ul>
-    </div>
-
-    <div id="map" style="height: 300px; width: 100%;"></div>
-
-    <div class="share-links">
-      <%= social_share_button_tag(@distribution.display_name) %>
-    </div>
-
-  </div>
-</div>
-
-<div class="col-sm-6 col-md-4 col-sm-pull-6 col-md-pull-4">
-  <div class="card">
-    <div class="card-content">
-
-    <ul class="fa-ul">
-      <li><i class="fa fa-li fa-clock-o" aria-hidden="true"></i>
-        <span class="details-title">Heure de distribution</span>
-
-        <p><%=  @distribution.schedule.start_time.strftime("%Hh%M") %> à <%=  @distribution.schedule.end_time.strftime("%Hh%M") %></p>
-      </li>
-    </ul>
-    <ul class="fa-ul">
-      <li><i class="fa fa-li fa-calendar" aria-hidden="true"></i>
-        <span class="details-title">Jours</span>
-
-        <div class="week_days">
-          <div class="day-wrapper">
-            <div class="day-block">Lun</div>
-            <div class="day-block"><%= @distribution.mon? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
           </div>
-          <div class="day-wrapper">
-            <div class="day-block">Mar</div>
-            <div class="day-block"><%= @distribution.tue? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-          </div>
-          <div class="day-wrapper">
-            <div class="day-block">Mer</div>
-            <div class="day-block"><%= @distribution.wed? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-          </div>
-          <div class="day-wrapper">
-            <div class="day-block">Jeu</div>
-            <div class="day-block"><%= @distribution.thu? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-          </div>
-          <div class="day-wrapper">
-            <div class="day-block">Ven</div>
-            <div class="day-block"><%= @distribution.fri? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-          </div>
-          <div class="day-wrapper">
-            <div class="day-block">Sam</div>
-            <div class="day-block"><%= @distribution.sat? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-          </div>
-          <div class="day-wrapper">
-            <div class="day-block">Dim</div>
-            <div class="day-block"><%= @distribution.sun? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+
+          <div class="card">
+            <div class="card-content">
+              <ul class="fa-ul">
+                <li><i class="fa fa-li fa-compass" aria-hidden="true"></i>
+                  <span class="details-title">Dans le même quartier</span>
+                  <% @distributions_around.each do |distribution| %>
+                  <p>
+                    <%= link_to distribution.display_name, distribution_path(distribution), class: "distribution-link" %><br>
+                    <%= distribution.address_1 %>
+                    <%= distribution.postal_code %>
+                    <%= distribution.city %>
+                  </p>
+
+                  <% end %>
+
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
+      </div>
 
-      </li>
-    </ul>
-
-    <ul class="fa-ul">
-      <li><i class="fa fa-li fa-cutlery" aria-hidden="true"></i>
-        <span class="details-title">Prochaines distributions</span>
-
-        <ul class="list-unstyled">
-          <% @distribution.schedule.next_occurrences(5).each do |recurrence| %>
-          <li>
-            <%= l(recurrence, format: "%A, %e %B %Y") %>
-          </li>
-          <% end %>
-        </ul>
-
-      </li>
-    </ul>
-
-    <ul class="fa-ul">
-      <li><i class="fa fa-li fa-group" aria-hidden="true"></i>
-        <span class="details-title">Organisateur</span>
-        <p><%= link_to @distribution.organization.name, organization_path(@distribution.organization) %></p>
-      </li>
-    </ul>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-content">
-      <ul class="fa-ul">
-        <li><i class="fa fa-li fa-compass" aria-hidden="true"></i>
-        <span class="details-title">Dans le même quartier</span>
-        <% @distributions_around.each do |distribution| %>
-          <p>
-            <%= link_to distribution.display_name, distribution_path(distribution), class: "distribution-link" %><br>
-            <%= distribution.address_1 %>
-            <%= distribution.postal_code %>
-            <%= distribution.city %>
-          </p>
-
-          <% end %>
-
-</div>
-</div>
-
-</div>
-</div>
-</div>
-</div>
-
-<% content_for :meta_title do %>
-  Découvrez <%= @distribution.display_name %> sur <%= meta_title %>
-<% end %>
+      <% content_for :meta_title do %>
+      Découvrez <%= @distribution.display_name %> sur <%= meta_title %>
+      <% end %>
 
 
-<% content_for(:after_js) do %>
+      <% content_for(:after_js) do %>
 
-<script>
-  window.distrib_markers = null;
-  window.distrib_map = null;
-  $(document).ready(function() {
-    var handler = Gmaps.build('Google');
-    handler.buildMap({ internal: { id: 'map' } }, function() {
-      markers = handler.addMarkers(<%= raw @hash.to_json %>);
-      handler.bounds.extendWith(markers);
-      handler.fitMapToBounds();
-      if (markers.length == 0) {
-        handler.getMap().setZoom(2);
-      } else if (markers.length == 1) {
-        handler.getMap().setZoom(14);
-      }
-      window.distrib_markers = markers;
-      window.distrib_map = handler;
-    });
+      <script>
+        window.distrib_markers = null;
+        window.distrib_map = null;
+        $(document).ready(function() {
+          var handler = Gmaps.build('Google');
+          handler.buildMap({ internal: { id: 'map' } }, function() {
+            markers = handler.addMarkers(<%= raw @hash.to_json %>);
+            handler.bounds.extendWith(markers);
+            handler.fitMapToBounds();
+            if (markers.length == 0) {
+              handler.getMap().setZoom(2);
+            } else if (markers.length == 1) {
+              handler.getMap().setZoom(14);
+            }
+            window.distrib_markers = markers;
+            window.distrib_map = handler;
+          });
 
-    $("body").on("mouseenter", ".distribution-item", function() {
-      var index = $(this).data("id");
-      var marker = window.distrib_markers[index];
-      var infowindow = marker.infowindow;
-      window.distrib_map.getMap().setCenter(marker.serviceObject.position)
-      google.maps.event.trigger(marker.getServiceObject(), 'click');
-    })
-    $("body").on("mouseleave", ".distribution-item", function() {
-      $(".gm-style-iw").next().click();
-    });
-  });
-</script>
-<% end %>
+          $("body").on("mouseenter", ".distribution-item", function() {
+            var index = $(this).data("id");
+            var marker = window.distrib_markers[index];
+            var infowindow = marker.infowindow;
+            window.distrib_map.getMap().setCenter(marker.serviceObject.position)
+            google.maps.event.trigger(marker.getServiceObject(), 'click');
+          })
+          $("body").on("mouseleave", ".distribution-item", function() {
+            $(".gm-style-iw").next().click();
+          });
+        });
+      </script>
+      <% end %>
 
