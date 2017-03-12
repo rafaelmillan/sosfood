@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170312121008) do
+ActiveRecord::Schema.define(version: 20170312141359) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,6 +93,16 @@ ActiveRecord::Schema.define(version: 20170312121008) do
     t.datetime "updated_at",                   null: false
   end
 
+  create_table "referrals", force: :cascade do |t|
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.integer  "distribution_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["distribution_id"], name: "index_referrals_on_distribution_id", using: :btree
+  end
+
   create_table "stations", force: :cascade do |t|
     t.string   "name"
     t.float    "latitude"
@@ -134,6 +144,7 @@ ActiveRecord::Schema.define(version: 20170312121008) do
 
   add_foreign_key "distributions", "users"
   add_foreign_key "messages", "recipients"
+  add_foreign_key "referrals", "distributions"
   add_foreign_key "stops", "lines"
   add_foreign_key "stops", "stations"
 end
