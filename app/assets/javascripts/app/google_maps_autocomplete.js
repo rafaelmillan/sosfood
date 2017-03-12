@@ -1,6 +1,5 @@
 // This example displays an address form, using the autocomplete feature
 // of the Google Places API to help users fill in the information.
-
 var placeSearch, autocomplete;
 var componentForm = {
   // street_number: 'short_name',
@@ -80,9 +79,6 @@ function geolocate() {
 
 initAutocomplete();
 
-var input = document.getElementById('distribution_address');
-google.maps.event.addDomListener(input, 'keydown', function(e) {
-  if (e.keyCode == 13) {
-      e.preventDefault();
-  }
+$('#distribution_address').keydown(function (e) {
+  if (e.which == 13 && $('.pac-container:visible').length) return false;
 });
