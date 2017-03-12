@@ -1,5 +1,5 @@
 class MessageProcessingService
-  def process(body)
+  def process(body, test_mode)
 
     action = set_sms_type(body)
 
@@ -8,9 +8,21 @@ class MessageProcessingService
       action: action
     }
 
-    if action == :subscribe
+    if [:subscribe, :send_meals, :uncovered_area].include? action
       result[:latitude] = @coordinates[0]
       result[:longitude] = @coordinates[1]
+      result[:address] = @location.address
+    end
+
+    if test_mode == false && action == :send_meals
+      @meals.each do |meal|
+        Referral.create(
+          address: @location.address,
+          latitude: @coordinates[0],
+          longitude: @coordinates[1],
+          distribution: meal[:distribution]
+        )
+      end
     end
 
     return result
@@ -48,9 +60,9 @@ class MessageProcessingService
   def generate_body(action)
 
     if action == :send_meals
-      meals = Distribution.find_next_three(@coordinates)
+      @meals = Distribution.find_next_three(@coordinates)
 
-      meals_array = meals.map do |meal|
+      meals_array = @meals.map do |meal|
 "#{meal[:name]} - #{meal[:time].strftime("%e/%m/%y de %Hh%M")} à #{meal[:time].end_time.strftime("%Hh%M")}
 #{meal[:distribution].display_name}
 #{meal[:distribution].address_1}, #{meal[:distribution].postal_code} #{meal[:distribution].city}
