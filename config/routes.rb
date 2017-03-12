@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   devise_for :users, :controllers => { registrations: 'registrations' }
 
-  scope '(:locale)', locale: /en/ do
+  #scope '(:locale)', locale: /en/ do
     root to: 'pages#home'
     # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
     resources :organizations, only: [:show, :index, :new]
@@ -17,5 +17,5 @@ Rails.application.routes.draw do
     post '/sms', to: 'messages#receive'
 
     resources :users, only: [:show]
-  end
+  #end
 end
