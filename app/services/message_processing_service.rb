@@ -1,52 +1,33 @@
 class MessageProcessingService
-  def process(sender_body, sender_number)
+  def process(body)
 
-    sender = set_sender(sender_number)
-    save_message(sender_body, sender)
+    action = set_sms_type(body)
 
-    action = set_sms_type(sender_body)
+    result = {
+      body: generate_body(action),
+      action: action
+    }
 
-    if action == :subscribed
-      sender.subscribed = true
-      sender.latitude = @coordinates[0]
-      sender.longitude = @coordinates[1]
-      sender.save
+    if action == :subscribe
+      result[:latitude] = @coordinates[0]
+      result[:longitude] = @coordinates[1]
     end
 
-    return {
-      body: generate_body(action),
-      recipient: sender
-    }
+    return result
 
   end
 
   private
 
-  def save_message(sender_body, sender)
-    message = Message.new(content: sender_body, sent_by_user: true, recipient: sender)
-    message.save
-  end
-
-  def set_sender(sender_number)
-    if Recipient.find_by(phone_number: sender_number) # If recipient exists
-      @recipient = Recipient.find_by(phone_number: sender_number)
-    else # If recipient is new
-      @recipient = Recipient.new(phone_number: sender_number)
-      @recipient.save
-      @recipient
-    end
-  end
-
-  def set_sms_type(sender_body)
+  def set_sms_type(body)
     # Subscription
-    body_words = sender_body.split
+    body_words = body.split
     keyword = body_words[0].downcase
     if keyword == "alerte" || keyword == "alert" # Starts with alert
       @original_address = body_words[1..-1].join(" ")
       verify_address(@original_address, :subscribe)
-    # Send meals for next 24h
-    else
-      @original_address = sender_body
+    else # Send meals for next 24h
+      @original_address = body
       verify_address(@original_address, :send_meals)
     end
   end
@@ -77,7 +58,7 @@ Métro #{meal[:distribution].stations.first.name}"
       end
 
 "[SOS Food est en phase de test, les repas proposés sont donnés à titre indicatif.]
-Repas solidaires près de \"#{@location.address}\" :
+Repas solidaires près de \"#{@location.address}\" :#{' Aucun repas trouvé dans les prochaines 24h' if meals_array.empty?}
 
 #{meals_array.join("\n\n")}"
     elsif action == :subscribe
