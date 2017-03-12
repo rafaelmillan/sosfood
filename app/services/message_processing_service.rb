@@ -63,7 +63,7 @@ class MessageProcessingService
       @meals = Distribution.find_next_three(@coordinates)
 
       meals_array = @meals.map do |meal|
-"#{meal[:name]} - #{meal[:time].strftime("%e/%m/%y de %Hh%M")} à #{meal[:time].end_time.strftime("%Hh%M")}
+"#{meal[:name]} - #{meal[:time].in_time_zone("Paris").strftime("%e/%m/%y de %Hh%M")} à #{meal[:time].end_time.in_time_zone("Paris").strftime("%Hh%M")}
 #{meal[:distribution].display_name}
 #{meal[:distribution].address_1}, #{meal[:distribution].postal_code} #{meal[:distribution].city}
 Métro #{meal[:distribution].stations.first.name}"

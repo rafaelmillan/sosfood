@@ -98,7 +98,7 @@
               <li><i class="fa fa-li fa-clock-o" aria-hidden="true"></i>
                 <span class="details-title">Heure de distribution</span>
 
-                <p><%=  @distribution.schedule.start_time.strftime("%Hh%M") %> à <%=  @distribution.schedule.end_time.strftime("%Hh%M") %></p>
+                <p><%=  @distribution.schedule.start_time.in_time_zone("Paris").strftime("%Hh%M") %> à <%=  @distribution.schedule.end_time.in_time_zone("Paris").strftime("%Hh%M") %></p>
               </li>
             </ul>
             <% if @distribution.event_type == "regular" %>
@@ -156,7 +156,7 @@
                 <li><i class="fa fa-li fa-calendar" aria-hidden="true"></i>
                   <span class="details-title">Date</span>
                   <p>
-                    <%= l(@distribution.date, format: "%A, %e %B %Y") %>
+                    <%= l(@distribution.date.in_time_zone("Paris"), format: "%A, %e %B %Y") %>
                   </p>
                 </li>
               </ul>

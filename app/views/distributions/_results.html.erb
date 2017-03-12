@@ -7,7 +7,7 @@
               <%= link_to distribution_path(result[:distribution]), class: "list-group-item distribution-item", data: { id: index } do %>
                 <h4 class="list-group-item-heading"><%= result[:distribution].display_name %></h4>
                 <p class="list-group-item-text">
-                  <%= result[:occurrence].strftime("%Hh%M") %> à <%=result[:occurrence].end_time.strftime("%Hh%M") %><br>
+                  <%= result[:occurrence].in_time_zone("Paris").strftime("%Hh%M") %> à <%=result[:occurrence].end_time.in_time_zone("Paris").strftime("%Hh%M") %><br>
                   <%= result[:distribution].address %>
                 </p>
               <% end %>
