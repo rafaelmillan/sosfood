@@ -40,7 +40,7 @@
                 <div class="day-block"><%= dis.sun? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
               </div>
             <% elsif dis.event_type == "once" %>
-              <%= l(dis.date, format: "%A, %e %B %Y") %>
+              <%= l(dis.date.in_time_zone("Paris"), format: "%A, %e %B %Y") %>
               <br><span class="week_days">(Distribution ponctuelle)</span>
             <% end %>
           </td>

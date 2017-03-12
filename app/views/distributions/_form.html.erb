@@ -8,7 +8,7 @@
 <%= f.input :city, placeholder: "Paris", input_html: { id: "locality" }, :as => :hidden %>
 <%= f.input :country, placeholder: "France", as: :string, input_html: { id: "country" }, :as => :hidden  %>
 <%= f.input :event_type, as: :radio_buttons, collection: [["Récurrent", :regular], ["Ponctuel", :once]], item_wrapper_class: "radio-inline" , label: "Type d'évènement", required: true, wrapper_html:{ id: 'event-inline'} %>
-<% f.object.date.nil? ? date = "" : date = f.object.date.strftime("%d/%m/%Y") %>
+<% f.object.date.nil? ? date = "" : date = f.object.date.in_time_zone("Paris").strftime("%d/%m/%Y") %>
 <%= f.input :date, as: :string, wrapper_html: { id: 'datepicker' }, input_html: { value: date } %>
 
 <div id="dayswrapper">
@@ -25,11 +25,11 @@
 </div>
 <div class="row">
   <div class="col-xs-6">
-    <% f.object.start_time.nil? ? start_time = "" : start_time = localize(f.object.start_time, format: :short) %>
+    <% f.object.start_time.nil? ? start_time = "" : start_time = localize(f.object.start_time.in_time_zone("Paris"), format: :short) %>
     <%= f.input :start_time, as: :string, label: "Heure de début", input_html: { value: start_time } %>
   </div>
   <div class="col-xs-6">
-    <% f.object.end_time.nil? ? end_time = "" : end_time = localize(f.object.end_time, format: :short) %>
+    <% f.object.end_time.nil? ? end_time = "" : end_time = localize(f.object.end_time.in_time_zone("Paris"), format: :short) %>
     <%= f.input :end_time, as: :string, label: "Heure de fin", input_html: { value: end_time } %>
   </div>
 </div>

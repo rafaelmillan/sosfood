@@ -138,14 +138,14 @@ class Distribution < ApplicationRecord
   private
 
   private_class_method def self.set_meal_hashes
-    now = Time.now
+    now = Time.current.in_time_zone("Paris")
 
-    breakfast_min = Time.new(now.year, now.month, now.day, 06, 00)
-    breakfast_max = Time.new(now.year, now.month, now.day, 11, 00)
-    lunch_min = Time.new(now.year, now.month, now.day, 11, 00)
-    lunch_max = Time.new(now.year, now.month, now.day, 15, 00)
-    dinner_min = Time.new(now.year, now.month, now.day, 15, 00)
-    dinner_max = Time.new(now.year, now.month, now.day, 23, 00)
+    breakfast_min = now.midnight + 6.hours
+    breakfast_max = now.midnight + 10.hours + 59.minutes
+    lunch_min = now.midnight + 11.hours
+    lunch_max = now.midnight + 14.hours + 59.minutes
+    dinner_min = now.midnight + 15.hours
+    dinner_max = now.midnight + 23.hours
 
     if now.hour > 10 && now.hour < 12
       breakfast_min += 1.day

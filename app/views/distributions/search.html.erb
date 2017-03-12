@@ -3,7 +3,7 @@
   <div class="container">
 
     <h1>Votre recherche</h1>
-    <p><strong><%= @results.count %></strong> distribution<%= "s" if @results.count > 1 %> trouvée<%= "s" if @results.count > 1 %> autour de <strong><%= @address %></strong> pour le <strong><%= @date.strftime("%e/%m/%Y") %></strong>.</p>
+    <p><strong><%= @results.count %></strong> distribution<%= "s" if @results.count > 1 %> trouvée<%= "s" if @results.count > 1 %> autour de <strong><%= @address %></strong> pour le <strong><%= @date.in_time_zone("Paris").strftime("%e/%m/%Y") %></strong>.</p>
 
     <%= render 'results' %>
 

@@ -1,5 +1,7 @@
 require 'csv'
 
+Referral.destroy_all
+puts "Cleaning referrals..."
 Distribution.destroy_all
 puts "Cleaning distributions..."
 Organization.destroy_all
@@ -33,8 +35,8 @@ CSV.foreach(filepath, csv_options) do |row|
     saturday: row["Sa"] == "Y",
     sunday: row["Di"] == "Y",
     event_type: "regular",
-    start_time: Time.parse(row['Start time']),
-    end_time: Time.parse(row['End time'])
+    start_time: Time.zone.parse(row['Start time']),
+    end_time: Time.zone.parse(row['End time'])
   )
   dis.save!
 end
