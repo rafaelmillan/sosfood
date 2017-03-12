@@ -1,8 +1,3 @@
-<!-- <div class="distribution-show"> -->
-
-<!--     <div class="distribution-section-header">
--->
-
 <div class="container">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
@@ -79,7 +74,21 @@
           </div>
 
         </div>
+        <div class="card">
+          <div class="card-content">
+            <ul class="fa-ul">
+              <li><i class="fa fa-li fa-bug" aria-hidden="true"></i>
+                <span class="details-title">Vous avez trouvé une erreur ?</span>
+                <p>
+                  <%= link_to "Signaler un changement", "mailto:contact@sos-food.org" %>
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
+
+
 
       <div class="col-sm-6 col-md-4 col-sm-pull-6 col-md-pull-4">
         <div class="card">
@@ -93,40 +102,41 @@
               </li>
             </ul>
             <% if @distribution.event_type == "regular" %>
-            <ul class="fa-ul">
-              <li><i class="fa fa-li fa-calendar" aria-hidden="true"></i>
-                <span class="details-title">Jours</span>
+              <ul class="fa-ul">
+                <li><i class="fa fa-li fa-calendar" aria-hidden="true"></i>
+                  <span class="details-title">Jours</span>
 
-                <div class="week_days">
-                  <div class="day-wrapper">
-                    <div class="day-block">Lun</div>
-                    <div class="day-block"><%= @distribution.mon? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                  <div class="week_days">
+                    <div class="day-wrapper">
+                      <div class="day-block">Lun</div>
+                      <div class="day-block"><%= @distribution.mon? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                    </div>
+                    <div class="day-wrapper">
+                      <div class="day-block">Mar</div>
+                      <div class="day-block"><%= @distribution.tue? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                    </div>
+                    <div class="day-wrapper">
+                      <div class="day-block">Mer</div>
+                      <div class="day-block"><%= @distribution.wed? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                    </div>
+                    <div class="day-wrapper">
+                      <div class="day-block">Jeu</div>
+                      <div class="day-block"><%= @distribution.thu? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                    </div>
+                    <div class="day-wrapper">
+                      <div class="day-block">Ven</div>
+                      <div class="day-block"><%= @distribution.fri? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                    </div>
+                    <div class="day-wrapper">
+                      <div class="day-block">Sam</div>
+                      <div class="day-block"><%= @distribution.sat? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                    </div>
+                    <div class="day-wrapper">
+                      <div class="day-block">Dim</div>
+                      <div class="day-block"><%= @distribution.sun? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                    </div>
                   </div>
-                  <div class="day-wrapper">
-                    <div class="day-block">Mar</div>
-                    <div class="day-block"><%= @distribution.tue? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-                  </div>
-                  <div class="day-wrapper">
-                    <div class="day-block">Mer</div>
-                    <div class="day-block"><%= @distribution.wed? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-                  </div>
-                  <div class="day-wrapper">
-                    <div class="day-block">Jeu</div>
-                    <div class="day-block"><%= @distribution.thu? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-                  </div>
-                  <div class="day-wrapper">
-                    <div class="day-block">Ven</div>
-                    <div class="day-block"><%= @distribution.fri? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-                  </div>
-                  <div class="day-wrapper">
-                    <div class="day-block">Sam</div>
-                    <div class="day-block"><%= @distribution.sat? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-                  </div>
-                  <div class="day-wrapper">
-                    <div class="day-block">Dim</div>
-                    <div class="day-block"><%= @distribution.sun? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-                  </div>
-                </div>
+                </li>
               </ul>
               <ul class="fa-ul">
                 <li><i class="fa fa-li fa-cutlery" aria-hidden="true"></i>
@@ -139,10 +149,9 @@
                     </li>
                     <% end %>
                   </ul>
-
                 </li>
               </ul>
-              <% elsif @distribution.event_type == "once" %>
+            <% elsif @distribution.event_type == "once" %>
               <ul class="fa-ul">
                 <li><i class="fa fa-li fa-calendar" aria-hidden="true"></i>
                   <span class="details-title">Date</span>
@@ -151,42 +160,36 @@
                   </p>
                 </li>
               </ul>
-              <% end %>
+            <% end %>
 
-
-
-
-              <ul class="fa-ul">
-                <li><i class="fa fa-li fa-group" aria-hidden="true"></i>
-                  <span class="details-title">Organisateur</span>
-                  <p><%= link_to @distribution.organization.name, organization_path(@distribution.organization) %></p>
-                </li>
-              </ul>
-            </div>
+            <ul class="fa-ul">
+              <li><i class="fa fa-li fa-group" aria-hidden="true"></i>
+                <span class="details-title">Organisateur</span>
+                <p><%= link_to @distribution.organization.name, organization_path(@distribution.organization) %></p>
+              </li>
+            </ul>
           </div>
+        </div>
 
-          <div class="card">
-            <div class="card-content">
-              <ul class="fa-ul">
-                <li><i class="fa fa-li fa-compass" aria-hidden="true"></i>
-                  <span class="details-title">Dans le même quartier</span>
-                  <% @distributions_around.each do |distribution| %>
-                  <p>
-                    <%= link_to distribution.display_name, distribution_path(distribution), class: "distribution-link" %><br>
-                    <%= distribution.address_1 %>
-                    <%= distribution.postal_code %>
-                    <%= distribution.city %>
-                  </p>
-
-                  <% end %>
-
-                </div>
-              </div>
-
-            </div>
+        <div class="card">
+          <div class="card-content">
+            <ul class="fa-ul">
+              <li><i class="fa fa-li fa-compass" aria-hidden="true"></i>
+                <span class="details-title">Dans le même quartier</span>
+                <% @distributions_around.each do |distribution| %>
+                <p>
+                  <%= link_to distribution.display_name, distribution_path(distribution), class: "distribution-link" %><br>
+                  <%= distribution.address_1 %>
+                  <%= distribution.postal_code %>
+                  <%= distribution.city %>
+                </p>
+                <% end %>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
 
       <% content_for :meta_title do %>
       Découvrez <%= @distribution.display_name %> sur <%= meta_title %>
