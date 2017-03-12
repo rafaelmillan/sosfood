@@ -1,18 +1,26 @@
 <div class="container">
   <div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-md-offset-3 col-sm-offset-2">
       <div class="form-shadow">
         <h2><%= t(".sign_up") %></h2>
         <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
           <%= f.error_notification %>
 
           <div class="form-inputs">
-            <%= f.input :email, required: true, autofocus: true, label: "Email", placeholder: "john@gmail.com" %>
-            <%= f.input :password, required: true, placeholder: "******" %>
-            <%= f.input :password_confirmation, required: true, placeholder: "******" %>
+            <div class="row">
+              <div class="col-xs-6">
+                <%= f.input :first_name, autofocus: true, label: "Prénom" %>
+              </div>
+              <div class="col-xs-6">
+                <%= f.input :last_name, label: "Nom" %>
+              </div>
+            </div>
             <%= simple_fields_for Organization.new do |o| %>
               <%= o.input :name, label: "Organisation", input_html: { class: "typeahead" }, wrapper_html: { id: "org-wrapper" }, required: true %>
             <% end %>
+            <%= f.input :email, required: true, label: "Email" %>
+            <%= f.input :password, required: true, placeholder: "******" %>
+            <%= f.input :password_confirmation, required: true, placeholder: "******" %>
           </div>
 
           <div class="form-actions">

@@ -7,6 +7,6 @@
 //= require timepicker
 //= require social-share-button
 //= require typeahead.js.js
-//= require_tree ./app
+//= require_tree ./app/
 
 

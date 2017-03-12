@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_many :distributions
 
   validates :organization_id, presence: true
+  validates :first_name, presence: true
+  validates :last_name, presence: true
 
   accepts_nested_attributes_for :organization
 end
