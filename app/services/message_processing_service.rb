@@ -76,7 +76,7 @@ class MessageProcessingService
 Métro #{meal[:distribution].stations.first.name}"
       end
 
-"SOS Food
+"[SOS Food est en phase de test, les repas proposés sont donnés à titre indicatif.]
 Repas solidaires près de \"#{@location.address}\" :
 
 #{meals_array.join("\n\n")}"
