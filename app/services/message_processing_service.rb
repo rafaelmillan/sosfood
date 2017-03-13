@@ -11,13 +11,13 @@ class MessageProcessingService
     if [:subscribe, :send_meals, :uncovered_area].include? action
       result[:latitude] = @coordinates[0]
       result[:longitude] = @coordinates[1]
-      result[:address] = @location.address
+      result[:address] = @parsed_address
     end
 
     if test_mode == false && action == :send_meals
       @meals.each do |meal|
         Referral.create(
-          address: @location.address,
+          address: @parsed_address,
           latitude: @coordinates[0],
           longitude: @coordinates[1],
           distribution: meal[:distribution]
@@ -45,15 +45,23 @@ class MessageProcessingService
   end
 
   def verify_address(address, sms_type)
-    @location = Geocoder.search(address + " France")[0]
-    # Checks if the address is valid
-    return :unvalid_address if @location.blank?
-    # Checks if location is close to Paris (20km)
-    @coordinates = @location.coordinates
-    if Geocoder::Calculations.distance_between([48.85661400000001,2.3522219000000177], @coordinates) > 20
-      :uncovered_area
+    # Checks if it's a metro station
+    if station = Station.similar(address)
+      @parsed_address = "Métro #{station.name}"
+      @coordinates = [station.latitude, station.longitude]
+      return sms_type
     else
-      sms_type
+      location = Geocoder.search(address + " France")[0]
+      # Checks if the address is valid
+      return :unvalid_address if location.blank?
+      # Checks if location is close to Paris (20km)
+      @coordinates = location.coordinates
+      @parsed_address = location.address
+      if Geocoder::Calculations.distance_between([48.85661400000001,2.3522219000000177], @coordinates) > 20
+        :uncovered_area
+      else
+        sms_type
+      end
     end
   end
 
@@ -70,15 +78,15 @@ Métro #{meal[:distribution].stations.first.name}"
       end
 
 "[SOS Food est en phase de test, les repas proposés sont donnés à titre indicatif.]
-Repas solidaires près de \"#{@location.address}\" :#{' Aucun repas trouvé dans les prochaines 24h' if meals_array.empty?}
+Repas solidaires près de \"#{@parsed_address}\" :#{' Aucun repas trouvé dans les prochaines 24h' if meals_array.empty?}
 
 #{meals_array.join("\n\n")}"
     elsif action == :subscribe
-"Bienvenue sur SOS Food. Votre abonnement à été pris en compte à l'adresse \"#{@location.address}\". Chaque soir, vous recevrez par SMS trois propositions de repas pour le lendemain. À bientôt, SOS Food."
+"Bienvenue sur SOS Food. Votre abonnement à été pris en compte à l'adresse \"#{@parsed_address}\". Chaque soir, vous recevrez par SMS trois propositions de repas pour le lendemain. À bientôt, SOS Food."
     elsif action == :unvalid_address
 "Nous n'avons pas compris l'adresse \"#{@original_address}\". Merci de nous renvoyer une adresse, un code postal, ou une station de métro. À bientôt, SOS Food."
     elsif action == :uncovered_area
-"L'adresse \"#{@location.address}\" n'est pas encore couverte par SOS Food."
+"L'adresse \"#{@parsed_address}\" n'est pas encore couverte par SOS Food."
     end
 
   end

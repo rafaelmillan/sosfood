@@ -248,6 +248,7 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
+    similar_text (0.0.4)
     simple_form (3.4.0)
       actionpack (> 4, < 5.1)
       activemodel (> 4, < 5.1)
@@ -321,6 +322,7 @@ DEPENDENCIES
   rails-i18n (~> 5.0.0)
   redis
   sass-rails
+  similar_text
   simple_form
   social-share-button
   spring
