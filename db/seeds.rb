@@ -36,7 +36,8 @@ CSV.foreach(filepath, csv_options) do |row|
     sunday: row["Di"] == "Y",
     event_type: "regular",
     start_time: Time.zone.parse(row['Start time']),
-    end_time: Time.zone.parse(row['End time'])
+    end_time: Time.zone.parse(row['End time']),
+    status: "accepted"
   )
   dis.save!
 end

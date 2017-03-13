@@ -64,13 +64,18 @@ class DistributionsController < ApplicationController
     coordinates = [params[:lat].to_f, params[:lon].to_f]
     @results = Distribution.find_by_date(coordinates, @date)
 
-    @distributions = @results.map { |r| r[:distribution] }
-    @distributions.reject! { |d| d.latitude.nil? || d.longitude.nil? }
+    @results.reject! { |result| result[:distribution].latitude.nil? || result[:distribution].longitude.nil? }
     # @distributions = Distribution.where.not(latitude: nil, longitude: nil)
-    @hash = Gmaps4rails.build_markers(@distributions) do |distribution, marker|
+    @hash = Gmaps4rails.build_markers(@results) do |result, marker|
+      distribution = result[:distribution]
       marker.lat distribution.latitude
       marker.lng distribution.longitude
-      marker.infowindow "<h4>#{distribution.organization.name}</h4><p>#{distribution.address_1}</p><p>#{distribution.postal_code}</p>"
+      marker.infowindow "
+      <strong>#{distribution.display_name}</strong>
+      <p>#{result[:occurrence].in_time_zone("Paris").strftime("%Hh%M")} à #{result[:occurrence].end_time.in_time_zone("Paris").strftime("%Hh%M")}<br>
+      #{distribution.address_1}<br>
+      #{distribution.postal_code} #{distribution.city}<br>
+      <a href='#{distribution_path(distribution)}'>Détails</a></p>"
     end
   end
 
@@ -82,7 +87,11 @@ class DistributionsController < ApplicationController
     @hash = Gmaps4rails.build_markers(@results) do |distribution, marker|
       marker.lat distribution.latitude
       marker.lng distribution.longitude
-      marker.infowindow "<h4>#{distribution.organization.name}</h4><p>#{distribution.address_1}</p><p>#{distribution.postal_code}</p>"
+      marker.infowindow "
+      <strong>#{distribution.display_name}</strong><br>
+      #{distribution.address_1}<br>
+      #{distribution.postal_code} #{distribution.city}<br>
+      <a href='#{distribution_path(distribution)}'>Détails</a></p>"
     end
   end
 
