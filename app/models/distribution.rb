@@ -194,6 +194,8 @@ class Distribution < ApplicationRecord
       yield
       DistributionMailer.create(self.user, self).deliver_now unless self.user.nil?
       DistributionMailer.review(self).deliver_now
+    else
+      yield
     end
   end
 end
