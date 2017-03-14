@@ -4,11 +4,10 @@
   transition: all 0.3s ease;
   display: flex;
   height: 70px;
-  padding: 0px 30px;
+  padding: 0px;
   align-items: center;
   justify-content: space-between;
   color: black;
-  position: absolute;
   width: 100%;
   a {
     color: white;
@@ -29,6 +28,7 @@
 .navbar-wagon-brand {
   font-size: 30px;
   font-family: 'Dosis', sans-serif;
+  font-weight: 800;
 
   a {
     color: white;
@@ -148,15 +148,20 @@
 
 .navbar-classic {
   position: static;
-  a {
-    color: black;
+  .navbar-wagon-item {
+    color: $blue;
   }
   .navbar-wagon-brand {
   a {
-    color: #57D1C9;
+    color: $blue;
   }
   }
   .dropdown-toggle {
-    color: black;
+    color: $blue;
   }
+}
+
+.navbar-wrapper {
+  position: absolute;
+  width: 100%;
 }
