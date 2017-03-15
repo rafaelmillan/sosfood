@@ -1,4 +1,4 @@
-<div class="banner" style="background-image: linear-gradient(45deg, rgba(87,209,201,1) 0%,rgba(87,209,201,0.7) 100%), url('<%= image_path 'soup_kitchen_2.jpg' %>');">
+<div class="banner" style="background-image: linear-gradient(0deg, #57D1C9 0%,hsla(176, 57%, 75%, 0.7) 100%), url(/assets/soup_kitchen_2-9963e2d70666b811aa6a0d6cca592a6c66fe4af2fd9a15293c1bf4408cad8d9b.jpg);">
   <div class="container">
     <div class="banner-content">
       <h1>Trouver un repas solidaire.<br>Simple comme un SMS.</h1>
@@ -12,35 +12,39 @@
 <!-- SMS animé à ajouter peut etre <h1>Trouvez un repas solidaire.<br>Simple comme un <span style="display: inline-block", class="fadeInUp animated">SMS</span>.</h1>
 <div class="container">
  -->
-<div class="container">
-  <div id="features">
-    <div class="row">
-      <div class="col-sm-6" id="comment-ca-marche">
-        <h2 id="features-title">Comment<br>ça fonctionne ?</h2>
-      </div>
-      <div class="col-sm-6">
+<div id="features-wrapper">
+  <div class="container">
+    <div id="features">
       <div class="row">
-        <div class="col-xs-3">
-          <%= image_tag 'Chat.png', class: "features-icon" %>
+        <div class="col-sm-5" id="comment-ca-marche">
+          <h2 id="features-title">Comment ça<br>fonctionne&nbsp;?</h2>
         </div>
-        <div class="col-xs-9">
-          <h3>Utilisation ponctuelle</h3>
-          <p>
-            Envoyez une adresse, un code postal, ou un arrêt de métro au <span style="color: #ED5485; font-weight: bold;">06&nbsp;44&nbsp;64&nbsp;78&nbsp;97</span> (SMS standard non surtaxé). Recevez un SMS avec trois propositions de repas (petit-déjeuner, déjeuner et dinner) pour les prochaines 24h.
-          </p>
+        <div class="col-sm-7">
+          <div id="features-items">
+            <div class="row">
+              <div class="col-xs-3">
+                <%= image_tag 'Chat.png', class: "features-icon" %>
+              </div>
+              <div class="col-xs-9">
+                <h3>Utilisation ponctuelle</h3>
+                <p>
+                  Envoyez une adresse, un code postal, ou un arrêt de métro au <strong>06&nbsp;44&nbsp;64&nbsp;78&nbsp;97</strong> (SMS standard non surtaxé). Recevez un SMS avec trois propositions de repas (petit-déjeuner, déjeuner et dinner) pour les prochaines 24h.
+                </p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-3">
+                <%= image_tag 'Antenna.png', class: "features-icon" %>
+              </div>
+              <div class="col-xs-9">
+                <h3>Abonnement</h3>
+                <p>
+                  Envoyez une adresse, un code postal, ou un arrêt de métro au <strong>06&nbsp;44&nbsp;64&nbsp;78&nbsp;97</strong> (SMS standard non surtaxé), précédé du mot-clé <strong>alerte</strong>. Recevez un SMS tous les soirs avec trois propositions de repas pour le lendemain.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-3">
-          <%= image_tag 'Antenna.png', class: "features-icon" %>
-        </div>
-        <div class="col-xs-9">
-          <h3>Abonnement</h3>
-          <p>
-            Envoyez une adresse, un code postal, ou un arrêt de métro au <span style="color: #ED5485;font-weight: bold;">06&nbsp;44&nbsp;64&nbsp;78&nbsp;97</span> (SMS standard non surtaxé), précédé du mot-clé <span style="color: #ED5485;font-weight: bold;">alerte</span>. Recevez un SMS tous les soirs avec trois propositions de repas pour le lendemain.
-          </p>
-        </div>
-      </div>
       </div>
     </div>
   </div>
@@ -66,7 +70,7 @@
       <div class="form-group">
         <input type="hidden" class="form-control" name="lon" id="lon">
       </div>
-      <button type="submit" class="btn btn-default">Chercher</button>
+      <button type="submit" class="btn btn_transparent">Chercher</button>
     </form>
 
   </div>

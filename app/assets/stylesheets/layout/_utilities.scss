@@ -28,6 +28,10 @@
   background: #3b5998;
 }
 
+h1, h2, h3, h4, h5 {
+  color: $blue;
+}
+
 h3 {
   font-size: 20px;
   letter-spacing: 1px;
@@ -39,11 +43,16 @@ p {
 
 h1 {
   font-family: 'Dosis', sans-serif;
-  border-bottom: 10px $brand-primary solid;
-  padding-bottom: 20px;
-  display: inline-block;
+  font-weight: 800;
 }
 
 #body-wrapper {
   min-height: calc(100vh - 100px);
+}
+
+strong {
+  color: $blue;
+  border-bottom: 10px solid #FFFBD0;
+  display: inline-block;
+  line-height: 0px;
 }
