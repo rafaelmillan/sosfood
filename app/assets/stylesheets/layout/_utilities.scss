@@ -28,6 +28,10 @@
   background: #3b5998;
 }
 
+h1, h2, h3, h4, h5 {
+  color: $blue;
+}
+
 h3 {
   font-size: 20px;
   letter-spacing: 1px;
@@ -44,4 +48,11 @@ h1 {
 
 #body-wrapper {
   min-height: calc(100vh - 100px);
+}
+
+strong {
+  color: $blue;
+  border-bottom: 10px solid #FFFBD0;
+  display: inline-block;
+  line-height: 0px;
 }

@@ -23,7 +23,7 @@ body {
   padding-top: 0;
   margin-top: 0;
   display: inline-block;
-  color: white;
+  color: $blue;
 }
 
 .features-icon {
@@ -32,16 +32,17 @@ body {
 }
 
 #features {
-  padding-top: 30px;
-  padding-bottom: 100px;
+  padding-top: 70px;
+  padding-bottom: 70px;
 }
 
 #search-section {
   padding-top: 30px;
   padding-bottom: 100px;
+  background-color: $blue;
   h2 {
     border-bottom: none;
-    color: $blue;
+    color: white;
   }
   form {
     margin-top: 30px;
@@ -65,11 +66,7 @@ body {
 }
 
 #features-wrapper {
-  background-color: #3454D1;
 }
 
 #features-items {
-  background-color: white;
-  padding: 30px;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
 }
