@@ -21,7 +21,7 @@
           <!-- Login text link -->
           <%= link_to t(".sign_in", default: "Connexion"), new_user_session_path, class: "navbar-wagon-item navbar-wagon-link" %>
 
-          <%= link_to t(".top_call_to_action", default: "S'inscrire"), new_user_registration_path, class: "btn btn#{current_page?(root_path) ? '_transparent' : '-primary' }" %>
+          <%= link_to t(".top_call_to_action", default: "Inscription asso"), new_user_registration_path, class: "btn btn#{current_page?(root_path) ? '_transparent' : '-primary' }" %>
 
         <% end %>
 
@@ -36,7 +36,7 @@
               <li><%= link_to "Espace asso", user_path(current_user) %></li>
               <li><%= link_to t(".sign_out", default: "Déconnexion"), destroy_user_session_path, method: :delete %></li>
             <% else %>
-              <li><%= link_to t(".top_call_to_action", default: "S'inscrire"), new_user_registration_path %></li>
+              <li><%= link_to t(".top_call_to_action", default: "Inscription asso"), new_user_registration_path %></li>
               <li><%= link_to t(".sign_in", default: "Connexion"), new_user_session_path %></li>
             <% end %>
           </ul>
