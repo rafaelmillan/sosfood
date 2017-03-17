@@ -25,17 +25,17 @@ class MessagesController < ApplicationController
       if test_mode
         puts result[:body]
       else
-        Message.create(content: body, sent_by_user: true, recipient: sender)
+        Message.create(content: body, sent_by_user: true, recipient: recipient)
         recipient.subscribe!(result[:latitude], result[:longitude], result[:address]) if result[:action] == :subscribed
 
         @client = Twilio::REST::Client.new ENV['TWILIO_ACCCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
         @client.account.messages.create(
           from: '+33644647897',
-          to: result[:recipient].phone_number,
+          to: recipient.phone_number,
           body: result[:body]
         )
 
-        Message.create(content: result[:body], sent_by_user: false, recipient: message_details[:recipient])
+        Message.create(content: result[:body], sent_by_user: false, recipient: recipient)
       end
 
 
