@@ -9,13 +9,15 @@ class Distribution < ApplicationRecord
   validates :event_type, presence: true
   validates :start_time, presence: true
   validates :end_time, presence: true
+  validate :validate_weekdays, if: "event_type == 'regular'"
+  validates :date, presence: true, if: "event_type == 'once'"
 
   geocoded_by :address
   after_validation :geocode, if: (:address_1_changed? || :postal_code_changed? || :city_changed? || :country_changed? )
 
   around_save :send_review_email if :status_changed?
 
-  attr_accessor :frequency, :weekdays, :monthdates, :address
+  attr_accessor :address
 
   def address
     [address_1, postal_code, city, country].compact.join(', ')
@@ -197,5 +199,9 @@ class Distribution < ApplicationRecord
     else
       yield
     end
+  end
+
+  def validate_weekdays
+    errors.add(:event_type, "Sélectionnez au moins un jour de la semaine.") unless monday || tuesday || wednesday || thursday || friday || saturday || sunday
   end
 end

@@ -21,4 +21,8 @@
   background-color: transparent;
   border: $blue 1px solid;
   color: $blue;
+  &:hover {
+    color: $blue;
+    background-color: rgba(54, 79, 107, 0.2);
+  }
 }

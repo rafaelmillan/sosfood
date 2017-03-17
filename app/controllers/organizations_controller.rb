@@ -19,9 +19,9 @@ class OrganizationsController < ApplicationController
 
   def index
     if params[:query].blank?
-      @organizations = Organization.all
+      @organizations = Organization.all.order(:name)
     else
-      @organizations = Organization.where("name ILIKE ?", "%#{params[:query]}%")
+      @organizations = Organization.where("name ILIKE ?", "%#{params[:query]}%").order(:name)
     end
   end
 
