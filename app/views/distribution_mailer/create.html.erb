@@ -3,7 +3,7 @@
 </p>
 
 <p>
-  Ceci est un mail automatique pour vous prévenir que votre distribution « <%= @distribution.display_name %> » est en cours de validation. Nous vous enverrons un mail dès qu'elle sera validée.
+  Ceci est un mail automatique pour vous prévenir que votre distribution « <%= link_to @distribution.display_name, distribution_url(@distribution) %> » est en cours de validation. Nous vous enverrons un mail dès qu'elle sera validée.
 </p>
 
 <p>

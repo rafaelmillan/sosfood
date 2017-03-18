@@ -191,10 +191,10 @@ class Distribution < ApplicationRecord
   def send_review_email
     if status_change == ["pending", "accepted"]
       yield
-      DistributionMailer.accept(self.user, self).deliver_now
+      DistributionMailer.accept(self.user, self).deliver_now unless self.user.nil?
     elsif status_change == ["pending", "declined"]
       yield
-      DistributionMailer.decline(self.user, self).deliver_now
+      DistributionMailer.decline(self.user, self).deliver_now unless self.user.nil?
     elsif status == "pending"
       yield
       DistributionMailer.create(self.user, self).deliver_now unless self.user.nil?

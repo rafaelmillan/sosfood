@@ -7,10 +7,9 @@ class DistributionMailer < ApplicationMailer
   #
   def accept(user, distribution)
     @user = user
-    email = @user.nil? ? "contact@sos-food.org" : @user.email
     @distribution = distribution
 
-    mail(to: email, subject: "Votre distribution a été validée")
+    mail(to: @user.email, subject: "Votre distribution a été validée")
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -20,7 +19,7 @@ class DistributionMailer < ApplicationMailer
   #
   def decline(user, distribution)
     @user = user
-    email = @user.nil? ? "contact@sos-food.org" : @user.email
+    email = @user.email ? "contact@sos-food.org" : @user.email
     @distribution = distribution
 
     mail(to: email, subject: "Votre distribution n'a pas été validée")
