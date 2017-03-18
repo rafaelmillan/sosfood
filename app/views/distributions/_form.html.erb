@@ -59,6 +59,9 @@
     } else if ("<%= @distribution.event_type %>" == "once") {
       $('#datepicker').show();
       $('#dayswrapper').hide();
+    } else {
+      $('#datepicker').hide();
+      $('#dayswrapper').hide();
     }
 
     $('.distribution_event_type input').click(function() {
