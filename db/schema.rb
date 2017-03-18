@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170312141359) do
+ActiveRecord::Schema.define(version: 20170318161002) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20170312141359) do
     t.date     "date"
     t.string   "status",          default: "pending"
     t.integer  "user_id"
+    t.boolean  "terms"
     t.index ["organization_id"], name: "index_distributions_on_organization_id", using: :btree
     t.index ["user_id"], name: "index_distributions_on_user_id", using: :btree
   end

@@ -9,9 +9,11 @@ class Distribution < ApplicationRecord
   validates :event_type, presence: true
   validates :start_time, presence: true
   validates :end_time, presence: true
-  validate :validate_weekdays, if: "event_type == 'regular'"
   validates :date, presence: true, if: "event_type == 'once'"
-  validate :end_time_greater_than_start_date
+  validates_acceptance_of :terms, accept: true, allow_nil: false
+
+  validate :validate_weekdays, if: "event_type == 'regular'"
+  validate :end_time_greater_than_start_date, unless: "start_time.blank? || end_time.blank?"
 
   geocoded_by :address
   after_validation :geocode, if: (:address_1_changed? || :postal_code_changed? || :city_changed? || :country_changed? )

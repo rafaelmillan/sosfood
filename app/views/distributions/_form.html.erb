@@ -33,6 +33,7 @@
     <%= f.input :end_time, as: :string, label: "Heure de fin", input_html: { value: end_time } %>
   </div>
 </div>
+<%= f.input :terms, label: "Je confirme que cette distribution de repas est gratuite et ouverte à tous, sans distinction, ou aux personnes justifiant d'une situation précaire." %>
 <%= f.button :submit, class: "btn btn-primary" %>
 <% end %>
 
