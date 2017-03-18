@@ -16,7 +16,13 @@
               </div>
             </div>
             <%= simple_fields_for Organization.new do |o| %>
-              <%= o.input :name, label: "Organisation", input_html: { class: "typeahead" }, wrapper_html: { id: "org-wrapper" }, required: true, hint: "Ajoutez votre organisation ou choisissez-la parmi la liste" %>
+              <%= o.input :name,
+                label: "Organisation",
+                # input_html: { class: "typeahead" },
+                wrapper_html: { id: "org-wrapper" },
+                # hint: "Ajoutez votre organisation ou choisissez-la parmi la liste",
+                required: true
+              %>
             <% end %>
             <%= f.input :email, required: true, label: "Email" %>
             <%= f.input :password, required: true, placeholder: "******" %>

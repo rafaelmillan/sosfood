@@ -2,11 +2,11 @@ class RegistrationsController < Devise::RegistrationsController
   def create
     build_resource(sign_up_params)
 
-    if Organization.find_by(name: params[:organization][:name])
-      @user.organization = Organization.find_by(name: params[:organization][:name])
-    else
-      @user.organization = Organization.create(name: params[:organization][:name])
-    end
+    # if Organization.find_by(name: params[:organization][:name])
+    #   @user.organization = Organization.find_by(name: params[:organization][:name])
+    # else
+    @user.organization = Organization.create(name: params[:organization][:name])
+    # end
 
     resource.save
     yield resource if block_given?
