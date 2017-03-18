@@ -23,7 +23,7 @@ class Distribution < ApplicationRecord
   attr_accessor :address
 
   def address
-    [address_1, postal_code, city, country].compact.join(', ')
+    [address_1, postal_code, city, country].compact.reject(&:empty?).join(', ')
   end
 
   def schedule
