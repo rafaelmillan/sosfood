@@ -2,25 +2,25 @@
   <div class="row">
     <div class="col-sm-8 col-sm-offset-2">
       <div id="beta-introduction">
-        <h1>Lancement de SOS Food (bêta)</h1>
+        <h1>Lancement de SOS Food (version bêta)</h1>
 
-        <p class="lead">Associations, publiez vos distributions de repas sur SOS Food et gagnez en visibilité. <%= link_to "Inscrivez-vous", new_user_registration_path %> pour commencer.</p>
+        <p class="lead">Associations, référencez vos distributions de repas sur SOS Food et touchez plus de bénéficiaires. Pour commencer, <%= link_to "inscrivez-vous", new_user_registration_path %>.</p>
 
-        <p>SOS Food est un service permettant aux personnes démunies de trouver un repas solidaire par SMS. Pour plus d’informations, découvrez <%= link_to "comment ça fonctionne", root_path + "#comment-ca-marche" %>.</p>
+        <p>SOS Food est un service solidaire qui permet aux personnes démunies de trouver un repas gratuit par SMS.</p>
 
         <p><strong>La version bêta du service sera déployée en deux étapes :</strong></p>
         <ul>
-          <li>le 20 mars 2017, pour les associations souhaitant publier leurs distributions de repas ;</li>
+          <li>le 20 mars 2017, pour les associations qui souhaitent référencer leurs distributions de repas ;</li>
           <li>début avril 2017, pour les bénéficiaires.</li>
         </ul>
         <div id="beta-buttons">
           <%= link_to "Créer un compte", new_user_registration_path, class: "btn btn-primary" %>
-          <%= link_to "Donner du feedback", "https://goo.gl/forms/0xzUlSplDe555zwp2", target: :_blank, class: "btn btn_transparent_black" %>
+          <%= link_to "Donner un feedback", "https://goo.gl/forms/0xzUlSplDe555zwp2", target: :_blank, class: "btn btn_transparent_black" %>
         </div>
       </div>
       <div id="faq">
         <h2>FAQ</h2>
-        <h3>Comment fonctionne SOS Food&nbsp;?</h3>
+        <h3>Comment fonctionne SOS Food pour les bénéficiaires&nbsp;?</h3>
         <p>Nous proposons deux modalités d'usage :</p>
 
         <ul>
@@ -32,12 +32,12 @@
         </ul>
 
         <h3>Je suis une association, comment puis-je ajouter mes distributions de repas&nbsp;?</h3>
-        <p><%= link_to "Inscrivez-vous",new_user_registration_path %> pour ajouter votre première distribution de repas. Elle sera validée sous 24h par notre équipe.</p>
+        <p><%= link_to "Inscrivez-vous",new_user_registration_path %> pour ajouter vos distributions de repas. Elles seront validées sous 24h par notre équipe.</p>
 
         <h3>Quel est le coût pour le bénéficiaire&nbsp;?</h3>
-        <p>SOS Food est un service <strong>gratuit</strong>. Cependant, à l'envoi, le coût d'un SMS standard (non surtaxé) peut être à la charge du bénéficiaire en fonction de son plan téléphonique :
+        <p>SOS Food est un service <strong>gratuit</strong>. Cependant, à l'envoi, le coût d'un SMS standard (non surtaxé) peut être à la charge du bénéficiaire en fonction de son forfait mobile :
         <ul>
-          <li>Pour ceux qui ont un abonnement téléphone dit « illimité », il n'y a pas de surplus à payer.</li>
+          <li>Pour ceux qui ont un forfait téléphone dit « illimité », il n'y a pas de surplus à payer.</li>
           <li>Pour les autres, le coût est celui d’un SMS standard (non surtaxé).</li>
           <li>Dans les deux cas, la réception des SMS est gratuite.</li>
         </ul>
@@ -48,16 +48,16 @@
         <p>SOS Food est un service <strong>gratuit</strong>.</p>
 
         <h3>Quelles types de distributions sont acceptées sur SOS Food&nbsp;?</h3>
-        <p>SMS Food est disponible pour toutes les distributions de repas ouvertes aux personnes démunies. Par exemple, nous acceptons les distributions réservées aux personnes justifiant de leur situation précaire. En revanche, pour des raisons pratiques, les distributions réservées à des publics spécifiques (personnes âgées, femmes, etc.) ne sont pas acceptées. En cas de doute, n’hésitez pas à contacter à <%= link_to "contact@sos-food.org", "mailto:contact@sos-food.org" %>.</p>
+        <p>SOS Food est disponible pour toutes les distributions de repas ouvertes aux personnes démunies. Par exemple, nous acceptons les distributions réservées aux personnes justifiant de leur situation précaire. En revanche, pour des raisons pratiques, les distributions réservées à des publics spécifiques (personnes âgées, femmes, etc.) ne sont pas acceptées. En cas de doute, n’hésitez pas à contacter sur <%= link_to "contact@sos-food.org", "mailto:contact@sos-food.org" %>.</p>
 
         <h3>Quelle est la couverture géographique de SOS Food&nbsp;?</h3>
-        <p>Au lancement, SOS Food fonctionne dans Paris et sa petite couronne.</p>
+        <p>Au lancement, SOS Food ne sera opérationnel que dans Paris et sa petite couronne.</p>
 
-        <h3>Ma distribution de repas demande une inscription, puis-je la publier tout de même&nbsp;?</h3>
-        <p>Oui, mais seulement si l’inscription peut se faire sur place, à la même adresse où à lieu la distribution de repas.</p>
+        <h3>Il faut être inscrit à ma distribution de repas pour y bénéficier, puis-je la publier tout de même&nbsp;?</h3>
+        <p>Oui, mais seulement si l’inscription peut se faire sur place, à la même adresse où a lieu la distribution de repas.</p>
 
-        <h3>Mes distributions de repas se déroulent plusieurs fois par semaine et à plusieurs endroits différents. Dois-je publier une nouvelle distribution à chaque fois&nbsp;?</h3>
-        <p>Une distribution correspond à un lieu et à un horaire, mais peut avoir lieu plusieurs fois par semaine. Par exemple :</p>
+        <h3>Mes distributions de repas se déroulent plusieurs fois par semaine et à plusieurs endroits différents, dois-je publier une nouvelle distribution à chaque fois&nbsp;?</h3>
+        <p>Une distribution correspond à un lieu et à un horaire, mais peut se dérouler plusieurs fois par semaine. Par exemple :</p>
         <table class="table table-bordered">
           <tr>
             <th>Cas d'usage</th>
@@ -83,11 +83,14 @@
         <h3>J’organise une maraude, puis-je la publier sur SOS Food&nbsp;?</h3>
         <p>SOS Food n’accepte, pour l’instant, que les distributions qui se déroulent dans un lieu précis.</p>
 
+        <h3>Quel est le modèle économique de SOS Food&nbsp;?</h3>
+        <p>SOS Food est une association à but non lucratif. Le développement de la plateforme web et SMS est assuré par une équipe de bénévoles. Le coût des SMS sera pris en charge par des subventions et par une campagne des dons dont nour annoncerons les modalités très prochainement. Si vous souhaitez aider à financer SOS Food, n'hésitez pas à rentrer en contact avec nous sur <%= link_to "contact@sos-food.org", "mailto:contact@sos-food.org" %>.</p>
+
         <h3>J’ai trouvé un bug sur votre site, comment puis-je le signaler&nbsp;?</h3>
-        <p>Nous avons une <%= link_to "page dédiée", "https://goo.gl/forms/0xzUlSplDe555zwp2", target: :_blank %> pour cela.</p>
+        <p>Nous avons une <%= link_to "page consacrée", "https://goo.gl/forms/0xzUlSplDe555zwp2", target: :_blank %> à cela.</p>
 
         <h3>Une autre question&nbsp;?</h3>
-        <p>Contactez-nous à <%= link_to "contact@sos-food.org", "mailto:contact@sos-food.org" %>.</p>
+        <p>Contactez-nous sur <%= link_to "contact@sos-food.org", "mailto:contact@sos-food.org" %>.</p>
       </div>
     </div>
   </div>
