@@ -131,7 +131,8 @@ class DistributionsController < ApplicationController
       :saturday,
       :sunday,
       :start_time,
-      :end_time
+      :end_time,
+      :terms
     )
   end
 

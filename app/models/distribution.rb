@@ -9,8 +9,11 @@ class Distribution < ApplicationRecord
   validates :event_type, presence: true
   validates :start_time, presence: true
   validates :end_time, presence: true
-  validate :validate_weekdays, if: "event_type == 'regular'"
   validates :date, presence: true, if: "event_type == 'once'"
+  validates_acceptance_of :terms, accept: true, allow_nil: false
+
+  validate :validate_weekdays, if: "event_type == 'regular'"
+  validate :end_time_greater_than_start_date, unless: "start_time.blank? || end_time.blank?"
 
   geocoded_by :address
   after_validation :geocode, if: (:address_1_changed? || :postal_code_changed? || :city_changed? || :country_changed? )
@@ -203,5 +206,11 @@ class Distribution < ApplicationRecord
 
   def validate_weekdays
     errors.add(:event_type, "Sélectionnez au moins un jour de la semaine.") unless monday || tuesday || wednesday || thursday || friday || saturday || sunday
+  end
+
+  def end_time_greater_than_start_date
+    if end_time < start_time
+      errors.add(:end_time, "L'heure de fin doit être supérieure à l'heure de début.")
+    end
   end
 end
