@@ -37,7 +37,8 @@ CSV.foreach(filepath, csv_options) do |row|
     event_type: "regular",
     start_time: Time.zone.parse(row['Start time']),
     end_time: Time.zone.parse(row['End time']),
-    status: "accepted"
+    status: "accepted",
+    terms: true
   )
   dis.save!
 end
