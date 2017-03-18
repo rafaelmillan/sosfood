@@ -9,7 +9,7 @@ ActiveAdmin.register Distribution do
     :address_2,
     :postal_code,
     :city,
-    # :country,
+    :country,
     :organization_id,
     :monday,
     :tuesday,
@@ -22,7 +22,8 @@ ActiveAdmin.register Distribution do
     :start_time,
     :end_time,
     :date,
-    :status
+    :status,
+    :terms
   )
 # or
 #
@@ -68,7 +69,7 @@ ActiveAdmin.register Distribution do
       f.input :address_2
       f.input :postal_code
       f.input :city
-      # f.input :country
+      f.input :country, as: :string, input_html: { value: 'France' }
       f.input :organization
       f.input :monday
       f.input :tuesday
@@ -77,11 +78,12 @@ ActiveAdmin.register Distribution do
       f.input :friday
       f.input :saturday
       f.input :sunday
-      f.input :event_type
-      f.input :start_time
-      f.input :end_time
+      f.input :event_type, as: :radio, collection: %w(regular once)
+      f.input :start_time, as: :string
+      f.input :end_time, as: :string
       f.input :date
       f.input :status, as: :radio, collection: %w(pending accepted declined)
+      f.input :terms, input_html: { checked: 'checked' }
     end
     f.actions
   end

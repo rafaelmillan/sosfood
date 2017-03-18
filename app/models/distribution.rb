@@ -2,8 +2,8 @@ class Distribution < ApplicationRecord
   belongs_to :organization
   belongs_to :user # Owner of the distribution (receives notifications)
   has_many :referrals
+  validates :organization, presence: true
   validates :address_1, presence: true
-  validates :postal_code, presence: true
   validates :city, presence: true
   validates :country, presence: true
   validates :event_type, presence: true
