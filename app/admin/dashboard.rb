@@ -9,14 +9,14 @@ ActiveAdmin.register_page "Dashboard" do
         column ("ID") do |v|
           if v.item
             v.item.id
-          else
+          elsif v.reify
             v.reify.id
           end
         end
         column ("Item") do |v|
           if v.item
             link_to v.item.display_name, [:admin, v.item]
-          else
+          elsif v.reify
             v.reify.display_name
           end
         end
