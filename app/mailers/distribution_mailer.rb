@@ -19,10 +19,9 @@ class DistributionMailer < ApplicationMailer
   #
   def decline(user, distribution)
     @user = user
-    email = @user.email ? "contact@sos-food.org" : @user.email
     @distribution = distribution
 
-    mail(to: email, subject: "Votre distribution n'a pas été validée")
+    mail(to: @user.email, subject: "Votre distribution n'a pas été validée")
   end
 
   def create(user, distribution)
