@@ -18,9 +18,9 @@
             <%= simple_fields_for Organization.new do |o| %>
               <%= o.input :name,
                 label: "Organisation",
-                # input_html: { class: "typeahead" },
+                input_html: { class: "typeahead" },
                 wrapper_html: { id: "org-wrapper" },
-                # hint: "Ajoutez votre organisation ou choisissez-la parmi la liste",
+                hint: "Ajoutez votre organisation ou choisissez-la parmi la liste",
                 required: true
               %>
             <% end %>

@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_locale
+  before_action :set_paper_trail_whodunnit
 
   include Pundit
 
@@ -42,6 +43,12 @@ class ApplicationController < ActionController::Base
 
   def skip_pundit?
     devise_controller? || params[:controller] =~ /(^(rails_)?admin)|(^pages$)/
+  end
+
+  protected
+
+  def user_for_paper_trail
+    user_signed_in? ? current_user.try(:id) : 'Unknown user'
   end
 
 end

@@ -3,6 +3,22 @@ ActiveAdmin.register Distribution do
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
 
+  member_action :show do
+      @distribution = Distribution.includes(versions: :item).find(params[:id])
+      @versions = @distribution.versions
+      @distribution = @distribution.versions[params[:version].to_i].reify if params[:version]
+      show! #it seems to need this
+  end
+
+  member_action :history do
+    @distribution = Distribution.find(params[:id])
+    # @versions = @post.versions # <-- Sadly, versions aren't available in this scope, so use:
+    @versions = PaperTrail::Version.where(item_type: 'Distribution', item_id: @distribution.id)
+    render "layouts/history"
+  end
+
+  sidebar :versionate, :partial => "layouts/version", :only => :show
+
   permit_params(
     :name,
     :address_1,

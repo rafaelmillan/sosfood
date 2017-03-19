@@ -1,7 +1,10 @@
 class Distribution < ApplicationRecord
   belongs_to :organization
   belongs_to :user # Owner of the distribution (receives notifications)
-  has_many :referrals
+  has_many :referrals, dependent: :nullify
+
+  has_paper_trail
+
   validates :organization, presence: true
   validates :address_1, presence: true
   validates :city, presence: true
@@ -14,6 +17,7 @@ class Distribution < ApplicationRecord
 
   validate :validate_weekdays, if: "event_type == 'regular'"
   validate :end_time_greater_than_start_date, unless: "start_time.blank? || end_time.blank?"
+
 
   geocoded_by :address
   after_validation :geocode, if: (:address_1_changed? || :postal_code_changed? || :city_changed? || :country_changed? )
