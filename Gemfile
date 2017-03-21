@@ -27,6 +27,8 @@ gem 'inherited_resources', github: 'activeadmin/inherited_resources'
 gem 'google-analytics-rails', '1.1.0'
 gem 'similar_text'
 gem 'paper_trail'
+gem 'sidekiq'
+gem 'sidekiq-failures'
 
 source "https://rails-assets.org" do
   gem 'rails-assets-bootstrap-datepicker'
