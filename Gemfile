@@ -29,6 +29,7 @@ gem 'similar_text'
 gem 'paper_trail'
 gem 'sidekiq'
 gem 'sidekiq-failures'
+gem 'gibbon', '~> 3.0', '>= 3.0.1'
 
 source "https://rails-assets.org" do
   gem 'rails-assets-bootstrap-datepicker'
