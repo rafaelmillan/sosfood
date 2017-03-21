@@ -7,33 +7,40 @@ class MessageService
   def parse_and_reply(received_body)
     parse(received_body)
     reply_body = generate_body
-
-    if @test_mode == true
-      puts reply_body
-    else
-      @recipient.subscribe!(@coordinates, @parsed_address) if @action == :subscribed
-      save_referrals(@meals) if @action == :send_meals
-      send_sms(@recipient, reply_body)
-    end
+    send_sms(@recipient, reply_body)
   end
 
-  def send_sms(to, body)
-    client = Twilio::REST::Client.new ENV['TWILIO_ACCCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
-      client.account.messages.create(
-        from: '+33644647897',
-        to: @recipient.phone_number,
-        body: body
-      )
-      Message.create(content: body, sent_by_user: false, recipient: @recipient)
+  def send_from_action(action)
+    @action = action
+    reply_body = generate_body(action, @recipient)
+    send_sms(@recipient, reply_body)
   end
 
   private
 
-  def generate_body(action = @action, custom_recipient = nil)
+  def send_sms(to, body)
+    if @test_mode == true
+      puts body
+    else
+      # Pre-sending actions
+      @recipient.subscribe!(@coordinates, @parsed_address) if @action == :subscribe
+      save_referrals(@meals) if @action == :send_meals
 
+      # SMS sending
+      client = Twilio::REST::Client.new ENV['TWILIO_ACCCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
+        client.account.messages.create(
+          from: '+33644647897',
+          to: @recipient.phone_number,
+          body: body
+        )
+      Message.create(content: body, sent_by_user: false, recipient: @recipient)
+    end
+  end
+
+  def generate_body(action = @action, custom_recipient = nil)
     if custom_recipient
-      @parsed_address = recipient.address
-      @coordinates = [recipient.latitude, recipient.longitude]
+      @parsed_address = custom_recipient.address
+      @coordinates = [custom_recipient.latitude, custom_recipient.longitude]
     end
 
     if action == :send_meals
@@ -102,7 +109,7 @@ Repas solidaires près de \"#{@parsed_address}\" :#{' Aucun repas trouvé dans l
   def save_referrals(meals)
     meals.each do |meal|
       Referral.create(
-        address: @address,
+        address: @parsed_address,
         latitude: @coordinates[0],
         longitude: @coordinates[1],
         distribution: meal[:distribution]
