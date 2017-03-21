@@ -6,13 +6,13 @@ class MessageService
 
   def parse_and_reply(received_body)
     parse(received_body)
-    reply_body = generate_body
+    reply_body = generate_body(@action, Time.current.in_time_zone("Paris"))
     send_sms(@recipient, reply_body)
   end
 
-  def send_from_action(action)
+  def send_from_action(action, from_time)
     @action = action
-    reply_body = generate_body(action, @recipient)
+    reply_body = generate_body(action, from_time, @recipient)
     send_sms(@recipient, reply_body)
   end
 
@@ -24,7 +24,7 @@ class MessageService
     else
       # Pre-sending actions
       @recipient.subscribe!(@coordinates, @parsed_address) if @action == :subscribe
-      save_referrals(@meals) if @action == :send_meals
+      save_referrals(@meals) if @action == :send_next_meals || @action == :send_tomorrows_meals
 
       # SMS sending
       client = Twilio::REST::Client.new ENV['TWILIO_ACCCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
@@ -37,14 +37,14 @@ class MessageService
     end
   end
 
-  def generate_body(action = @action, custom_recipient = nil)
+  def generate_body(action, from_time, custom_recipient = nil)
     if custom_recipient
       @parsed_address = custom_recipient.address
       @coordinates = [custom_recipient.latitude, custom_recipient.longitude]
     end
 
-    if action == :send_meals
-      @meals = Distribution.find_next_three(@coordinates)
+    if action == :send_next_meals || action == :send_tomorrows_meals
+      @meals = Distribution.find_next_three(@coordinates, from_time)
 
       meals_array = @meals.map do |meal|
 "#{meal[:name]} - #{meal[:time].in_time_zone("Paris").strftime("%e/%m/%y de %Hh%M")} à #{meal[:time].end_time.in_time_zone("Paris").strftime("%Hh%M")}
@@ -54,7 +54,7 @@ Métro #{meal[:distribution].stations.first.name}"
       end
 
 "[SOS Food est en phase de test, les repas proposés sont donnés à titre indicatif.]
-Repas solidaires près de \"#{@parsed_address}\" :#{' Aucun repas trouvé dans les prochaines 24h' if meals_array.empty?}
+Repas solidaires #{"pour demain " if @action == :send_tomorrows_meals}près de \"#{@parsed_address}\" :#{' Aucun repas trouvé dans les prochaines 24h' if meals_array.empty?}
 
 #{meals_array.join("\n\n")}"
     elsif action == :subscribe
@@ -76,7 +76,7 @@ Repas solidaires près de \"#{@parsed_address}\" :#{' Aucun repas trouvé dans l
       verify_address(original_address, :subscribe)
     else # Send meals for next 24h
       original_address = body
-      verify_address(original_address, :send_meals)
+      verify_address(original_address, :send_next_meals)
     end
   end
 

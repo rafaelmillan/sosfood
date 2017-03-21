@@ -100,17 +100,17 @@ class Distribution < ApplicationRecord
     self.save
   end
 
-  def self.find_next_three(coordinates)
+  def self.find_next_three(coordinates, from_time)
     distributions = Distribution.near(coordinates).where(status: "accepted")
 
-    meals = set_meal_hashes
+    meals = set_meal_hashes(from_time)
 
     meals.each do |meal|
       distributions.each do |dis|
         schedule = dis.schedule
         if schedule.occurs_between?(meal[:min_time], meal[:max_time])
           meal[:distribution] = dis
-          # The -1 avoids mismathing distributions that start at exactly the same time as the min_time
+          # The -1 avoids mismatching distributions that start at exactly the same time as the min_time
           meal[:time] = schedule.next_occurrence(meal[:min_time] - 1)
         end
         break unless meal[:distribution] == nil
@@ -146,25 +146,27 @@ class Distribution < ApplicationRecord
 
   private
 
-  private_class_method def self.set_meal_hashes
-    now = Time.current.in_time_zone("Paris")
+  private_class_method def self.set_meal_hashes(from_time)
+    # Default meal times
+    breakfast_min = from_time.midnight + 6.hours
+    breakfast_max = from_time.midnight + 10.hours + 59.minutes
+    lunch_min = from_time.midnight + 11.hours
+    lunch_max = from_time.midnight + 14.hours + 59.minutes
+    dinner_min = from_time.midnight + 15.hours
+    dinner_max = from_time.midnight + 23.hours
 
-    breakfast_min = now.midnight + 6.hours
-    breakfast_max = now.midnight + 10.hours + 59.minutes
-    lunch_min = now.midnight + 11.hours
-    lunch_max = now.midnight + 14.hours + 59.minutes
-    dinner_min = now.midnight + 15.hours
-    dinner_max = now.midnight + 23.hours
-
-    if now.hour > 10 && now.hour < 12
+    # Time shifts in case it's too late for a meal
+    if from_time.hour < 10
+      # No shift
+    elsif from_time.hour < 12
       breakfast_min += 1.day
       breakfast_max += 1.day
-    elsif now.hour < 19
+    elsif from_time.hour < 19
       breakfast_min += 1.day
       breakfast_max += 1.day
       lunch_min += 1.day
       lunch_max += 1.day
-    elsif now.hour >= 19
+    elsif from_time.hour >= 19
       breakfast_min += 1.day
       breakfast_max += 1.day
       lunch_min += 1.day
