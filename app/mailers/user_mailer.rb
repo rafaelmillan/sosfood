@@ -10,4 +10,17 @@ class UserMailer < ApplicationMailer
 
     mail(to: @user.email, subject: "Bienvenue sur SOS Food")
   end
+
+  def remind_distributions(user)
+    @user = user
+    @week_start = Time.current.in_time_zone("Paris").sunday
+    @week_end = @week_start + 1.week
+    @distributions = @user.organization.distributions.where(status: "accepted").select do |dis|
+      dis.schedule.occurring_between?(@week_start, @week_end)
+    end
+
+    return if @distributions.blank?
+
+    mail(to: @user.email, subject: "Vos distributions de repas sont-elles à jour ?")
+  end
 end
