@@ -47,14 +47,14 @@ class MessageService
       @meals = Distribution.find_next_three(@coordinates, from_time)
 
       meals_array = @meals.map do |meal|
-"#{meal[:name]} - #{meal[:time].in_time_zone("Paris").strftime("%e/%m/%y de %Hh%M")} à #{meal[:time].end_time.in_time_zone("Paris").strftime("%Hh%M")}
+"#{meal[:name]} (#{meal[:time].in_time_zone("Paris").strftime("%e/%m/%y de %Hh%M")} à #{meal[:time].end_time.in_time_zone("Paris").strftime("%Hh%M")})
 #{meal[:distribution].display_name}
 #{meal[:distribution].address_1}, #{meal[:distribution].address_2 + ', ' unless meal[:distribution].address_2.blank?}#{meal[:distribution].postal_code} #{meal[:distribution].city}
 Métro #{meal[:distribution].stations.first.name}"
       end
 
 "[SOS Food est en phase de test, les repas proposés sont donnés à titre indicatif.]
-Repas solidaires #{"pour demain " if @action == :send_tomorrows_meals}près de \"#{@parsed_address}\" :#{' Aucun repas trouvé dans les prochaines 24h' if meals_array.empty?}
+Repas solidaires #{"pour DEMAIN " if @action == :send_tomorrows_meals}près de \"#{@parsed_address}\" :#{' Aucun repas trouvé dans les prochaines 24h' if meals_array.empty?}
 
 #{meals_array.join("\n\n")}"
     elsif action == :subscribe
