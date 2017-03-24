@@ -49,7 +49,7 @@ class MessageService
       meals_array = @meals.map do |meal|
 "#{meal[:name]} - #{meal[:time].in_time_zone("Paris").strftime("%e/%m/%y de %Hh%M")} à #{meal[:time].end_time.in_time_zone("Paris").strftime("%Hh%M")}
 #{meal[:distribution].display_name}
-#{meal[:distribution].address_1}, #{meal[:distribution].postal_code} #{meal[:distribution].city}
+#{meal[:distribution].address_1}, #{meal[:distribution].address_2 + ', ' unless meal[:distribution].address_2.blank?}#{meal[:distribution].postal_code} #{meal[:distribution].city}
 Métro #{meal[:distribution].stations.first.name}"
       end
 
