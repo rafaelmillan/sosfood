@@ -1,0 +1,18 @@
+Bonjour <%= @user.first_name %>,
+
+Ceci est un mail hebdomadaire pour vous rappeller de vérifier les distributions de repas de <%= @user.organization.name %> qui auront lieu la semaine prochaine :
+
+<% @distributions.each do |dis| %>
+<%= dis.display_name %> : <%= distribution_url(dis) %>
+<%= dis.address_1 %><%= "
+#{dis.address_2}" unless dis.address_2.blank? %>
+<%= dis.postal_code %> <%= dis.city %>
+Heure : <%=  dis.schedule.start_time.in_time_zone("Paris").strftime("%Hh%M") %> à <%=  dis.schedule.end_time.in_time_zone("Paris").strftime("%Hh%M") %>
+Jour(s) : <%= dis.schedule.occurrences_between(@week_start, @week_end).map { |o| l(o.in_time_zone("Paris"), format: "%A %e %B") }.join(", ") %>
+
+<% end %>
+
+Si ces données sont incorrectes, merci de les mettre à jour aujourd'hui afin d'éviter que des fausses informations ne soient envoyées aux bénéficiaires.
+
+À bientôt,
+L'équipe SOS Food
