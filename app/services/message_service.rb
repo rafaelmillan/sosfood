@@ -27,12 +27,8 @@ class MessageService
       save_referrals(@meals) if @action == :send_next_meals || @action == :send_tomorrows_meals
 
       # SMS sending
-      client = Twilio::REST::Client.new ENV['TWILIO_ACCCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
-        client.account.messages.create(
-          from: '+33644647897',
-          to: @recipient.phone_number,
-          body: body
-        )
+      client = MessageBird::Client.new(ENV['MESSAGEBIRD_API_KEY'])
+      client.message_create('+33644631192', @recipient.phone_number, body)
       Message.create(content: body, sent_by_user: false, recipient: @recipient)
     end
   end

@@ -7,14 +7,15 @@ class MessagesController < ApplicationController
      # Verifies http request comes from Twilio
     if params["key"] == ENV['SMS_WEBHOOK_KEY']
 
-      recipient = set_recipient(params["From"])
-      body = params["Body"]
+      recipient = set_recipient(params["sender"])
+      body = params["message"]
       test_mode = params["test_mode"] == "true"
 
       Message.create(content: body, sent_by_user: true, recipient: recipient) unless test_mode
 
       message_service = MessageService.new(recipient, test_mode)
       message_service.parse_and_reply(body)
+      head 200
     end
   end
 
