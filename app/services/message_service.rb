@@ -53,8 +53,7 @@ class MessageService
 Métro #{meal[:distribution].stations.first.name}"
       end
 
-"[SOS Food est en phase de test, les repas proposés sont donnés à titre indicatif.]
-Repas solidaires #{"pour demain " if @action == :send_tomorrows_meals}près de \"#{@parsed_address}\" :#{' Aucun repas trouvé dans les prochaines 24h' if meals_array.empty?}
+"Repas solidaires #{"pour demain " if @action == :send_tomorrows_meals}près de \"#{@parsed_address}\" :#{' Aucun repas trouvé dans les prochaines 24h' if meals_array.empty?}
 
 #{meals_array.join("\n\n")}"
     elsif action == :subscribe
