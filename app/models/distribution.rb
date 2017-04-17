@@ -87,13 +87,11 @@ class Distribution < ApplicationRecord
   end
 
   def stations
-    stations = []
-    Station.near([latitude, longitude], 0.5).each do |station|
+    Station.near([latitude, longitude], 0.5).inject([]) do |stations, station|
       current_lines = stations.map(&:lines).flatten.uniq
       stations << station unless station.lines.all? { |line| current_lines.include?(line) }
+      return stations
     end
-    # reject stations if all of its lines are already present
-    return stations
   end
 
   def accept!
