@@ -13,7 +13,7 @@ body {
       }
 
 
-#features-title {
+#features-title, #showcase-title {
   font-family: 'Dosis', sans-serif;
   font-weight: 800;
   font-size: 50px;
@@ -39,7 +39,6 @@ body {
 #search-section {
   padding-top: 30px;
   padding-bottom: 100px;
-  background-color: $blue;
   h2 {
     border-bottom: none;
     color: white;
@@ -47,17 +46,21 @@ body {
   form {
     margin-top: 30px;
   }
+  #features-title {
+    color: $blue;
+    font-size: 40px;
+  }
 }
 
 .home-alert {
   position: fixed;
-  bottom: 15px;
+  bottom: 37px;
   border-radius: 3px;
   border: none;
   padding-left: 30px;
   box-shadow: 0 5px 30px rgba(0, 0, 0, 0.25);
   font-size: 14px;
-  right: 15px;
+  right: 100px;
   font-weight: bolder;
   padding-bottom: 10px;
   z-index: 1;
@@ -69,4 +72,38 @@ body {
 }
 
 #features-items {
+}
+
+#showcase {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  background: $blue;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, $blue, $green);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top, $blue, $green); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  h2 {
+    border-bottom: none;
+    color: white;
+  }
+  #showcase-title {
+    display: inherit;
+    font-size: 40px;
+    color: white;
+  }
+  .card {
+    display: block;
+    color: $blue;
+    transition: box-shadow 0.3s ease;
+    &:hover {
+      text-decoration: none;
+      box-shadow: 0 10px 60px rgba(0, 0, 0, 0.5);
+    }
+    .card-title {
+      font-weight: bolder;
+      padding: 5px 0px 10px 10px;
+      display: inline-block;
+      font-family: 'Roboto', sans-serif;
+      color: $green;
+    }
+  }
 }

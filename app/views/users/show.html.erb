@@ -7,6 +7,7 @@
         <h3>Ajoutez votre première distribution de repas pour commencer...</h3>
       </div>
     <% else %>
+      <h3>Vous avez <%= @distributions.count %> distribution<%= "s" if @distributions.count > 1 %> enregistrée<%= "s" if @distributions.count > 1 %> :</h3>
       <div class="table-responsive dashboard">
         <table class="table">
           <tr>
@@ -90,7 +91,7 @@
         <div class="form-group">
           <input type="hidden" class="form-control" name="lon" id="lon" value="2.35">
         </div>
-        <button type="submit" class="btn btn_transparent_black">Explorer mon quartier</button>
+        <button type="submit" class="btn btn_transparent_black">Voir les distributions à Paris</button>
       </form>
     </div>
   </div>
