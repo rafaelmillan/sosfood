@@ -59,6 +59,9 @@
             <%= link_to distribution_path(d), class: "card" do %>
               <div class="card-content">
                 <span class="card-title"><%= d.display_name %></span>
+              </div>
+              <div id="map-<%= d.id %>" style='width: 100%; height: 200px;'></div>
+              <div class="card-content">
                 <ul class="fa-ul">
                   <li><i class="fa fa-li fa-map-marker" aria-hidden="true"></i><span class="details-title">Adresse</span>
                   <p><%= "#{d.address_1} #{d.postal_code} #{d.city}" %></p>
@@ -109,6 +112,7 @@
 
 
 <% content_for(:after_js) do %>
+
   <%= javascript_tag do %>
     $(document).ready(function() {
       $('#datepicker').datepicker({
@@ -187,7 +191,35 @@
         if (e.which == 13 && $('.pac-container:visible').length) return false;
       });
 
+      <% @distributions.each do |d| %>
+        handler<%= d.id %> = Gmaps.build('Google');
+        handler<%= d.id %>.buildMap({
+            provider: {
+              disableDefaultUI: true,
+              scrollwheel: false,
+              draggable: false
+              // pass in other Google Maps API options here
+            },
+            internal: {
+              id: 'map-<%= d.id %>'
+            }
+          },
+          function(){
+            markers = handler<%= d.id %>.addMarkers([
+              {
+                "lat": <%= d.latitude %>,
+                "lng": <%= d.longitude %>
+              }
+            ]);
+            handler<%= d.id %>.bounds.extendWith(markers);
+            handler<%= d.id %>.fitMapToBounds();
+            handler<%= d.id %>.getMap().setZoom(14);
+          }
+        );
+      <% end %>
+
     });
 
   <% end %>
+
 <% end %>
