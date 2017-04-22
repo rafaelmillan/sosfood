@@ -4,7 +4,7 @@ class MessagesController < ApplicationController
   skip_after_action :verify_authorized, only: :receive
 
   def receive
-     # Verifies http request comes from Twilio
+     # Verifies http request comes from Callr
     if params["key"] == ENV['SMS_WEBHOOK_KEY']
 
       recipient = set_recipient(params["sender"])

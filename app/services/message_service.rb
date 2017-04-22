@@ -27,8 +27,8 @@ class MessageService
       save_referrals(@meals) if @action == :send_next_meals || @action == :send_tomorrows_meals
 
       # SMS sending
-      client = MessageBird::Client.new(ENV['MESSAGEBIRD_API_KEY'])
-      client.message_create('+33644631192', @recipient.phone_number, body)
+      api = CALLR::Api.new(ENV['CALLR_USERNAME'], ENV['CALLR_PASSWORD'])
+      result = api.call('sms.send', '+33644637369', @recipient.phone_number, body, force_encoding: 'GSM')
       Message.create(content: body, sent_by_user: false, recipient: @recipient)
     end
   end
