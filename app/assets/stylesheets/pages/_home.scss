@@ -77,7 +77,10 @@ body {
 #showcase {
   padding-top: 30px;
   padding-bottom: 30px;
-  background-color: $blue;
+  background: $blue;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, $blue, $green);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top, $blue, $green); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   h2 {
     border-bottom: none;
     color: white;
@@ -85,6 +88,7 @@ body {
   #showcase-title {
     display: inherit;
     font-size: 40px;
+    color: white;
   }
   .card {
     display: block;
