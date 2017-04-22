@@ -7,8 +7,8 @@ class MessagesController < ApplicationController
      # Verifies http request comes from Callr
     if params["key"] == ENV['SMS_WEBHOOK_KEY']
 
-      recipient = set_recipient(params["sender"])
-      body = params["message"]
+      recipient = set_recipient(params["data"]["from"])
+      body = params["data"]["text"]
       test_mode = params["test_mode"] == "true"
 
       Message.create(content: body, sent_by_user: true, recipient: recipient) unless test_mode
