@@ -50,112 +50,176 @@
   </div>
 </div>
 
-  </div>
+<div id="showcase">
+  <div class="container">
+  <h2 id="showcase-title" class="text-center">Prochains repas solidaires</h2>
+    <div class="row">
+      <% @distributions.each do |d| %>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <%= link_to distribution_path(d), class: "card" do %>
+              <div class="card-content">
+                <span class="card-title"><%= d.display_name %></span>
+              </div>
+              <div id="map-<%= d.id %>" style='width: 100%; height: 200px;'></div>
+              <div class="card-content">
+                <ul class="fa-ul">
+                  <li><i class="fa fa-li fa-map-marker" aria-hidden="true"></i><span class="details-title">Adresse</span>
+                  <p><%= "#{d.address_1} #{d.postal_code} #{d.city}" %></p>
+                  </li>
+                </ul>
+                <ul class="fa-ul">
+                  <li><i class="fa fa-li fa-calendar" aria-hidden="true"></i><span class="details-title">Date</span>
+                  <p><%= l(d.schedule.next_occurrence.in_time_zone("Paris"), format: "%A, %e %B %Y") %></p>
+                  </li>
+                </ul>
+                <ul class="fa-ul">
+                  <li><i class="fa fa-li fa-clock-o" aria-hidden="true"></i>
+                    <span class="details-title">Horaire de distribution</span>
 
-  <div id="search-section" class="text-center">
-    <div class="container">
-    <h2 id="features-title">Trouver un repas</h2>
-    <form class="form-inline" action="/search">
-      <div class="form-group">
-        <label class="sr-only" for="address">Adresse</label>
-        <input type="text" class="form-control" name="address" id="address" placeholder="Adresse">
-      </div>
-      <div class="form-group">
-        <label class="sr-only" for="date">Date</label>
-        <input type="text" class="form-control" name="date" id="datepicker" placeholder="Date">
-      </div>
-      <div class="form-group">
-        <input type="hidden" class="form-control" name="lat" id="lat">
-      </div>
-      <div class="form-group">
-        <input type="hidden" class="form-control" name="lon" id="lon">
-      </div>
-      <button type="submit" class="btn btn_transparent">Chercher</button>
-    </form>
+                    <p><%=  d.schedule.start_time.in_time_zone("Paris").strftime("%Hh%M") %> à <%=  d.schedule.end_time.in_time_zone("Paris").strftime("%Hh%M") %></p>
+                  </li>
+                </ul>
+              </div>
+            <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
 
+<div id="search-section" class="text-center">
+  <div class="container">
+  <h2 id="features-title">Trouver un repas</h2>
+  <form class="form-inline" action="/search">
+    <div class="form-group">
+      <label class="sr-only" for="address">Adresse</label>
+      <input type="text" class="form-control" name="address" id="address" placeholder="Adresse">
+    </div>
+    <div class="form-group">
+      <label class="sr-only" for="date">Date</label>
+      <input type="text" class="form-control" name="date" id="datepicker" placeholder="Date">
+    </div>
+    <div class="form-group">
+      <input type="hidden" class="form-control" name="lat" id="lat">
+    </div>
+    <div class="form-group">
+      <input type="hidden" class="form-control" name="lon" id="lon">
+    </div>
+    <button type="submit" class="btn btn-primary">Chercher</button>
+  </form>
   </div>
-  </div>
+</div>
 
 
 <% content_for(:after_js) do %>
+
   <%= javascript_tag do %>
-  <!-- <script> -->
-    $('#datepicker').datepicker({
-      format: "dd/mm/yyyy",
-      weekStart: 1,
-      language: "fr",
-      autoclose: true,
-      todayHighlight: true
-    });
+    $(document).ready(function() {
+      $('#datepicker').datepicker({
+        format: "dd/mm/yyyy",
+        weekStart: 1,
+        language: "fr",
+        autoclose: true,
+        todayHighlight: true
+      });
 
-    var placeSearch, autocomplete;
+      var placeSearch, autocomplete;
 
-    function initAutocomplete() {
-      // Create the autocomplete object, restricting the search to geographical
-      // location types.
-      autocomplete = new google.maps.places.Autocomplete(
-          /** @type {!HTMLInputElement} */(document.getElementById('address')),
-          {types: ['geocode']});
+      function initAutocomplete() {
+        // Create the autocomplete object, restricting the search to geographical
+        // location types.
+        autocomplete = new google.maps.places.Autocomplete(
+            /** @type {!HTMLInputElement} */(document.getElementById('address')),
+            {types: ['geocode']});
 
-      // When the user selects an address from the dropdown, populate the address
-      // fields in the form.
-      autocomplete.addListener('place_changed', fillInAddress);
-    }
+        // When the user selects an address from the dropdown, populate the address
+        // fields in the form.
+        autocomplete.addListener('place_changed', fillInAddress);
+      }
 
-    function fillInAddress() {
-      // Get the place details from the autocomplete object.
-      var place = autocomplete.getPlace();
+      function fillInAddress() {
+        // Get the place details from the autocomplete object.
+        var place = autocomplete.getPlace();
 
-      // for (var component in componentForm) {
-      //   document.getElementById(component).value = '';
-      //   document.getElementById(component).disabled = false;
-      // }
+        // for (var component in componentForm) {
+        //   document.getElementById(component).value = '';
+        //   document.getElementById(component).disabled = false;
+        // }
 
-      // Get each component of the address from the place details
-      // and fill the corresponding field on the form.
-      for (var i = 0; i < place.address_components.length; i++) {
-        var addressType = place.address_components[i].types[0];
-        if (addressType == 'street_number') {
-          street_number = place.address_components[i]['long_name']
-        } else if (addressType == 'route') {
-          route = place.address_components[i]['long_name']
-        } else if (addressType == 'locality') {
-          locality = place.address_components[i]['long_name']
-        } else if (addressType == 'postal_code') {
-          postal_code = place.address_components[i]['long_name']
-        } else if (addressType == 'country') {
-          country = place.address_components[i]['long_name']
+        // Get each component of the address from the place details
+        // and fill the corresponding field on the form.
+        for (var i = 0; i < place.address_components.length; i++) {
+          var addressType = place.address_components[i].types[0];
+          if (addressType == 'street_number') {
+            street_number = place.address_components[i]['long_name']
+          } else if (addressType == 'route') {
+            route = place.address_components[i]['long_name']
+          } else if (addressType == 'locality') {
+            locality = place.address_components[i]['long_name']
+          } else if (addressType == 'postal_code') {
+            postal_code = place.address_components[i]['long_name']
+          } else if (addressType == 'country') {
+            country = place.address_components[i]['long_name']
+          }
+        }
+        document.getElementById('address').value = place['formatted_address'];
+        document.getElementById('lat').value = place.geometry.location.lat();
+        document.getElementById('lon').value = place.geometry.location.lng();
+      }
+
+      // Bias the autocomplete object to the user's geographical location,
+      // as supplied by the browser's 'navigator.geolocation' object.
+      function geolocate() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var geolocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            var circle = new google.maps.Circle({
+              center: geolocation,
+              radius: position.coords.accuracy
+            });
+            autocomplete.setBounds(circle.getBounds());
+          });
         }
       }
-      document.getElementById('address').value = place['formatted_address'];
-      document.getElementById('lat').value = place.geometry.location.lat();
-      document.getElementById('lon').value = place.geometry.location.lng();
-    }
 
-    // Bias the autocomplete object to the user's geographical location,
-    // as supplied by the browser's 'navigator.geolocation' object.
-    function geolocate() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          var geolocation = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
-          var circle = new google.maps.Circle({
-            center: geolocation,
-            radius: position.coords.accuracy
-          });
-          autocomplete.setBounds(circle.getBounds());
-        });
-      }
-    }
+      initAutocomplete();
 
-    initAutocomplete();
+      $('#address').keydown(function (e) {
+        if (e.which == 13 && $('.pac-container:visible').length) return false;
+      });
 
-    $('#address').keydown(function (e) {
-      if (e.which == 13 && $('.pac-container:visible').length) return false;
+      <% @distributions.each do |d| %>
+        handler<%= d.id %> = Gmaps.build('Google');
+        handler<%= d.id %>.buildMap({
+            provider: {
+              disableDefaultUI: true,
+              scrollwheel: false,
+              draggable: false
+              // pass in other Google Maps API options here
+            },
+            internal: {
+              id: 'map-<%= d.id %>'
+            }
+          },
+          function(){
+            markers = handler<%= d.id %>.addMarkers([
+              {
+                "lat": <%= d.latitude %>,
+                "lng": <%= d.longitude %>
+              }
+            ]);
+            handler<%= d.id %>.bounds.extendWith(markers);
+            handler<%= d.id %>.fitMapToBounds();
+            handler<%= d.id %>.getMap().setZoom(14);
+          }
+        );
+      <% end %>
+
     });
 
   <% end %>
-  <!-- </script> -->
+
 <% end %>
