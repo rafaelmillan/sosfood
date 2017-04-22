@@ -27,12 +27,8 @@ class MessageService
       save_referrals(@meals) if @action == :send_next_meals || @action == :send_tomorrows_meals
 
       # SMS sending
-      client = Twilio::REST::Client.new ENV['TWILIO_ACCCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
-        client.account.messages.create(
-          from: '+33644647897',
-          to: @recipient.phone_number,
-          body: body
-        )
+      api = CALLR::Api.new(ENV['CALLR_USERNAME'], ENV['CALLR_PASSWORD'])
+      result = api.call('sms.send', '+33644637369', @recipient.phone_number, body, force_encoding: 'GSM')
       Message.create(content: body, sent_by_user: false, recipient: @recipient)
     end
   end
@@ -47,9 +43,9 @@ class MessageService
       @meals = Distribution.find_next_three(@coordinates, from_time)
 
       meals_array = @meals.map do |meal|
-"#{meal[:name]} - #{meal[:time].in_time_zone("Paris").strftime("%e/%m/%y de %Hh%M")} à #{meal[:time].end_time.in_time_zone("Paris").strftime("%Hh%M")}
+"#{meal[:name]} (#{meal[:time].in_time_zone("Paris").strftime("%e/%m/%y de %Hh%M")} à #{meal[:time].end_time.in_time_zone("Paris").strftime("%Hh%M")})
 #{meal[:distribution].display_name}
-#{meal[:distribution].address_1}, #{meal[:distribution].postal_code} #{meal[:distribution].city}
+#{meal[:distribution].address_1}, #{meal[:distribution].address_2 + ', ' unless meal[:distribution].address_2.blank?}#{meal[:distribution].postal_code} #{meal[:distribution].city}
 Métro #{meal[:distribution].stations.first.name}"
       end
 
