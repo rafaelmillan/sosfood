@@ -28,7 +28,7 @@ class MessageService
 
       # SMS sending
       api = CALLR::Api.new(ENV['CALLR_USERNAME'], ENV['CALLR_PASSWORD'])
-      result = api.call('sms.send', '+33644637369', @recipient.phone_number, body, force_encoding: 'GSM')
+      result = api.call('sms.send', '+33644639696', @recipient.phone_number, body, force_encoding: 'GSM', nature: 'ALERTING')
       Message.create(content: body, sent_by_user: false, recipient: @recipient)
     end
   end
