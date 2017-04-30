@@ -10,4 +10,13 @@ class Recipient < ApplicationRecord
     self.address = address
     self.save
   end
+
+  def unsubscribe!
+    if self.subscribed
+      self.update(subscribed: false, alerts_count: 0)
+      return true
+    else
+      return false
+    end
+  end
 end

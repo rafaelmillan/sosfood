@@ -51,13 +51,19 @@ Métro #{meal[:distribution].stations.first.name}"
 
 "Repas solidaires #{"pour demain " if @action == :send_tomorrows_meals}près de \"#{@parsed_address}\" :#{' Aucun repas trouvé dans les prochaines 24h' if meals_array.empty?}
 
-#{meals_array.join("\n\n")}"
+#{meals_array.join("\n\n")}#{"\n\nRépondez STOP pour vous désabonner" if @action == :send_tomorrows_meals}"
     elsif action == :subscribe
-"Bienvenue sur SOS Food. Votre abonnement à été pris en compte à l'adresse \"#{@parsed_address}\". Chaque soir, vous recevrez par SMS trois propositions de repas pour le lendemain. À bientôt, SOS Food."
+"Bienvenue sur SOS Food. Votre abonnement de 30 jours à été pris en compte à l'adresse \"#{@parsed_address}\". Chaque soir, vous recevrez par SMS trois propositions de repas pour le lendemain. À bientôt, SOS Food."
     elsif action == :unvalid_address
 "Nous n'avons pas compris l'adresse \"#{@parsed_address}\". Merci de nous renvoyer une adresse, un code postal, ou une station de métro. À bientôt, SOS Food."
     elsif action == :uncovered_area
 "L'adresse \"#{@parsed_address}\" n'est pas encore couverte par SOS Food."
+    elsif action == :unsubscription_request
+"Votre abonnement à SOS Food a été annulé. À bientôt."
+    elsif action == :unsubscription_notification
+"Votre abonnement de 30 jours à SOS Food est terminé. Si vous voulez continuer à recveoir nos messages, répondez avec le mot-clé \"alerte\" suivi d'une adresse, un code postal ou un arrêt de métro."
+    elsif action == :unsubscription_error
+"Aucun abonnement à SOS Food n'existe pour ce numéro de portable."
     end
 
   end
@@ -69,6 +75,12 @@ Métro #{meal[:distribution].stations.first.name}"
     if keyword == "alerte" || keyword == "alert" # Starts with alert
       original_address = body_words[1..-1].join(" ")
       verify_address(original_address, :subscribe)
+    elsif keyword == "stop" # Unsubscribtion
+      if @recipient.unsubscribe!
+        @action = :unsubscription_request
+      else
+        @action = :unsubscription_error
+      end
     else # Send meals for next 24h
       original_address = body
       verify_address(original_address, :send_next_meals)
