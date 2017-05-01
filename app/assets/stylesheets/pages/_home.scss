@@ -13,7 +13,7 @@ body {
       }
 
 
-#features-title, #showcase-title {
+.home-title {
   font-family: 'Dosis', sans-serif;
   font-weight: 800;
   font-size: 50px;
@@ -24,6 +24,19 @@ body {
   margin-top: 0;
   display: inline-block;
   color: $blue;
+}
+
+.home-subtitle {
+  font-size: 40px;
+  display: inherit;
+}
+
+.blue-title {
+  color: $blue;
+}
+
+.white-title {
+  color: white;
 }
 
 .features-icon {
@@ -37,18 +50,14 @@ body {
 }
 
 #search-section {
-  padding-top: 30px;
+  padding-top: 0;
   padding-bottom: 100px;
-  h2 {
-    border-bottom: none;
-    color: white;
-  }
+  background-color: $blue;
   form {
     margin-top: 30px;
   }
-  #features-title {
-    color: $blue;
-    font-size: 40px;
+  h2 {
+    margin-bottom: 0;
   }
 }
 
@@ -68,28 +77,12 @@ body {
   color: inherit;
 }
 
-#features-wrapper {
-}
-
-#features-items {
-}
-
 #showcase {
   padding-top: 30px;
   padding-bottom: 30px;
   background: $blue;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to top, $blue, $green);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to top, $blue, $green); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-  h2 {
-    border-bottom: none;
-    color: white;
-  }
-  #showcase-title {
-    display: inherit;
-    font-size: 40px;
-    color: white;
-  }
   .card {
     display: block;
     color: $blue;
@@ -104,6 +97,22 @@ body {
       display: inline-block;
       font-family: 'Roboto', sans-serif;
       color: $green;
+    }
+  }
+}
+
+#supporters {
+  padding-top: 30px;
+  padding-bottom: 50px;
+  h2 {
+    padding-bottom: 0;
+  }
+  img {
+    margin: 30px;
+    opacity: 0.7;
+    transition: all 0.2s ease;
+    &:hover {
+      opacity: 1;
     }
   }
 }

@@ -17,7 +17,7 @@
     <div id="features">
       <div class="row">
         <div class="col-sm-5" id="comment-ca-marche">
-          <h2 id="features-title">Comment ça<br>fonctionne&nbsp;?</h2>
+          <h2 id="features-title" class="home-title">Comment ça<br>fonctionne&nbsp;?</h2>
         </div>
         <div class="col-sm-7">
           <div id="features-items">
@@ -52,7 +52,7 @@
 
 <div id="showcase">
   <div class="container">
-  <h2 id="showcase-title" class="text-center">Prochains repas solidaires</h2>
+  <h2 class="home-title home-subtitle white-title text-center">Prochains repas solidaires</h2>
     <div class="row">
       <% @distributions.each do |d| %>
         <div class="col-xs-12 col-sm-6 col-md-4">
@@ -89,7 +89,7 @@
 
 <div id="search-section" class="text-center">
   <div class="container">
-  <h2 id="features-title">Trouver un repas</h2>
+  <h2 class="home-title home-subtitle white-title">Trouver un repas</h2>
   <form class="form-inline" action="/search">
     <div class="form-group">
       <label class="sr-only" for="address">Adresse</label>
@@ -105,8 +105,18 @@
     <div class="form-group">
       <input type="hidden" class="form-control" name="lon" id="lon">
     </div>
-    <button type="submit" class="btn btn-primary">Chercher</button>
+    <button type="submit" class="btn btn_transparent">Chercher</button>
   </form>
+  </div>
+</div>
+
+<div id="supporters" class="text-center">
+  <div class="container">
+    <h2 class="home-title home-subtitle blue-title">Ils nous soutiennent</h2>
+    <div id="logos">
+      <%= link_to image_tag('callr.png', height: '50'), "https://www.callr.com/" %>
+      <%= link_to image_tag('lewagon.png', height: '50'), "https://www.lewagon.com/" %>
+    </div>
   </div>
 </div>
 
