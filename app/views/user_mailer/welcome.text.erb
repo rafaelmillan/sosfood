@@ -1,6 +1,9 @@
-Bonjour,
+Bonjour <%= @user.first_name %>,
 
-Merci de votre inscription chez SOS Food. Pour ajouter votre permier repas c'est par ici : <%= new_distribution_url %>
+Merci de votre inscription sur SOS Food. Pour référencer une distribution de repas, rendez-vous sur votre espace asso : <%= user_url(@user) %>.
+
+Sachez que SOS Food est encore en phase de test (plus d'infos ici : <%=  beta_url %>). Si vous rencontrez un problème, ou si vous avez une idée d'amélioration, n'hésitez pas à nous envoyer un feedback : <%= "https://goo.gl/forms/0xzUlSplDe555zwp2" %>.
+
 
 À bientôt,
 L'équipe SOS Food

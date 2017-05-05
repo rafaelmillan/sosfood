@@ -1,24 +1,33 @@
 class Distribution < ApplicationRecord
   belongs_to :organization
   belongs_to :user # Owner of the distribution (receives notifications)
-  has_many :referrals
+  has_many :referrals, dependent: :nullify
+
+  has_paper_trail
+
+  validates :organization, presence: true
   validates :address_1, presence: true
-  validates :postal_code, presence: true
   validates :city, presence: true
   validates :country, presence: true
   validates :event_type, presence: true
   validates :start_time, presence: true
   validates :end_time, presence: true
+  validates :date, presence: true, if: "event_type == 'once'"
+  validates_acceptance_of :terms, accept: true, allow_nil: false
+
+  validate :validate_weekdays, if: "event_type == 'regular'"
+  validate :end_time_greater_than_start_date, unless: "start_time.blank? || end_time.blank?"
+
 
   geocoded_by :address
   after_validation :geocode, if: (:address_1_changed? || :postal_code_changed? || :city_changed? || :country_changed? )
 
   around_save :send_review_email if :status_changed?
 
-  attr_accessor :frequency, :weekdays, :monthdates, :address
+  attr_accessor :address
 
   def address
-    [address_1, postal_code, city, country].compact.join(', ')
+    [address_1, postal_code, city, country].compact.reject(&:empty?).join(', ')
   end
 
   def schedule
@@ -78,7 +87,11 @@ class Distribution < ApplicationRecord
   end
 
   def stations
-    Station.near([latitude, longitude], 0.5)
+    Station.near([latitude, longitude], 0.5).inject([]) do |stations, station|
+      current_lines = stations.map(&:lines).flatten.uniq
+      stations << station unless station.lines.all? { |line| current_lines.include?(line) }
+      return stations
+    end
   end
 
   def accept!
@@ -91,17 +104,17 @@ class Distribution < ApplicationRecord
     self.save
   end
 
-  def self.find_next_three(coordinates)
+  def self.find_next_three(coordinates, from_time)
     distributions = Distribution.near(coordinates).where(status: "accepted")
 
-    meals = set_meal_hashes
+    meals = set_meal_hashes(from_time)
 
     meals.each do |meal|
       distributions.each do |dis|
         schedule = dis.schedule
         if schedule.occurs_between?(meal[:min_time], meal[:max_time])
           meal[:distribution] = dis
-          # The -1 avoids mismathing distributions that start at exactly the same time as the min_time
+          # The -1 avoids mismatching distributions that start at exactly the same time as the min_time
           meal[:time] = schedule.next_occurrence(meal[:min_time] - 1)
         end
         break unless meal[:distribution] == nil
@@ -137,25 +150,27 @@ class Distribution < ApplicationRecord
 
   private
 
-  private_class_method def self.set_meal_hashes
-    now = Time.current.in_time_zone("Paris")
+  private_class_method def self.set_meal_hashes(from_time)
+    # Default meal times
+    breakfast_min = from_time.midnight + 6.hours
+    breakfast_max = from_time.midnight + 10.hours + 59.minutes
+    lunch_min = from_time.midnight + 11.hours
+    lunch_max = from_time.midnight + 14.hours + 59.minutes
+    dinner_min = from_time.midnight + 15.hours
+    dinner_max = from_time.midnight + 23.hours
 
-    breakfast_min = now.midnight + 6.hours
-    breakfast_max = now.midnight + 10.hours + 59.minutes
-    lunch_min = now.midnight + 11.hours
-    lunch_max = now.midnight + 14.hours + 59.minutes
-    dinner_min = now.midnight + 15.hours
-    dinner_max = now.midnight + 23.hours
-
-    if now.hour > 10 && now.hour < 12
+    # Time shifts in case it's too late for a meal
+    if from_time.hour < 10
+      # No shift
+    elsif from_time.hour < 12
       breakfast_min += 1.day
       breakfast_max += 1.day
-    elsif now.hour < 19
+    elsif from_time.hour < 19
       breakfast_min += 1.day
       breakfast_max += 1.day
       lunch_min += 1.day
       lunch_max += 1.day
-    elsif now.hour >= 19
+    elsif from_time.hour >= 19
       breakfast_min += 1.day
       breakfast_max += 1.day
       lunch_min += 1.day
@@ -186,16 +201,26 @@ class Distribution < ApplicationRecord
   def send_review_email
     if status_change == ["pending", "accepted"]
       yield
-      DistributionMailer.accept(self.user, self).deliver_now
+      DistributionMailer.accept(self.user, self).deliver_now unless self.user.nil?
     elsif status_change == ["pending", "declined"]
       yield
-      DistributionMailer.decline(self.user, self).deliver_now
+      DistributionMailer.decline(self.user, self).deliver_now unless self.user.nil?
     elsif status == "pending"
       yield
       DistributionMailer.create(self.user, self).deliver_now unless self.user.nil?
       DistributionMailer.review(self).deliver_now
     else
       yield
+    end
+  end
+
+  def validate_weekdays
+    errors.add(:event_type, "Sélectionnez au moins un jour de la semaine.") unless monday || tuesday || wednesday || thursday || friday || saturday || sunday
+  end
+
+  def end_time_greater_than_start_date
+    if end_time < start_time
+      errors.add(:end_time, "L'heure de fin doit être supérieure à l'heure de début.")
     end
   end
 end

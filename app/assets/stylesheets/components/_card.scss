@@ -1,7 +1,8 @@
 .card {
-  box-shadow: 0 5px 30px #e6e6e6;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
-  border-radius: 5px
+  border-radius: 5px;
+  background-color: white;
 }
 
 .card-content {

@@ -4,41 +4,30 @@ class MessagesController < ApplicationController
   skip_after_action :verify_authorized, only: :receive
 
   def receive
-     # Verifies http request comes from Twilio
+     # Verifies http request comes from Callr
     if params["key"] == ENV['SMS_WEBHOOK_KEY']
 
-      from = params["From"]
-      body = params["Body"]
-      test_mode = params["test_mode"] == "true" ? true : false
+      recipient = set_recipient(params["data"]["from"])
+      body = params["data"]["text"]
+      test_mode = params["test_mode"] == "true"
 
-      if Recipient.find_by(phone_number: from) # If recipient exists
-        recipient = Recipient.find_by(phone_number: from)
-      else # If recipient is new
-        recipient = Recipient.new(phone_number: from)
-        recipient.save
-      end
+      Message.create(content: body, sent_by_user: true, recipient: recipient) unless test_mode
 
-      message_processor = MessageProcessingService.new
-      result = message_processor.process(body, test_mode)
+      message_service = MessageService.new(recipient, test_mode)
+      message_service.parse_and_reply(body)
+      head 200
+    end
+  end
 
-      # Send message
-      if test_mode
-        puts result[:body]
-      else
-        Message.create(content: body, sent_by_user: true, recipient: sender)
-        recipient.subscribe!(result[:latitude], result[:longitude], result[:address]) if result[:action] == :subscribed
+  private
 
-        @client = Twilio::REST::Client.new ENV['TWILIO_ACCCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
-        @client.account.messages.create(
-          from: '+33644647897',
-          to: result[:recipient].phone_number,
-          body: result[:body]
-        )
-
-        Message.create(content: result[:body], sent_by_user: false, recipient: message_details[:recipient])
-      end
-
-
+  def set_recipient(from)
+    if Recipient.find_by(phone_number: from) # If recipient exists
+      recipient = Recipient.find_by(phone_number: from)
+    else # If recipient is new
+      recipient = Recipient.new(phone_number: from)
+      recipient.save
+      return recipient
     end
   end
 end

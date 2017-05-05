@@ -1,90 +1,98 @@
 <div id="page-content">
   <div class="container">
     <h1>Votre espace asso - <%= current_user.organization.name %></h1>
-    <div class="table-responsive dashboard">
-      <table class="table">
-        <tr>
-          <th>Distribution</th>
-          <th>
-            Jours
-            <div class="week_days">
-              <div class="day-block">Lun</div>
-              <div class="day-block">Mar</div>
-              <div class="day-block">Mer</div>
-              <div class="day-block">Jeu</div>
-              <div class="day-block">Ven</div>
-              <div class="day-block">Sam</div>
-              <div class="day-block">Dim</div>
-            </div>
-
-          </th>
-          <th>Heure</th>
-          <th>État</th>
-          <th>Actions</th>
-        </tr>
-        <% @distributions.each do |dis| %>
-        <tr>
-          <td>
-            <%= link_to dis.display_name, distribution_path(dis) %><br><%= dis.address %>
-          </td>
-          <td>
-            <% if dis.event_type == "regular" %>
-              <div class="week_days text-center">
-                <div class="day-block"><%= dis.mon? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-                <div class="day-block"><%= dis.tue? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-                <div class="day-block"><%= dis.wed? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-                <div class="day-block"><%= dis.thu? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-                <div class="day-block"><%= dis.fri? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-                <div class="day-block"><%= dis.sat? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-                <div class="day-block"><%= dis.sun? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
-              </div>
-            <% elsif dis.event_type == "once" %>
-              <%= l(dis.date.in_time_zone("Paris"), format: "%A, %e %B %Y") %>
-              <br><span class="week_days">(Distribution ponctuelle)</span>
-            <% end %>
-          </td>
-          <td><%= l dis.schedule.start_time, format: :short %> à <%= l dis.schedule.end_time, format: :short %></td>
-          <td>
-            <% if dis.status == "pending" %>
-            <span class="label label-info">En cours de validation</span>
-            <% if current_user.admin %>
-            <br>
-            <%= link_to "Valider", accept_distribution_path(dis), class: "btn btn_transparent_black btn-xs", method: :post %>
-            <%= link_to "Décliner", decline_distribution_path(dis), class: "btn btn_transparent_black btn-xs", method: :post %>
-            <% end %>
-            <% elsif dis.status == "accepted" %>
-            <span class="label label-success">Publiée</span>
-            <% elsif dis.status == "declined" %>
-            <span class="label label-danger">Refusée</span>
-            <% end %>
-          </td>
-          <td>
-            <ul class="fa-ul">
-              <li><i class="fa-li fa fa-pencil-square-o"></i><%= link_to "Modifier", edit_distribution_path(dis) %></li>
-              <li><i class="fa-li fa fa-trash"></i><%= link_to "Supprimer", distribution_path(dis), method: :delete, data: { confirm: "Voulez-vous supprimer ce repas ?" } %></li>
-            </ul>
-          </td>
-        </tr>
-        <% end %>
-      </table>
+    <% if @distributions.empty? %>
       <div class="text-center">
-        <%= link_to "Ajouter un repas", new_distribution_path, class: "btn btn-primary" %>
-        <form class="form-inline" action="/explore" id="explore-neighborhood">
-          <div class="form-group">
-            <input type="hidden" class="form-control" name="address" id="address" placeholder="Addresse" value="Paris">
-          </div>
-          <div class="form-group">
-            <input type="hidden" class="form-control" name="date" id="datepicker" placeholder="Date">
-          </div>
-          <div class="form-group">
-            <input type="hidden" class="form-control" name="lat" id="lat" value="48.853">
-          </div>
-          <div class="form-group">
-            <input type="hidden" class="form-control" name="lon" id="lon" value="2.35">
-          </div>
-          <button type="submit" class="btn btn-default">Explorer mon quartier</button>
-        </form>
+        <%= image_tag 'soup.png', width: "200", class: "soup-icon" %>
+        <h3>Ajoutez votre première distribution de repas pour commencer...</h3>
       </div>
+    <% else %>
+      <h3>Vous avez <%= @distributions.count %> distribution<%= "s" if @distributions.count > 1 %> enregistrée<%= "s" if @distributions.count > 1 %> :</h3>
+      <div class="table-responsive dashboard">
+        <table class="table">
+          <tr>
+            <th>Distribution</th>
+            <th>
+              Jours
+              <div class="week_days">
+                <div class="day-block">Lun</div>
+                <div class="day-block">Mar</div>
+                <div class="day-block">Mer</div>
+                <div class="day-block">Jeu</div>
+                <div class="day-block">Ven</div>
+                <div class="day-block">Sam</div>
+                <div class="day-block">Dim</div>
+              </div>
+
+            </th>
+            <th>Heure</th>
+            <th>État</th>
+            <th>Actions</th>
+          </tr>
+          <% @distributions.each do |dis| %>
+          <tr>
+            <td>
+              <%= link_to dis.display_name, distribution_path(dis) %><br><%= dis.address %>
+            </td>
+            <td>
+              <% if dis.event_type == "regular" %>
+                <div class="week_days text-center">
+                  <div class="day-block"><%= dis.mon? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                  <div class="day-block"><%= dis.tue? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                  <div class="day-block"><%= dis.wed? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                  <div class="day-block"><%= dis.thu? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                  <div class="day-block"><%= dis.fri? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                  <div class="day-block"><%= dis.sat? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                  <div class="day-block"><%= dis.sun? ? "<i class='fa fa-check week_day'></i>".html_safe : "-" %></div>
+                </div>
+              <% elsif dis.event_type == "once" %>
+                <%= l(dis.date.in_time_zone("Paris"), format: "%A, %e %B %Y") %>
+                <br><span class="week_days">(Distribution ponctuelle)</span>
+              <% end %>
+            </td>
+            <td><%= l dis.schedule.start_time, format: :short %> à <%= l dis.schedule.end_time, format: :short %></td>
+            <td>
+              <% if dis.status == "pending" %>
+              <span class="label label-info">En cours de validation</span>
+              <% if current_user.admin %>
+              <br>
+              <%= link_to "Valider", accept_distribution_path(dis), class: "btn btn_transparent_black btn-xs", method: :post %>
+              <%= link_to "Décliner", decline_distribution_path(dis), class: "btn btn_transparent_black btn-xs", method: :post %>
+              <% end %>
+              <% elsif dis.status == "accepted" %>
+              <span class="label label-success">Publiée</span>
+              <% elsif dis.status == "declined" %>
+              <span class="label label-danger">Refusée</span>
+              <% end %>
+            </td>
+            <td>
+              <ul class="fa-ul">
+                <li><i class="fa-li fa fa-pencil-square-o"></i><%= link_to "Modifier", edit_distribution_path(dis) %></li>
+                <li><i class="fa-li fa fa-trash"></i><%= link_to "Supprimer", distribution_path(dis), method: :delete, data: { confirm: "Voulez-vous supprimer ce repas ?" } %></li>
+              </ul>
+            </td>
+          </tr>
+          <% end %>
+        </table>
+      </div>
+    <% end %>
+    <div class="text-center">
+      <%= link_to "Ajouter un repas", new_distribution_path, class: "btn btn-primary" %>
+      <form class="form-inline" action="/explore" id="explore-neighborhood">
+        <div class="form-group">
+          <input type="hidden" class="form-control" name="address" id="address" placeholder="Addresse" value="Paris">
+        </div>
+        <div class="form-group">
+          <input type="hidden" class="form-control" name="date" id="datepicker" placeholder="Date">
+        </div>
+        <div class="form-group">
+          <input type="hidden" class="form-control" name="lat" id="lat" value="48.853">
+        </div>
+        <div class="form-group">
+          <input type="hidden" class="form-control" name="lon" id="lon" value="2.35">
+        </div>
+        <button type="submit" class="btn btn_transparent_black">Voir les distributions à Paris</button>
+      </form>
     </div>
   </div>
 </div>

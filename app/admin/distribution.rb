@@ -3,13 +3,29 @@ ActiveAdmin.register Distribution do
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
 
+  member_action :show do
+      @distribution = Distribution.includes(versions: :item).find(params[:id])
+      @versions = @distribution.versions
+      @distribution = @distribution.versions[params[:version].to_i].reify if params[:version]
+      show! #it seems to need this
+  end
+
+  member_action :history do
+    @distribution = Distribution.find(params[:id])
+    # @versions = @post.versions # <-- Sadly, versions aren't available in this scope, so use:
+    @versions = PaperTrail::Version.where(item_type: 'Distribution', item_id: @distribution.id)
+    render "layouts/history"
+  end
+
+  sidebar :versionate, :partial => "layouts/version", :only => :show
+
   permit_params(
     :name,
     :address_1,
     :address_2,
     :postal_code,
     :city,
-    # :country,
+    :country,
     :organization_id,
     :monday,
     :tuesday,
@@ -22,7 +38,8 @@ ActiveAdmin.register Distribution do
     :start_time,
     :end_time,
     :date,
-    :status
+    :status,
+    :terms
   )
 # or
 #
@@ -68,7 +85,7 @@ ActiveAdmin.register Distribution do
       f.input :address_2
       f.input :postal_code
       f.input :city
-      # f.input :country
+      f.input :country, as: :string, input_html: { value: 'France' }
       f.input :organization
       f.input :monday
       f.input :tuesday
@@ -77,11 +94,12 @@ ActiveAdmin.register Distribution do
       f.input :friday
       f.input :saturday
       f.input :sunday
-      f.input :event_type
-      f.input :start_time
-      f.input :end_time
+      f.input :event_type, as: :radio, collection: %w(regular once)
+      f.input :start_time, as: :string
+      f.input :end_time, as: :string
       f.input :date
       f.input :status, as: :radio, collection: %w(pending accepted declined)
+      f.input :terms, input_html: { checked: 'checked' }
     end
     f.actions
   end

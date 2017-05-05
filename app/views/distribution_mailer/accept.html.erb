@@ -3,7 +3,7 @@
 </p>
 
 <p>
-  Ceci est un mail automatique pour vous prévenir que votre distribution « <%= @distribution.display_name %> » a été validée par notre équipe. Elle sera désormais proposée aux bénéficiaires qui utiliseront notre service.
+  Ceci est un mail automatique pour vous prévenir que votre distribution « <%= link_to @distribution.display_name, distribution_url(@distribution) %> » a été validée par notre équipe. Elle sera désormais proposée aux bénéficiaires qui utiliseront notre service.
 </p>
 
 <p>

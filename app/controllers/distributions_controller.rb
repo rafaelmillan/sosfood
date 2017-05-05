@@ -83,7 +83,7 @@ class DistributionsController < ApplicationController
     @address = params[:address]
     coordinates = [params[:lat].to_f, params[:lon].to_f]
 
-    @results = Distribution.near(coordinates, 5).where(status: "accepted").reject { |d| d.latitude.nil? || d.longitude.nil? }
+    @results = Distribution.near(coordinates).where(status: "accepted").reject { |d| d.latitude.nil? || d.longitude.nil? }
     @hash = Gmaps4rails.build_markers(@results) do |distribution, marker|
       marker.lat distribution.latitude
       marker.lng distribution.longitude
@@ -131,7 +131,8 @@ class DistributionsController < ApplicationController
       :saturday,
       :sunday,
       :start_time,
-      :end_time
+      :end_time,
+      :terms
     )
   end
 

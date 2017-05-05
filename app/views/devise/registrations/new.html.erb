@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-md-offset-3 col-sm-offset-2">
       <div class="form-shadow">
-        <h2><%= t(".sign_up") %></h2>
+        <h2>Créer un compte</h2>
         <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
           <%= f.error_notification %>
 
@@ -16,7 +16,13 @@
               </div>
             </div>
             <%= simple_fields_for Organization.new do |o| %>
-              <%= o.input :name, label: "Organisation", input_html: { class: "typeahead" }, wrapper_html: { id: "org-wrapper" }, required: true %>
+              <%= o.input :name,
+                label: "Organisation",
+                input_html: { class: "typeahead" },
+                wrapper_html: { id: "org-wrapper" },
+                hint: "Ajoutez votre organisation ou choisissez-la parmi la liste",
+                required: true
+              %>
             <% end %>
             <%= f.input :email, required: true, label: "Email" %>
             <%= f.input :password, required: true, placeholder: "******" %>
