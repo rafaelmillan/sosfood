@@ -21,7 +21,10 @@ Rails.application.routes.draw do
 
     post '/sms', to: 'messages#receive'
 
-    get '/beta', to: 'pages#beta'
+    get '/beta', to: 'pages#beta', as: :beta_page
+
+    get '/apropos', to: 'pages#apropos', as: :apropos_page
+
 
     resources :users, only: [:show]
   #end
