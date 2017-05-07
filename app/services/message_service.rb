@@ -61,7 +61,7 @@ Métro #{meal[:distribution].stations.first.name}"
     elsif action == :unsubscription_request
 "Votre abonnement à SOS Food a été annulé. À bientôt."
     elsif action == :unsubscription_notification
-"Votre abonnement de 30 jours à SOS Food est terminé. Si vous voulez continuer à recveoir nos messages, répondez avec le mot-clé \"alerte\" suivi d'une adresse, un code postal ou un arrêt de métro."
+"Votre abonnement de 30 jours à SOS Food est terminé. Si vous voulez continuer à recevoir nos messages, répondez avec le mot-clé \"alerte\" suivi d'une adresse, un code postal ou un arrêt de métro."
     elsif action == :unsubscription_error
 "Aucun abonnement à SOS Food n'existe pour ce numéro de portable."
     end
