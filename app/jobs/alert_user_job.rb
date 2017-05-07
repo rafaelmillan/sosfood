@@ -2,6 +2,7 @@ class AlertUserJob < ApplicationJob
   queue_as :default
 
   def perform(recipient_id, test = false)
+    sleep 4
     recipient = Recipient.find(recipient_id)
     message_service = MessageService.new(recipient, test)
     if recipient.alerts_count < 29
