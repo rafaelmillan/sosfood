@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:home, :beta, :apropos]
-  skip_after_action :verify_authorized, only: [:home, :beta, :apropos]
+  skip_before_action :authenticate_user!, only: [:home, :beta, :about]
+  skip_after_action :verify_authorized, only: [:home, :beta, :about]
 
   def home
     @distributions = Distribution
@@ -11,6 +11,8 @@ class PagesController < ApplicationController
   end
 
   def beta
-    render
+  end
+
+  def about
   end
 end

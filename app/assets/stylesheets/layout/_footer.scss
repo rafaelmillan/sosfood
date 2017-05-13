@@ -6,26 +6,22 @@
   width: 100%;
 }
 
-.footer a {
+#footer-icons a {
   font-size: 30px;
   color: #CCCCCC ;
-  /*letter-spacing: 20px;*/
   margin-left: 50px;
   transition: color 0.5s ease;
 }
 
-.footer a:hover {
+#footer-icons a:hover {
   color: $green;
 }
 
-.footer p {
-  // font-weight: bold;
-  padding-top: 10px;
-  font-size: 20px;
-}
-
-.footer p i {
-  margin-top: 5px;
+#footer-links a {
+  color: #CCCCCC;
+  &:hover {
+    color: $green;
+  }
 }
 
 .footer ul {
