@@ -2,19 +2,24 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-4">
-        <p>
-          <i class="fa fa-envelope-o"></i> contact@sos-food.org
-        </p>
+        <div id="footer-links">
+          <ul class="fa-ul">
+            <li><i class="fa-li fa fa-info"></i><%= link_to "À propos", about_page_path %></li>
+            <li><i class="fa-li fa fa-envelope-o"></i><%= link_to "Nous contacter", "mailto:contact@sos-food.org" %></li>
+          </ul>
+        </div>
       </div>
       <div class="col-sm-4">
-        <%= link_to "À Propos", apropos_page_path %>
+
       </div>
       <div class="col-sm-4">
-        <ul class = "list-inline text-right">
-          <li><%= link_to '<i class="fa fa-facebook"></i>'.html_safe, 'https://www.facebook.com/sosfoodorg', target: :blank %></li>
-          <li><%= link_to '<i class="fa fa-twitter"></i>'.html_safe, 'https://twitter.com/SOSFoodorg', target: :blank %></li>
-          <li><%= link_to '<i class="fa fa-google-plus-square"></i>'.html_safe, 'https://plus.google.com/u/0/113285215270868545544', target: :blank %></li>
-        </ul>
+        <div id="footer-icons">
+          <ul class = "list-inline text-right">
+            <li><%= link_to '<i class="fa fa-facebook"></i>'.html_safe, 'https://www.facebook.com/sosfoodorg', target: :blank %></li>
+            <li><%= link_to '<i class="fa fa-twitter"></i>'.html_safe, 'https://twitter.com/SOSFoodorg', target: :blank %></li>
+            <li><%= link_to '<i class="fa fa-google-plus-square"></i>'.html_safe, 'https://plus.google.com/u/0/113285215270868545544', target: :blank %></li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

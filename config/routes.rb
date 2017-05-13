@@ -23,7 +23,7 @@ Rails.application.routes.draw do
 
     get '/beta', to: 'pages#beta', as: :beta_page
 
-    get '/apropos', to: 'pages#apropos', as: :apropos_page
+    get '/about', to: 'pages#about', as: :about_page
 
 
     resources :users, only: [:show]
