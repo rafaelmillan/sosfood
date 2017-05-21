@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170430171622) do
+ActiveRecord::Schema.define(version: 20170520144434) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20170430171622) do
     t.string   "status",          default: "pending"
     t.integer  "user_id"
     t.boolean  "terms"
+    t.string   "special_event"
     t.index ["organization_id"], name: "index_distributions_on_organization_id", using: :btree
     t.index ["user_id"], name: "index_distributions_on_user_id", using: :btree
   end
@@ -93,6 +94,7 @@ ActiveRecord::Schema.define(version: 20170430171622) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.integer  "alerts_count", default: 0
+    t.string   "preference"
   end
 
   create_table "referrals", force: :cascade do |t|
