@@ -25,7 +25,7 @@ class MessageService
       # Pre-sending actions
       @recipient.subscribe!(@coordinates, @parsed_address) if @action == :subscribe
       @recipient.subscribe!(@coordinates, @parsed_address, "ramadan") if @action == :special_event_subscription
-      save_referrals(@meals) if @action == :send_next_meals || @action == :send_tomorrows_meals
+      save_referrals(@meals) if @action == :send_next_meals || @action == :send_tomorrows_meals || @action == :send_specials
 
       # SMS sending
       api = CALLR::Api.new(ENV['CALLR_USERNAME'], ENV['CALLR_PASSWORD'])
