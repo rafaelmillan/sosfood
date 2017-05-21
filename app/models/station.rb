@@ -4,10 +4,18 @@ class Station < ApplicationRecord
   reverse_geocoded_by :latitude, :longitude
 
   def self.similar(station_a)
-    Station.all.find do |station_b|
-      station_a = ActiveSupport::Inflector.transliterate(station_a.downcase)
-      station_b = ActiveSupport::Inflector.transliterate(station_b.name.downcase)
-      station_a.similar(station_b) > 90
+    results = Station.all.map do |station_b|
+      similarity = ActiveSupport::Inflector.transliterate(station_a.downcase)
+        .similar(ActiveSupport::Inflector.transliterate(station_b.name.downcase))
+      { station: station_b, similarity: similarity }
     end
+
+    if results.empty?
+      return nil
+    elsif results.count > 1
+      # Orders stations by similarity
+      results.sort! { |o1, o2| o2[:similarity] <=> o1[:similarity] }
+    end
+    return results.first[:station]
   end
 end
