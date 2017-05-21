@@ -123,7 +123,7 @@ class MessageService
       @coordinates = [station.latitude, station.longitude]
 
     # Checks if the address is valid
-    elsif (location = Geocoder.search(original_address + " France")[0]).nil?
+    elsif (location = Geocoder.search("#{original_address}, Île-de-France, France")[0]).nil?
       @parsed_address = original_address
       @action = :unvalid_address
 

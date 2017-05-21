@@ -153,8 +153,10 @@ class Distribution < ApplicationRecord
   end
 
   def self.find_special(coordinates, from_time)
-    distributions = Distribution.near(coordinates).where(status: "accepted", special_event: "1")
-    distributions.select { |dis| dis.schedule.occurs_on?(from_time) }[0..2]
+    distributions = Distribution.near(coordinates)
+      .where(status: "accepted", special_event: "1")
+      .select { |dis| dis.schedule.occurs_on?(from_time) }[0..2]
+
     meals = distributions.map do |dis|
       {
         distribution: dis,

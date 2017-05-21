@@ -16,6 +16,11 @@ class Station < ApplicationRecord
       # Orders stations by similarity
       results.sort! { |o1, o2| o2[:similarity] <=> o1[:similarity] }
     end
-    return results.first[:station]
+
+    if results.first[:similarity] > 75
+      return results.first[:station]
+    else
+      return nil
+    end
   end
 end
