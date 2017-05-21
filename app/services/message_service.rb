@@ -24,7 +24,7 @@ class MessageService
     else
       # Pre-sending actions
       @recipient.subscribe!(@coordinates, @parsed_address) if @action == :subscribe
-      @recipient.subscribe!(@coordinates, @parsed_address, "ramadan") if @action == :ramadan
+      @recipient.subscribe!(@coordinates, @parsed_address, "ramadan") if @action == :special_event_subscription
       save_referrals(@meals) if @action == :send_next_meals || @action == :send_tomorrows_meals
 
       # SMS sending
@@ -76,7 +76,7 @@ class MessageService
       HEREDOC
     elsif action == :subscribe
       "Bienvenue sur SOS Food. Votre inscription de 30 jours à été prise en compte à l'adresse \"#{@parsed_address}\". Chaque soir, vous recevrez par SMS trois propositions de repas pour le lendemain. À bientôt."
-    elsif action == :ramadan
+    elsif action == :special_event_subscription
       "Bienvenue sur SOS Food. Votre inscription aux alertes du ramadan à été prise en compte à l'adresse \"#{@parsed_address}\". Chaque soir, vous recevrez par SMS trois propositions de repas pour le lendemain. À bientôt."
     elsif action == :unvalid_address
       "Nous n'avons pas compris l'adresse \"#{@parsed_address}\". Merci de nous renvoyer une adresse, un code postal, ou une station de métro. À bientôt, SOS Food."
@@ -101,7 +101,7 @@ class MessageService
       verify_address(original_address)
     elsif keyword == "ramadan" || keyword == "ramadhan" # Starts with ramadan
       original_address = body_words[1..-1].join(" ")
-      @action = :ramadan
+      @action = :special_event_subscription
       verify_address(original_address)
     elsif keyword == "stop" # Unsubscribtion
       if @recipient.unsubscribe!
