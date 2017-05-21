@@ -27,7 +27,7 @@ gem 'google-analytics-rails', '1.1.0'
 gem 'similar_text'
 gem 'paper_trail'
 gem 'sidekiq'
-gem 'sidekiq-failures'
+# gem 'sidekiq-failures'
 gem 'gibbon', '~> 3.0', '>= 3.0.1'
 gem 'callr'
 gem 'rollbar'
@@ -63,7 +63,3 @@ group :development, :test do
 end
 
 gem "letter_opener", group: :development
-
-
-
-

@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/activeadmin/activeadmin.git
-  revision: fdcfa545a64b4037bf495c85ebd88ad12df17530
+  revision: 8f7f58016802cd5a7f663fbc80b90b884252f939
   specs:
     activeadmin (1.0.0)
       arbre (>= 1.1.1)
@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: git://github.com/activeadmin/inherited_resources.git
-  revision: 2c6c8caeeb2fe6d3ae8aabc138bf7ea08e781b9b
+  revision: 051b3c9e7b22e3d45c090c1c91f3569eafc13d41
   specs:
     inherited_resources (1.7.2)
       actionpack (>= 3.2, < 5.2.x)
@@ -75,7 +75,7 @@ GEM
     arbre (1.1.1)
       activesupport (>= 3.0.0)
     arel (7.1.4)
-    autoprefixer-rails (7.1.0)
+    autoprefixer-rails (7.1.1)
       execjs
     bcrypt (3.1.11)
     better_errors (2.1.1)
@@ -260,7 +260,7 @@ GEM
       railties (>= 4.2.0, < 5.3)
     rollbar (2.14.1)
       multi_json
-    sass (3.4.23)
+    sass (3.4.24)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
       sass (~> 3.1)
@@ -272,8 +272,6 @@ GEM
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
       redis (~> 3.3, >= 3.3.3)
-    sidekiq-failures (0.4.5)
-      sidekiq (>= 2.16.0)
     similar_text (0.0.4)
     simple_form (3.5.0)
       actionpack (> 4, < 5.2)
@@ -350,7 +348,6 @@ DEPENDENCIES
   rollbar
   sass-rails
   sidekiq
-  sidekiq-failures
   similar_text
   simple_form
   social-share-button
