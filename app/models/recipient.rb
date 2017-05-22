@@ -9,7 +9,8 @@ class Recipient < ApplicationRecord
       latitude: coordinates[0],
       longitude: coordinates[1],
       address: address,
-      preference: preference
+      preference: preference,
+      alerts_count: 0
     )
   end
 

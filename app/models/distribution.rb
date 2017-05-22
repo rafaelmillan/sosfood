@@ -24,6 +24,8 @@ class Distribution < ApplicationRecord
 
   around_save :send_review_email if :status_changed?
 
+  scope :ramadan_near, ->(coordinates) { Distribution.near(coordinates).where(status: "accepted", special_event: "1") }
+
   attr_accessor :address
 
   def address
@@ -153,8 +155,7 @@ class Distribution < ApplicationRecord
   end
 
   def self.find_special(coordinates, from_time)
-    distributions = Distribution.near(coordinates)
-      .where(status: "accepted", special_event: "1")
+    distributions = Distribution.ramadan_near(coordinates)
       .select { |dis| dis.schedule.occurs_on?(from_time) }[0..2]
 
     meals = distributions.map do |dis|
@@ -164,10 +165,7 @@ class Distribution < ApplicationRecord
       }
     end
 
-    meals.select! { |meal| meal.key? :time }
-    meals.sort_by! { |meal| meal[:time] }
-
-    return meals
+    meals.select { |meal| meal.key? :time }.sort_by { |meal| meal[:time] }
   end
 
   private

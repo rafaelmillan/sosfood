@@ -10,17 +10,8 @@ class Station < ApplicationRecord
       { station: station_b, similarity: similarity }
     end
 
-    if results.empty?
-      return nil
-    elsif results.count > 1
-      # Orders stations by similarity
-      results.sort! { |o1, o2| o2[:similarity] <=> o1[:similarity] }
-    end
-
-    if results.first[:similarity] > 75
-      return results.first[:station]
-    else
-      return nil
-    end
+    return nil if results.empty?
+    results.sort! { |o1, o2| o2[:similarity] <=> o1[:similarity] } if results.count > 1
+    results.first[:similarity] > 75 ? results.first[:station] : nil
   end
 end
