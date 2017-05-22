@@ -1,5 +1,5 @@
 class AlertUserJob < ApplicationJob
-  queue_as :default
+  queue_as :serial
 
   def perform(recipient_id, test = false)
     sleep 4

@@ -272,6 +272,8 @@ GEM
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
       redis (~> 3.3, >= 3.3.3)
+    sidekiq-limit_fetch (3.4.0)
+      sidekiq (>= 4)
     similar_text (0.0.4)
     simple_form (3.5.0)
       actionpack (> 4, < 5.2)
@@ -348,6 +350,7 @@ DEPENDENCIES
   rollbar
   sass-rails
   sidekiq
+  sidekiq-limit_fetch
   similar_text
   simple_form
   social-share-button
