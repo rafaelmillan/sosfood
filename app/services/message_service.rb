@@ -6,13 +6,15 @@ class MessageService
 
   def parse_and_reply(received_body)
     parse(received_body)
-    reply_body = generate_body(@action, Time.current.in_time_zone("Paris"))
+    @from_time = Time.current.in_time_zone("Paris")
+    reply_body = generate_body(@action)
     send_sms(@recipient, reply_body)
   end
 
   def send_from_action(action, from_time)
     @action = action
-    reply_body = generate_body(action, from_time, @recipient)
+    @from_time = from_time
+    reply_body = generate_body(action, @recipient)
     send_sms(@recipient, reply_body)
   end
 
@@ -24,7 +26,8 @@ class MessageService
     else
       # Pre-sending actions
       @recipient.subscribe!(@coordinates, @parsed_address) if @action == :subscribe
-      save_referrals(@meals) if @action == :send_next_meals || @action == :send_tomorrows_meals
+      @recipient.subscribe!(@coordinates, @parsed_address, "ramadan") if @action == :special_event_subscription
+      save_referrals(@meals) if [:send_next_meals, :send_tomorrows_meals, :send_specials].include?(@action)
 
       # SMS sending
       api = CALLR::Api.new(ENV['CALLR_USERNAME'], ENV['CALLR_PASSWORD'])
@@ -33,48 +36,111 @@ class MessageService
     end
   end
 
-  def generate_body(action, from_time, custom_recipient = nil)
+  def generate_body(action, custom_recipient = nil)
     if custom_recipient
       @parsed_address = custom_recipient.address
       @coordinates = [custom_recipient.latitude, custom_recipient.longitude]
     end
 
-    if action == :send_next_meals || action == :send_tomorrows_meals
-      @meals = Distribution.find_next_three(@coordinates, from_time)
-
-      meals_array = @meals.map do |meal|
-"#{meal[:name]} (#{meal[:time].in_time_zone("Paris").strftime("%e/%m/%y de %Hh%M")} à #{meal[:time].end_time.in_time_zone("Paris").strftime("%Hh%M")})
-#{meal[:distribution].display_name}
-#{meal[:distribution].address_1}, #{meal[:distribution].address_2 + ', ' unless meal[:distribution].address_2.blank?}#{meal[:distribution].postal_code} #{meal[:distribution].city}
-Métro #{meal[:distribution].stations.first.name}"
-      end
-
-"Repas solidaires #{"pour demain " if @action == :send_tomorrows_meals}près de \"#{@parsed_address}\" :#{' Aucun repas trouvé dans les prochaines 24h' if meals_array.empty?}
-
-#{meals_array.join("\n\n")}#{"\n\nRépondez STOP pour vous désabonner" if @action == :send_tomorrows_meals}"
+    if [:send_next_meals, :send_tomorrows_meals].include?(action)
+      send_meals_message
+    elsif action == :send_specials
+      send_specials_message
     elsif action == :subscribe
-"Bienvenue sur SOS Food. Votre abonnement de 30 jours à été pris en compte à l'adresse \"#{@parsed_address}\". Chaque soir, vous recevrez par SMS trois propositions de repas pour le lendemain. À bientôt, SOS Food."
+      subscribe_message
+    elsif action == :special_event_subscription
+      special_event_subscription_message
     elsif action == :unvalid_address
-"Nous n'avons pas compris l'adresse \"#{@parsed_address}\". Merci de nous renvoyer une adresse, un code postal, ou une station de métro. À bientôt, SOS Food."
+      unvalid_address_message
     elsif action == :uncovered_area
-"L'adresse \"#{@parsed_address}\" n'est pas encore couverte par SOS Food."
+      uncovered_area_message
     elsif action == :unsubscription_request
-"Votre abonnement à SOS Food a été annulé. À bientôt."
+      unsubscription_request_message
     elsif action == :unsubscription_notification
-"Votre abonnement de 30 jours à SOS Food est terminé. Si vous voulez continuer à recevoir nos messages, répondez avec le mot-clé \"alerte\" suivi d'une adresse, un code postal ou un arrêt de métro."
+      unsubscription_notification_message
     elsif action == :unsubscription_error
-"Aucun abonnement à SOS Food n'existe pour ce numéro de portable."
+      unsubscription_notification_message
     end
 
   end
 
+  def send_meals_message
+    @meals = Distribution.find_next_three(@coordinates, @from_time)
+
+    meals_array = @meals.map do |meal|
+      <<~HEREDOC
+      #{meal[:name]} (#{meal[:time].in_time_zone("Paris").strftime("%e/%m/%y de %Hh%M")} à #{meal[:time].end_time.in_time_zone("Paris").strftime("%Hh%M")})
+      #{meal[:distribution].display_name}
+      #{meal[:distribution].address_1}, #{meal[:distribution].address_2 + ', ' unless meal[:distribution].address_2.blank?}#{meal[:distribution].postal_code} #{meal[:distribution].city}
+      Métro #{meal[:distribution].stations.first.name}
+      HEREDOC
+    end
+
+    <<~HEREDOC
+    Repas solidaires #{"pour demain " if @action == :send_tomorrows_meals}près de \"#{@parsed_address}\" :#{' Aucun repas trouvé dans les prochaines 24h' if meals_array.empty?}
+
+    #{meals_array.join("\n\n")}#{"\n\nRépondez STOP pour vous désabonner" if @action == :send_tomorrows_meals}
+    HEREDOC
+  end
+
+  def send_specials_message
+    @meals = Distribution.find_special(@coordinates, @from_time)
+
+    meals_array = @meals.map do |meal|
+      <<~HEREDOC
+      #{meal[:distribution].display_name}
+      #{meal[:time].in_time_zone("Paris").strftime("%e/%m/%y de %Hh%M")} à #{meal[:time].end_time.in_time_zone("Paris").strftime("%Hh%M")}
+      #{meal[:distribution].address_1}, #{meal[:distribution].address_2 + ', ' unless meal[:distribution].address_2.blank?}#{meal[:distribution].postal_code} #{meal[:distribution].city}
+      Métro #{meal[:distribution].stations.first.name}
+      HEREDOC
+    end
+
+    <<~HEREDOC
+    Repas solidaires du ramadan pour demain près de \"#{@parsed_address}\" :#{' Aucun repas trouvé dans les prochaines 24h' if meals_array.empty?}
+
+    #{meals_array.join("\n\n")}\n\nRépondez STOP pour vous désabonner
+    HEREDOC
+  end
+
+  def subscribe_message
+    "Bienvenue sur SOS Food. Votre inscription de 30 jours à été prise en compte à l'adresse \"#{@parsed_address}\". Chaque soir, vous recevrez par SMS trois propositions de repas pour le lendemain. À bientôt."
+  end
+
+  def special_event_subscription_message
+    "Bienvenue sur SOS Food. Votre inscription aux alertes du ramadan à été prise en compte à l'adresse \"#{@parsed_address}\". Chaque soir, vous recevrez par SMS trois propositions de repas pour le lendemain. À bientôt."
+  end
+
+  def unvalid_address_message
+    "Nous n'avons pas compris l'adresse \"#{@parsed_address}\". Merci de nous renvoyer une adresse, un code postal, ou une station de métro. À bientôt, SOS Food."
+  end
+
+  def uncovered_area_message
+    "L'adresse \"#{@parsed_address}\" n'est pas encore couverte par SOS Food."
+  end
+
+  def unsubscription_request_message
+    "Votre abonnement à SOS Food a été annulé. À bientôt."
+  end
+
+  def unsubscription_notification_message
+    "Votre abonnement de 30 jours à SOS Food est terminé. Si vous voulez continuer à recevoir nos messages, répondez avec le mot-clé \"alerte\" suivi d'une adresse, un code postal ou un arrêt de métro."
+  end
+
+  def unsubscription_notification_message
+    "Aucun abonnement à SOS Food n'existe pour ce numéro de portable."
+  end
+
   def parse(body)
-    # Subscription
     body_words = body.split
     keyword = body_words[0].downcase
-    if keyword == "alerte" || keyword == "alert" # Starts with alert
+    if ["alerte", "alert", "alerter"].include?(keyword) # Starts with alert
       original_address = body_words[1..-1].join(" ")
-      verify_address(original_address, :subscribe)
+      @action = :subscribe
+      verify_address(original_address)
+    elsif ["ramadan", "ramadhan"].include?(keyword) # Starts with ramadan
+      original_address = body_words[1..-1].join(" ")
+      @action = :special_event_subscription
+      verify_address(original_address)
     elsif keyword == "stop" # Unsubscribtion
       if @recipient.unsubscribe!
         @action = :unsubscription_request
@@ -83,19 +149,19 @@ Métro #{meal[:distribution].stations.first.name}"
       end
     else # Send meals for next 24h
       original_address = body
-      verify_address(original_address, :send_next_meals)
+      @action = :send_next_meals
+      verify_address(original_address)
     end
   end
 
-  def verify_address(original_address, action)
+  def verify_address(original_address)
     # Checks if it's a metro station
     if station = Station.similar(original_address)
       @parsed_address = "Métro #{station.name}"
       @coordinates = [station.latitude, station.longitude]
-      @action = action
 
     # Checks if the address is valid
-    elsif (location = Geocoder.search(original_address + " France")[0]).nil?
+    elsif (location = Geocoder.search("#{original_address}, Île-de-France, France")[0]).nil?
       @parsed_address = original_address
       @action = :unvalid_address
 
@@ -109,7 +175,6 @@ Métro #{meal[:distribution].stations.first.name}"
     else
       @parsed_address = location.address
       @coordinates = location.coordinates
-      @action = action
     end
   end
 

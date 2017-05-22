@@ -3,12 +3,15 @@ class Recipient < ApplicationRecord
   validates :phone_number, presence: true
   # validates :address, presence: true
 
-  def subscribe!(coordinates, address)
-    self.subscribed = true
-    self.latitude = coordinates[0]
-    self.longitude = coordinates[1]
-    self.address = address
-    self.save
+  def subscribe!(coordinates, address, preference = nil)
+    self.update(
+      subscribed: true,
+      latitude: coordinates[0],
+      longitude: coordinates[1],
+      address: address,
+      preference: preference,
+      alerts_count: 0
+    )
   end
 
   def unsubscribe!

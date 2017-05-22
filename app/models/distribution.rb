@@ -24,6 +24,8 @@ class Distribution < ApplicationRecord
 
   around_save :send_review_email if :status_changed?
 
+  scope :ramadan_near, ->(coordinates) { Distribution.near(coordinates).where(status: "accepted", special_event: "1") }
+
   attr_accessor :address
 
   def address
@@ -42,11 +44,16 @@ class Distribution < ApplicationRecord
       days << :saturday if saturday
       days << :sunday if sunday
       schedule.rrule(IceCube::Rule.weekly.day(days))
+      if special_event == "1"
+        schedule.start_time = schedule.start_time.change({day: 27, month: 05, year: 2017})
+        schedule.rrules[0].until(Time.parse("25/06/2017").in_time_zone("Paris"))
+      end
     elsif event_type == "once"
       schedule_start = date + start_time.seconds_since_midnight.seconds
       schedule_end = date + end_time.seconds_since_midnight.seconds
       schedule = IceCube::Schedule.new(schedule_start, end_time: schedule_end)
     end
+
     return schedule
   end
 
@@ -145,7 +152,20 @@ class Distribution < ApplicationRecord
     end
 
     return results
+  end
 
+  def self.find_special(coordinates, from_time)
+    distributions = Distribution.ramadan_near(coordinates)
+      .select { |dis| dis.schedule.occurs_on?(from_time) }[0..2]
+
+    meals = distributions.map do |dis|
+      {
+        distribution: dis,
+        time: dis.schedule.next_occurrence(from_time)
+      }
+    end
+
+    meals.select { |meal| meal.key? :time }.sort_by { |meal| meal[:time] }
   end
 
   private
