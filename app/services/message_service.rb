@@ -69,17 +69,17 @@ class MessageService
 
     meals_array = @meals.map do |meal|
       <<~HEREDOC
-      #{meal[:name]} (#{meal[:time].in_time_zone("Paris").strftime("%e/%m/%y de %Hh%M")} à #{meal[:time].end_time.in_time_zone("Paris").strftime("%Hh%M")})
-      #{meal[:distribution].display_name}
-      #{meal[:distribution].address_1}, #{meal[:distribution].address_2 + ', ' unless meal[:distribution].address_2.blank?}#{meal[:distribution].postal_code} #{meal[:distribution].city}
-      Métro #{meal[:distribution].stations.first.name}
+        #{meal[:name]} (#{meal[:time].in_time_zone("Paris").strftime("%e/%m/%y de %Hh%M")} à #{meal[:time].end_time.in_time_zone("Paris").strftime("%Hh%M")})
+        #{meal[:distribution].display_name}
+        #{meal[:distribution].address_1}, #{meal[:distribution].address_2 + ', ' unless meal[:distribution].address_2.blank?}#{meal[:distribution].postal_code} #{meal[:distribution].city}
+        #{'Métro ' + meal[:distribution].stations.first.name unless meal[:distribution].stations.first.nil?}
       HEREDOC
     end
 
     <<~HEREDOC
-    Repas solidaires #{"pour demain " if @action == :send_tomorrows_meals}près de \"#{@parsed_address}\" :#{' Aucun repas trouvé dans les prochaines 24h' if meals_array.empty?}
+      Repas solidaires #{"pour demain " if @action == :send_tomorrows_meals}près de \"#{@parsed_address}\" :#{' Aucun repas trouvé dans les prochaines 24h' if meals_array.empty?}
 
-    #{meals_array.join("\n\n")}#{"\n\nRépondez STOP pour vous désabonner" if @action == :send_tomorrows_meals}
+      #{meals_array.join("\n")}#{"\nRépondez STOP pour vous désabonner" if @action == :send_tomorrows_meals}
     HEREDOC
   end
 
@@ -88,17 +88,17 @@ class MessageService
 
     meals_array = @meals.map do |meal|
       <<~HEREDOC
-      #{meal[:distribution].display_name}
-      #{meal[:time].in_time_zone("Paris").strftime("%e/%m/%y de %Hh%M")} à #{meal[:time].end_time.in_time_zone("Paris").strftime("%Hh%M")}
-      #{meal[:distribution].address_1}, #{meal[:distribution].address_2 + ', ' unless meal[:distribution].address_2.blank?}#{meal[:distribution].postal_code} #{meal[:distribution].city}
-      Métro #{meal[:distribution].stations.first.name}
+        #{meal[:distribution].display_name}
+        #{meal[:time].in_time_zone("Paris").strftime("%e/%m/%y de %Hh%M")} à #{meal[:time].end_time.in_time_zone("Paris").strftime("%Hh%M")}
+        #{meal[:distribution].address_1}, #{meal[:distribution].address_2 + ', ' unless meal[:distribution].address_2.blank?}#{meal[:distribution].postal_code} #{meal[:distribution].city}
+        #{'Métro ' + meal[:distribution].stations.first.name unless meal[:distribution].stations.first.nil?}
       HEREDOC
     end
 
     <<~HEREDOC
-    Repas solidaires du ramadan pour demain près de \"#{@parsed_address}\" :#{' Aucun repas trouvé dans les prochaines 24h' if meals_array.empty?}
+      Repas solidaires du ramadan pour demain près de \"#{@parsed_address}\" :#{' Aucun repas trouvé dans les prochaines 24h' if meals_array.empty?}
 
-    #{meals_array.join("\n\n")}\n\nRépondez STOP pour vous désabonner
+      #{meals_array.join("\n")}\nRépondez STOP pour vous désabonner
     HEREDOC
   end
 
