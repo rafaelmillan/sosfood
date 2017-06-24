@@ -33,6 +33,7 @@ gem 'gibbon', '~> 3.0', '>= 3.0.1'
 gem 'callr'
 gem 'rollbar'
 gem 'oj', '~> 2.12.14'
+gem "postmark-rails"
 
 source "https://rails-assets.org" do
   gem 'rails-assets-bootstrap-datepicker'
