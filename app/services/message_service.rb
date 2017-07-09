@@ -149,7 +149,11 @@ class MessageService
       end
     else # Send meals for next 24h
       original_address = body
-      @action = :send_next_meals
+      if subscription_mode_only?
+        @action = :subscribe
+      else
+        @action = :send_next_meals
+      end
       verify_address(original_address)
     end
   end
@@ -187,5 +191,11 @@ class MessageService
         distribution: meal[:distribution]
       )
     end
+  end
+
+  # If true, people are always subscribed to alerts
+  # even if they dont prepend the keyword.
+  def subscription_mode_only?
+    true
   end
 end
