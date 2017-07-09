@@ -59,7 +59,7 @@ class MessageService
     elsif action == :unsubscription_notification
       unsubscription_notification_message
     elsif action == :unsubscription_error
-      unsubscription_notification_message
+      unsubscription_notification_error_message
     end
 
   end
@@ -126,7 +126,7 @@ class MessageService
     "Votre abonnement de 30 jours à SOS Food est terminé. Si vous voulez continuer à recevoir nos messages, répondez avec le mot-clé \"alerte\" suivi d'une adresse, un code postal ou un arrêt de métro."
   end
 
-  def unsubscription_notification_message
+  def unsubscription_notification_error_message
     "Aucun abonnement à SOS Food n'existe pour ce numéro de portable."
   end
 
