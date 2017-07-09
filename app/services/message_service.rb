@@ -59,7 +59,7 @@ class MessageService
     elsif action == :unsubscription_notification
       unsubscription_notification_message
     elsif action == :unsubscription_error
-      unsubscription_notification_message
+      unsubscription_notification_error_message
     end
 
   end
@@ -126,7 +126,7 @@ class MessageService
     "Votre abonnement de 30 jours à SOS Food est terminé. Si vous voulez continuer à recevoir nos messages, répondez avec le mot-clé \"alerte\" suivi d'une adresse, un code postal ou un arrêt de métro."
   end
 
-  def unsubscription_notification_message
+  def unsubscription_notification_error_message
     "Aucun abonnement à SOS Food n'existe pour ce numéro de portable."
   end
 
@@ -149,7 +149,11 @@ class MessageService
       end
     else # Send meals for next 24h
       original_address = body
-      @action = :send_next_meals
+      if subscription_mode_only?
+        @action = :subscribe
+      else
+        @action = :send_next_meals
+      end
       verify_address(original_address)
     end
   end
@@ -187,5 +191,11 @@ class MessageService
         distribution: meal[:distribution]
       )
     end
+  end
+
+  # If true, people are always subscribed to alerts
+  # even if they dont prepend the keyword.
+  def subscription_mode_only?
+    true
   end
 end
