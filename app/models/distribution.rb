@@ -24,7 +24,8 @@ class Distribution < ApplicationRecord
 
   around_save :send_review_email if :status_changed?
 
-  scope :ramadan_near, ->(coordinates) { Distribution.near(coordinates).where(status: "accepted", special_event: "1") }
+  scope :active, -> { where(paused: false, status: "accepted") }
+  scope :ramadan_near, ->(coordinates) { Distribution.active.near(coordinates).where(special_event: "1") }
 
   attr_accessor :address
 
@@ -111,8 +112,16 @@ class Distribution < ApplicationRecord
     self.save
   end
 
+  def pause!
+    self.update(paused: true)
+  end
+
+  def unpause!
+    self.update(paused: false)
+  end
+
   def self.find_next_three(coordinates, from_time)
-    distributions = Distribution.near(coordinates).where(status: "accepted")
+    distributions = Distribution.active.near(coordinates)
 
     meals = set_meal_hashes(from_time)
 
@@ -136,7 +145,7 @@ class Distribution < ApplicationRecord
   end
 
   def self.find_by_date(coordinates, date)
-    distributions = Distribution.near(coordinates).where(status: "accepted")
+    distributions = Distribution.active.near(coordinates)
     results = []
 
     distributions.each do |dis|

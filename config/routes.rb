@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 
     post '/distributions/:id/accept', to: 'distributions#accept', as: 'accept_distribution'
     post '/distributions/:id/decline', to: 'distributions#decline', as: 'decline_distribution'
+    post '/distributions/:id/pause', to: 'distributions#pause', as: 'pause_distribution'
+    post '/distributions/:id/unpause', to: 'distributions#unpause', as: 'unpause_distribution'
 
     get 'search', to: 'distributions#search'
     get '/explore', to: 'distributions#explore'

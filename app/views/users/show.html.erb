@@ -59,6 +59,8 @@
               <%= link_to "Valider", accept_distribution_path(dis), class: "btn btn_transparent_black btn-xs", method: :post %>
               <%= link_to "Décliner", decline_distribution_path(dis), class: "btn btn_transparent_black btn-xs", method: :post %>
               <% end %>
+              <% elsif dis.paused == true %>
+              <span class="label label-paused">En pause</span> (<%= link_to "Republier", unpause_distribution_path(dis), method: :post %>)
               <% elsif dis.status == "accepted" %>
               <span class="label label-success">Publiée</span>
               <% elsif dis.status == "declined" %>
@@ -67,6 +69,9 @@
             </td>
             <td>
               <ul class="fa-ul">
+                <% if dis.paused == false %>
+                  <li><i class="fa-li fa fa-pause-circle-o"></i><%= link_to "Mettre en pause", pause_distribution_path(dis), method: :post %></li>
+                <% end %>
                 <li><i class="fa-li fa fa-pencil-square-o"></i><%= link_to "Modifier", edit_distribution_path(dis) %></li>
                 <li><i class="fa-li fa fa-trash"></i><%= link_to "Supprimer", distribution_path(dis), method: :delete, data: { confirm: "Voulez-vous supprimer ce repas ?" } %></li>
               </ul>

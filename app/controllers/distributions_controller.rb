@@ -1,12 +1,12 @@
 class DistributionsController < ApplicationController
-  before_action :set_distribution, only: [:show, :edit, :update, :destroy, :accept, :decline]
+  before_action :set_distribution, only: [:show, :edit, :update, :destroy, :accept, :decline, :pause, :unpause]
   skip_before_action :authenticate_user!, only: [:search, :show, :explore]
   skip_after_action :verify_authorized, only: [:search, :show, :explore]
 
   def show
     @alert_message = " You are viewing #{@distribution.name}"
     @distribution_coordinates = { lat: @distribution.latitude, lng: @distribution.longitude }
-    @distributions_around = Distribution.near([@distribution.latitude, @distribution.longitude], 5, units: :km).where(status: "accepted").where.not(id: @distribution.id)[0..4]
+    @distributions_around = Distribution.active.near([@distribution.latitude, @distribution.longitude], 5, units: :km).where.not(id: @distribution.id)[0..4]
 
     @hash = Gmaps4rails.build_markers(@distribution) do |distribution, marker|
       marker.lat distribution.latitude
@@ -102,6 +102,18 @@ class DistributionsController < ApplicationController
 
   def decline
     @distribution.decline!
+    redirect_to user_path(current_user)
+  end
+
+  def pause
+    @distribution.pause!
+    flash[:notice] = "Votre distribution a bien été mise en pause"
+    redirect_to user_path(current_user)
+  end
+
+  def unpause
+    @distribution.unpause!
+    flash[:notice] = "Votre distribution a bien été republiée"
     redirect_to user_path(current_user)
   end
 
