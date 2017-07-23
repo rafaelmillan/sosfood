@@ -10,11 +10,11 @@ class DistributionPolicy < ApplicationPolicy
   end
 
   def update?
-    record.organization.users.include? user
+    record.organization.users.include?(user) || user.admin
   end
 
   def destroy?
-    record.organization.users.include? user
+    record.organization.users.include?(user) || user.admin
   end
 
   def accept?
@@ -23,5 +23,13 @@ class DistributionPolicy < ApplicationPolicy
 
   def decline?
     user.admin
+  end
+
+  def pause?
+    record.organization.users.include?(user) || user.admin
+  end
+
+  def unpause?
+    record.organization.users.include?(user) || user.admin
   end
 end
