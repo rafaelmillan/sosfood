@@ -20,7 +20,16 @@
           <% end %>
         </li>
         <li>
-          <% if @distribution.status == "pending" %>
+          <% if policy(@distribution).pause? && @distribution.paused == false %>
+          <%= link_to pause_distribution_path(@distribution), method: :post do %>
+          <i class="fa fa-pause-circle-o" aria-hidden="true"></i> Mettre en pause
+          <% end %>
+          <% end %>
+        </li>
+        <li>
+          <% if @distribution.paused == true %>
+          <span class="label label-paused">En pause</span> (<%= link_to "Republier", unpause_distribution_path(@distribution), method: :post %>)
+          <% elsif @distribution.status == "pending" %>
           <span class="label label-info">En cours de validation</span>
           <% elsif @distribution.status == "accepted" %>
           <span class="label label-success">Publiée</span>
@@ -229,4 +238,3 @@
         });
       </script>
       <% end %>
-
