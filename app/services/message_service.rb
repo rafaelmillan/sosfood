@@ -1,4 +1,6 @@
 class MessageService
+  include LocationSupport
+
   def initialize(recipient, test_mode = false)
     @recipient = recipient
     @test_mode = test_mode
@@ -11,7 +13,7 @@ class MessageService
     send_sms(@recipient, reply_body)
   end
 
-  def send_from_action(action, from_time)
+  def send_from_action(action:, from_time: nil)
     @action = action
     @from_time = from_time
     reply_body = generate_body(action, @recipient)
@@ -164,13 +166,13 @@ class MessageService
       @parsed_address = "Métro #{station.name}"
       @coordinates = [station.latitude, station.longitude]
 
-    # Checks if the address is valid
-    elsif (location = Geocoder.search("#{original_address}, Île-de-France, France")[0]).nil?
+    # Checks if the address is invalid
+    elsif (location = find_location(original_address)).nil?
       @parsed_address = original_address
       @action = :unvalid_address
 
-    # Checks if the location is close to Paris (20km)
-    elsif Geocoder::Calculations.distance_between([48.85661400000001,2.3522219000000177], location.coordinates) > 20
+    # Checks if the location is covered
+  elsif !location_covered?(location)
       @parsed_address = location.address
       @coordinates = location.coordinates
       @action = :uncovered_area

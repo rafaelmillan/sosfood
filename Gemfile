@@ -34,6 +34,8 @@ gem 'callr'
 gem 'rollbar'
 gem 'oj', '~> 2.12.14'
 gem "postmark-rails"
+gem 'state_machines'
+gem 'state_machines-activerecord'
 
 source "https://rails-assets.org" do
   gem 'rails-assets-bootstrap-datepicker'
