@@ -23,6 +23,8 @@ Rails.application.routes.draw do
 
     post '/sms', to: 'messages#receive'
 
+    post '/call', to: 'calls#receive'
+
     get '/beta', to: 'pages#beta', as: :beta_page
 
     get '/about', to: 'pages#about', as: :about_page

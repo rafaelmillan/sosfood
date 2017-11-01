@@ -1,5 +1,6 @@
 class Recipient < ApplicationRecord
   has_many :messages, dependent: :nullify
+  has_many :calls, dependent: :nullify
   validates :phone_number, presence: true
   # validates :address, presence: true
 
