@@ -36,6 +36,8 @@ class MessageService
       result = api.call('sms.send', '+33644639696', @recipient.phone_number, body, force_encoding: 'GSM', nature: 'ALERTING')
       Message.create(content: body, sent_by_user: false, recipient: @recipient)
     end
+  rescue CALLR::CallrException, CALLR::CallrLocalException => e
+    Rollbar.error(e, callr_msg: e.msg, callr_data: e.data, callr_code: e.code)
   end
 
   def generate_body(action, custom_recipient = nil)
