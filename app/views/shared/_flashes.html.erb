@@ -10,3 +10,8 @@
     <%= alert %>
   </div>
 <% end %>
+<% unless current_page?(root_path) %>
+  <div class="alert alert-warning alert-dismissible" role="alert">
+    En raison du virus COVID-19, certaines distributions de repas ont fermé ou changé leurs horaires. Avant de vous rendre dans une distribution veuillez contacter l’organisateur. Actuellement nous ne sommes pas en mesure de garantir la fiabilité des données affichées sur notre site.
+  </div>
+<% end %>
