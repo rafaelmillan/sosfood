@@ -7,10 +7,11 @@ class MessageService
   end
 
   def parse_and_reply(received_body)
-    parse(received_body)
-    @from_time = Time.current.in_time_zone("Paris")
-    reply_body = generate_body(@action)
-    send_sms(@recipient, reply_body)
+    # parse(received_body)
+    # @from_time = Time.current.in_time_zone("Paris")
+    # reply_body = generate_body(@action)
+    # send_sms(@recipient, reply_body)
+    send_sms(@recipient, "En raison de la Covid-19, nos alertes SMS sont temporairement indisponibles. Plus d’infos sur sos-food.org")
   end
 
   def send_from_action(action:, from_time: nil)
