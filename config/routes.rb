@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   #scope '(:locale)', locale: /en/ do
     root to: 'pages#home'
     # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-    resources :organizations, only: [:show, :index, :new]
+    resources :organizations, only: [:show, :index, :new, :create]
     resources :distributions, except: [:index]
 
     post '/distributions/:id/accept', to: 'distributions#accept', as: 'accept_distribution'
@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
     get 'search', to: 'distributions#search'
     get '/explore', to: 'distributions#explore'
+    get '/covid_19', to: 'distributions#covid_19'
 
     post '/sms', to: 'messages#receive'
 

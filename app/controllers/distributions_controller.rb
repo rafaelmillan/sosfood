@@ -1,7 +1,7 @@
 class DistributionsController < ApplicationController
   before_action :set_distribution, only: [:show, :edit, :update, :destroy, :accept, :decline, :pause, :unpause]
-  skip_before_action :authenticate_user!, only: [:search, :show, :explore]
-  skip_after_action :verify_authorized, only: [:search, :show, :explore]
+  skip_before_action :authenticate_user!, only: [:search, :show, :explore, :covid_19]
+  skip_after_action :verify_authorized, only: [:search, :show, :explore, :covid_19]
 
   def show
     @alert_message = " You are viewing #{@distribution.name}"
@@ -84,6 +84,21 @@ class DistributionsController < ApplicationController
     coordinates = [params[:lat].to_f, params[:lon].to_f]
 
     @results = Distribution.near(coordinates).where(status: "accepted").reject { |d| d.latitude.nil? || d.longitude.nil? }
+    @hash = Gmaps4rails.build_markers(@results) do |distribution, marker|
+      marker.lat distribution.latitude
+      marker.lng distribution.longitude
+      marker.infowindow "
+      <strong>#{distribution.display_name}</strong><br>
+      #{distribution.address_1}<br>
+      #{distribution.postal_code} #{distribution.city}<br>
+      <a href='#{distribution_path(distribution)}'>Détails</a></p>"
+    end
+  end
+
+  def covid_19
+    @address = params[:address]
+
+    @results = Distribution.near("Paris, France").where(status: "accepted").open.where.not(latitude: nil, longitude: nil).to_a
     @hash = Gmaps4rails.build_markers(@results) do |distribution, marker|
       marker.lat distribution.latitude
       marker.lng distribution.longitude

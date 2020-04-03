@@ -1,0 +1,76 @@
+<div id="page-content">
+
+  <div class="container">
+
+    <h1>Covid-19 : distributions de repas</h1>
+    <div class="clearfix">
+      <%= link_to "Ajouter un repas", new_distribution_path, class: "btn btn-primary pull-right explore-button" %>
+      <p><strong><%= @results.count %></strong> distribution<%= "s" if @results.count > 1 %> maintenue<%= "s" if @results.count > 1 %> à Paris pendant l'épidemie Covid-19.</p>
+
+    </div>
+
+
+
+    <div class="row">
+    <div class="col-sm-6">
+      <!-- <div id="search-results"> -->
+        <div class="list-group-container">
+          <div class="list-group">
+            <% @results.each_with_index do |result, index| %>
+              <%= link_to distribution_path(result), class: "list-group-item distribution-item", data: { id: index } do %>
+                <h4 class="list-group-item-heading"><%= result.display_name %></h4>
+                <p class="list-group-item-text">
+                  <%= result.schedule.start_time.in_time_zone("Paris").strftime("%Hh%M") %> à <%=result.schedule.end_time.in_time_zone("Paris").strftime("%Hh%M") %><br>
+                  <%= result.address %>
+                </p>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <!-- </div> -->
+      </div>
+      <div class="col-sm-6">
+        <div id="map-wrapper">
+          <div id="map"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<% content_for(:after_js) do %>
+
+  <script>
+    window.distrib_markers = null;
+    window.distrib_map = null;
+    $(document).ready(function() {
+      var handler = Gmaps.build('Google');
+      handler.buildMap({ internal: { id: 'map' } }, function() {
+        markers = handler.addMarkers(<%= raw @hash.to_json %>);
+        handler.bounds.extendWith(markers);
+        handler.fitMapToBounds();
+        if (markers.length == 0) {
+          handler.getMap().setZoom(2);
+        } else if (markers.length == 1) {
+          handler.getMap().setZoom(14);
+        }
+        window.distrib_markers = markers;
+        window.distrib_map = handler;
+      });
+
+      $("body").on("mouseenter", ".distribution-item", function() {
+        var index = $(this).data("id");
+        var marker = window.distrib_markers[index];
+        var infowindow = marker.infowindow;
+        window.distrib_map.getMap().setCenter(marker.serviceObject.position)
+        google.maps.event.trigger(marker.getServiceObject(), 'click');
+      })
+      $("body").on("mouseleave", ".distribution-item", function() {
+        $(".gm-style-iw").next().click();
+      });
+    });
+  </script>
+<% end %>
