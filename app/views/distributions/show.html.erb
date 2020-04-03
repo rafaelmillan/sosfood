@@ -101,6 +101,14 @@
 
       <div class="col-sm-6 col-md-4 col-sm-pull-6 col-md-pull-4">
         <div class="card">
+          <% if @distribution.covid_19_status == "open" %>
+            <div class="alert alert-success alert-covid-19" role="alert"><b>Covid-19 :</b> cette distribution est confirmée.</div>
+          <% elsif @distribution.covid_19_status == "closed" %>
+            <div class="alert alert-danger alert-covid-19" role="alert"><b>Covid-19 :</b> cette distribution est annulée.</div>
+          <% else %>
+            <div class="alert alert-warning alert-covid-19" role="alert"><b>Covid-19 :</b> les informations ci-dessous pourraient être inexactes. Nous sommes en train de les vérifier. N'hésitez pas à <%= mail_to "contact@sos-food.org", "nous contacter" %> si vous avez des informations.</div>
+          <% end %>
+
           <div class="card-content">
 
             <ul class="fa-ul">

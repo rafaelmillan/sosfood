@@ -19,6 +19,6 @@ class User < ApplicationRecord
   end
 
   def subscribe_to_newsletter
-    SubscribeToNewsletterService.new(self).call
+    SubscribeToNewsletterService.new(self).call if Rails.env.production?
   end
 end

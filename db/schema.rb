@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171029180835) do
+ActiveRecord::Schema.define(version: 20200402092032) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 20171029180835) do
     t.boolean  "terms"
     t.string   "special_event"
     t.boolean  "paused",          default: false
+    t.integer  "covid_19_status", default: 0,         null: false
     t.index ["organization_id"], name: "index_distributions_on_organization_id", using: :btree
     t.index ["user_id"], name: "index_distributions_on_user_id", using: :btree
   end

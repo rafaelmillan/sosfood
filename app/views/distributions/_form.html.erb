@@ -33,6 +33,7 @@
     <%= f.input :end_time, as: :string, label: "Heure de fin", input_html: { value: end_time } %>
   </div>
 </div>
+<%= f.input :covid_19_status, as: :select, collection: [["Oui", :open], ["Non", :closed], ["Je ne sais pas", :unknown]], label: "Cette distribution est-elle assurée malgré la crise du Covid-19 ?", include_blank: false %>
 <%= f.input :special_event, as: :boolean, label: "Cette distribution est réalisée uniquement pendant le mois du ramadan." %>
 <%= f.input :terms, label: "Je confirme que cette distribution de repas est gratuite et ouverte à tous, sans distinction, ou aux personnes justifiant d'une situation précaire.", required: true %>
 <%= f.button :submit, class: "btn btn-primary" %>

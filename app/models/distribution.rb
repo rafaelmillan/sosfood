@@ -18,6 +18,7 @@ class Distribution < ApplicationRecord
   validate :validate_weekdays, if: "event_type == 'regular'"
   validate :end_time_greater_than_start_date, unless: "start_time.blank? || end_time.blank?"
 
+  enum covid_19_status: { unknown: 0, open: 1, closed: 2 }
 
   geocoded_by :address
   after_validation :geocode, if: (:address_1_changed? || :postal_code_changed? || :city_changed? || :country_changed? )

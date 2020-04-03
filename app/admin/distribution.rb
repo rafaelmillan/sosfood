@@ -39,7 +39,8 @@ ActiveAdmin.register Distribution do
     :end_time,
     :date,
     :status,
-    :terms
+    :terms,
+    :covid_19_status
   )
 # or
 #
@@ -72,6 +73,7 @@ ActiveAdmin.register Distribution do
     column :start_time
     column :end_time
     column :date
+    column :covid_19_status
     column :status
     column :created_at
     column :updated_at
@@ -98,6 +100,7 @@ ActiveAdmin.register Distribution do
       f.input :start_time, as: :string
       f.input :end_time, as: :string
       f.input :date
+      f.input :covid_19_status, as: :radio, collection: Distribution.covid_19_statuses.keys, include_blank: false
       f.input :status, as: :radio, collection: %w(pending accepted declined)
       f.input :terms, input_html: { checked: 'checked' }
     end

@@ -6,10 +6,27 @@
   margin: 0;
   text-align: center;
   color: white;
+  a {
+    color: white;
+    text-decoration: underline;
+  }
 }
-.alert-info {
+
+.alert-covid-19 {
+  text-align: left;
+}
+.alert-success {
   background: $green;
 }
+
 .alert-warning {
+  background: $yellow;
+  color: $blue;
+  a {
+    color: $blue;
+    text-decoration: underline;
+  }
+}
+.alert-danger {
   background: $red;
 }

@@ -145,7 +145,8 @@ class DistributionsController < ApplicationController
       :start_time,
       :end_time,
       :terms,
-      :special_event
+      :special_event,
+      :covid_19_status
     )
   end
 
