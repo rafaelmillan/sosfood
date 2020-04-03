@@ -20,7 +20,7 @@
               <%= link_to distribution_path(result), class: "list-group-item distribution-item", data: { id: index } do %>
                 <h4 class="list-group-item-heading"><%= result.display_name %></h4>
                 <p class="list-group-item-text">
-                  <%= result.schedule.start_time.in_time_zone("Paris").strftime("%Hh%M") %> à <%=result.schedule.end_time.in_time_zone("Paris").strftime("%Hh%M") %><br>
+                  <%= result.abbreviated_days_in_french %> de <%= result.schedule.start_time.in_time_zone("Paris").strftime("%Hh%M") %> à <%=result.schedule.end_time.in_time_zone("Paris").strftime("%Hh%M") %><br>
                   <%= result.address %>
                 </p>
               <% end %>

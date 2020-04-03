@@ -178,6 +178,18 @@ class Distribution < ApplicationRecord
     meals.select { |meal| meal.key? :time }.sort_by { |meal| meal[:time] }
   end
 
+  def abbreviated_days_in_french
+    days = []
+    days << "Lu" if mon?
+    days << "Ma" if tue?
+    days << "Me" if wed?
+    days << "Je" if thu?
+    days << "Ve" if fri?
+    days << "Sa" if sat?
+    days << "Di" if sun?
+    days.join(", ")
+  end
+
   private
 
   private_class_method def self.set_meal_hashes(from_time)
