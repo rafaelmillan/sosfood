@@ -10,3 +10,9 @@
     <%= alert %>
   </div>
 <% end %>
+<% if current_page?(root_path) %>
+  <div class="alert alert-danger alert-dismissible home-alert" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    Covid-19 : les distributions de repas maintenues sont disponibles sur <%= link_to "cette page", covid_19_path %>.
+  </div>
+<% end %>
