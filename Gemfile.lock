@@ -127,7 +127,7 @@ GEM
     formtastic (3.1.5)
       actionpack (>= 3.2.13)
     formtastic_i18n (0.6.0)
-    geocoder (1.4.4)
+    geocoder (1.6.3)
     gibbon (3.0.2)
       faraday (>= 0.9.1)
       multi_json (>= 1.11.0)
