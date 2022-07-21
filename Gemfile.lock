@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/activeadmin/activeadmin.git
+  remote: https://github.com/activeadmin/activeadmin.git
   revision: 8f7f58016802cd5a7f663fbc80b90b884252f939
   ref: 8f7f58016802cd5a7f663fbc80b90b884252f939
   specs:
@@ -19,7 +19,7 @@ GIT
       sprockets (< 4.1)
 
 GIT
-  remote: git://github.com/activeadmin/inherited_resources.git
+  remote: https://github.com/activeadmin/inherited_resources.git
   revision: 051b3c9e7b22e3d45c090c1c91f3569eafc13d41
   ref: 051b3c9e7b22e3d45c090c1c91f3569eafc13d41
   specs:
@@ -126,7 +126,7 @@ GEM
       sass (>= 3.2)
     formtastic (3.1.5)
       actionpack (>= 3.2.13)
-    formtastic_i18n (0.6.0)
+    formtastic_i18n (0.7.0)
     geocoder (1.4.4)
     gibbon (3.0.2)
       faraday (>= 0.9.1)
@@ -150,18 +150,18 @@ GEM
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
     json (2.1.0)
-    kaminari (1.2.0)
+    kaminari (1.2.2)
       activesupport (>= 4.1.0)
-      kaminari-actionview (= 1.2.0)
-      kaminari-activerecord (= 1.2.0)
-      kaminari-core (= 1.2.0)
-    kaminari-actionview (1.2.0)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
+    kaminari-actionview (1.2.2)
       actionview
-      kaminari-core (= 1.2.0)
-    kaminari-activerecord (1.2.0)
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
       activerecord
-      kaminari-core (= 1.2.0)
-    kaminari-core (1.2.0)
+      kaminari-core (= 1.2.2)
+    kaminari-core (1.2.2)
     launchy (2.4.3)
       addressable (~> 2.3)
     letter_opener (1.4.1)
@@ -307,7 +307,7 @@ GEM
     thor (0.19.4)
     thread_safe (0.3.6)
     tilt (2.0.7)
-    tzinfo (1.2.3)
+    tzinfo (1.2.10)
       thread_safe (~> 0.1)
     uglifier (3.2.0)
       execjs (>= 0.3.0, < 3)
