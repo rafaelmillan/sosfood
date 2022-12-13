@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/activeadmin/activeadmin.git
+  remote: https://github.com/activeadmin/activeadmin.git
   revision: 8f7f58016802cd5a7f663fbc80b90b884252f939
   ref: 8f7f58016802cd5a7f663fbc80b90b884252f939
   specs:
@@ -19,7 +19,7 @@ GIT
       sprockets (< 4.1)
 
 GIT
-  remote: git://github.com/activeadmin/inherited_resources.git
+  remote: https://github.com/activeadmin/inherited_resources.git
   revision: 051b3c9e7b22e3d45c090c1c91f3569eafc13d41
   ref: 051b3c9e7b22e3d45c090c1c91f3569eafc13d41
   specs:
@@ -105,6 +105,7 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
     connection_pool (2.2.1)
+    crass (1.0.6)
     debug_inspector (0.0.3)
     devise (4.3.0)
       bcrypt (~> 3.0)
@@ -126,7 +127,7 @@ GEM
       sass (>= 3.2)
     formtastic (3.1.5)
       actionpack (>= 3.2.13)
-    formtastic_i18n (0.6.0)
+    formtastic_i18n (0.7.0)
     geocoder (1.4.4)
     gibbon (3.0.2)
       faraday (>= 0.9.1)
@@ -150,18 +151,18 @@ GEM
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
     json (2.1.0)
-    kaminari (1.2.0)
+    kaminari (1.2.2)
       activesupport (>= 4.1.0)
-      kaminari-actionview (= 1.2.0)
-      kaminari-activerecord (= 1.2.0)
-      kaminari-core (= 1.2.0)
-    kaminari-actionview (1.2.0)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
+    kaminari-actionview (1.2.2)
       actionview
-      kaminari-core (= 1.2.0)
-    kaminari-activerecord (1.2.0)
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
       activerecord
-      kaminari-core (= 1.2.0)
-    kaminari-core (1.2.0)
+      kaminari-core (= 1.2.2)
+    kaminari-core (1.2.2)
     launchy (2.4.3)
       addressable (~> 2.3)
     letter_opener (1.4.1)
@@ -169,7 +170,8 @@ GEM
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
-    loofah (2.0.3)
+    loofah (2.19.1)
+      crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.6.5)
       mime-types (>= 1.16, < 4)
@@ -177,13 +179,13 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
-    mini_portile2 (2.1.0)
+    mini_portile2 (2.4.0)
     minitest (5.10.2)
     multi_json (1.12.1)
     multipart-post (2.0.0)
     nio4r (1.2.1)
-    nokogiri (1.7.2)
-      mini_portile2 (~> 2.1.0)
+    nokogiri (1.10.10)
+      mini_portile2 (~> 2.4.0)
     oj (2.12.14)
     orm_adapter (0.5.0)
     paper_trail (7.0.2)
@@ -237,8 +239,8 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.0.3)
-      loofah (~> 2.0)
+    rails-html-sanitizer (1.4.4)
+      loofah (~> 2.19, >= 2.19.1)
     rails-i18n (5.0.4)
       i18n (~> 0.7)
       railties (~> 5.0)
